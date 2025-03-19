@@ -1,5 +1,4 @@
 # MineSweeper
 
 
-Hei! Velkommen til *MineSweeper*! 
-
+Hei! Velkommen til *MineSweeper*!
