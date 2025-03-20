@@ -1,6 +1,10 @@
 #include "std_lib_facilities.h"
 #include "GameWindow.h"
+#include "mineField.h"
+
 int main() {
+    Field field;
+    std::cout << field;
 
     TDT4102::Point p = {300,100};
 
