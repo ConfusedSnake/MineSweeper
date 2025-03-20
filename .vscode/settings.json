@@ -66,6 +66,7 @@
         "typeinfo": "cpp",
         "unordered_set": "cpp",
         "variant": "cpp",
-        "algorithm": "cpp"
+        "algorithm": "cpp",
+        "__config": "cpp"
     }
 }

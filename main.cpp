@@ -6,6 +6,7 @@ int main() {
     Field field;
     std::cout << field;
 
+
     TDT4102::Point p = {300,100};
 
     GameWindow game = GameWindow(p, 1000, 1000, "WINDOW", field);
