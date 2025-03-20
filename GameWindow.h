@@ -7,14 +7,14 @@
 class GameWindow : public TDT4102::AnimationWindow
 {
     private:
-    
     static constexpr int pad = 10;
-    static constexpr int btnSize = 100;
-
+    static constexpr int btnSize = 30;
+    std::vector<TDT4102::Button*> buttons;
+    
     public:
 
     GameWindow(TDT4102::Point position, int width, int height, const std::string& title);
-
-    TDT4102::Button butt;
+    void createButtons(int rows, int columns);
+    ~GameWindow();
 
 };
