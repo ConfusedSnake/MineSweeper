@@ -17,6 +17,8 @@ public:
         return fieldVec;
     }
 
+    void plantBombs(std::vector<std::unique_ptr<std::vector<int>>>& fieldVec);
+
     Field();
 };
 
