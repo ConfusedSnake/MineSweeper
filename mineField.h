@@ -17,6 +17,18 @@ public:
         return fieldVec;
     }
 
+    const int getW() const{
+        return fieldW;
+    }
+
+    const int getH() const{
+        return fieldH;
+    }
+
+    const int getBombs() const{
+        return amountBombs;
+    }
+
     void plantBombs(std::vector<std::unique_ptr<std::vector<int>>>& fieldVec);
 
     Field();

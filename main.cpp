@@ -8,6 +8,6 @@ int main() {
 
     TDT4102::Point p = {300,100};
 
-    GameWindow game = GameWindow(p, 1000, 1000, "WINDOW");
+    GameWindow game = GameWindow(p, 1000, 1000, "WINDOW", field);
     game.wait_for_close();
 }
