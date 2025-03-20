@@ -17,15 +17,30 @@ void GameWindow::drawGrid(AnimationWindow& win, const Field& Field){
         for (int x = 0; x < Field.getW(); x++){
 
             TDT4102::Color color = TDT4102::Color::grey;
+            TDT4102::Image numImage(numPic.at((*field.getField()[y])[x]));
+            
             if ((*field.getField()[y])[x] == -1){
                 color = TDT4102::Color::red;
+                win.draw_rectangle(TDT4102::Point{x * cellSize, y * cellSize}, cellSize-2, cellSize-2, color);
             } else{
                 color = TDT4102::Color::grey;
             }
-
             win.draw_rectangle(TDT4102::Point{x * cellSize, y * cellSize}, cellSize-2, cellSize-2, color);
+            win.draw_image(TDT4102::Point{x * cellSize, y * cellSize}, numImage);
         }
     }
+}
+
+void GameWindow::drawPlayerGrid(AnimationWindow& win, const Field& Field, std::vector<std::unique_ptr<std::vector<int>>>& playerFieldVec){
+    for (int y = 0; y < Field.getH(); y++){
+        for (int x = 0; x < Field.getW(); x++){
+            if ((*playerFieldVec[y])[x] != 1){
+                TDT4102::Color color = TDT4102::Color::grey;
+                win.draw_rectangle(TDT4102::Point{x * cellSize, y * cellSize}, cellSize-2, cellSize-2, color);
+            }
+        }
+    }
+  
     if (rightClick()){
         for (int y = 0; y < Field.getH(); y++){
             for (int x = 0; x < Field.getW(); x++){
@@ -40,19 +55,7 @@ void GameWindow::drawGrid(AnimationWindow& win, const Field& Field){
                 win.draw_rectangle(TDT4102::Point{x * cellSize, y * cellSize}, cellSize-2, cellSize-2, color);
             }
         }
-    }
-}
-
-void GameWindow::drawPlayerGrid(AnimationWindow& win, const Field& Field, std::vector<std::unique_ptr<std::vector<int>>>& playerFieldVec){
-    for (int y = 0; y < Field.getH(); y++){
-        for (int x = 0; x < Field.getW(); x++){
-            if ((*playerFieldVec[y])[x] != 1){
-                TDT4102::Color color = TDT4102::Color::grey;
-                win.draw_rectangle(TDT4102::Point{x * cellSize, y * cellSize}, cellSize-2, cellSize-2, color);
-            }
-        }
-    }
-    
+    } 
 }
 
 bool GameWindow::leftClick(){
