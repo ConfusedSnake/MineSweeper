@@ -13,8 +13,9 @@ class GameWindow : public TDT4102::AnimationWindow
     static constexpr int cellSize = 30;
     Field field;
 
-    std::vector<std::unique_ptr<std::vector<int>>> playerFieldVec;
+    
     public:
+    std::vector<std::unique_ptr<std::vector<int>>> playerFieldVec;
 
     std::map<int, std::string> numPic{
         {-1, "Tall/bomb.png"},
@@ -40,5 +41,7 @@ class GameWindow : public TDT4102::AnimationWindow
     int clickX(const Field& field);
     void tileClick(const Field& field, std::vector<std::unique_ptr<std::vector<int>>>& playerFieldVec);
     void bombClick();
+
+    void openUp(const Field& field, std::vector<std::unique_ptr<std::vector<int>>>& playerFieldVec, int x, int y);
 };
 

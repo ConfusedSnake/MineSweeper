@@ -13,13 +13,16 @@ GameWindow::GameWindow(TDT4102::Point position, int width, int height, const std
     drawPlayerGrid(*this, field, playerFieldVec);
     
     while (!should_close()) {
-        if (rightClick()) { 
+        drawGrid(*this, field);
+        drawPlayerGrid(*this, field, playerFieldVec);
+
+        if (leftClick()) { 
             tileClick(field, playerFieldVec);
-            drawGrid(*this, field); 
-            drawPlayerGrid(*this, field, playerFieldVec);  
-            next_frame(); 
         }
+
+        next_frame();
     }
+
 }
 
 void GameWindow::drawGrid(AnimationWindow& win, const Field& Field){
@@ -44,15 +47,12 @@ void GameWindow::drawGrid(AnimationWindow& win, const Field& Field){
 void GameWindow::drawPlayerGrid(AnimationWindow& win, const Field& field, std::vector<std::unique_ptr<std::vector<int>>>& playerFieldVec) {
     for (int y = 0; y < field.getH(); y++) {
         for (int x = 0; x < field.getW(); x++) {
-            if ((*playerFieldVec[y])[x] == 1) {
-                continue;
-            } else {
+            if ((*playerFieldVec[y])[x] == 0) {
                 win.draw_rectangle(TDT4102::Point{x * cellSize, y * cellSize}, cellSize - 2, cellSize - 2, TDT4102::Color::grey);
             }
         }
     }
 }
-
 
 bool GameWindow::leftClick(){
     return TDT4102::AnimationWindow::is_left_mouse_button_down();
@@ -83,11 +83,43 @@ int GameWindow::clickX(const Field& field){
 }
 
 void GameWindow::tileClick(const Field& field, std::vector<std::unique_ptr<std::vector<int>>>& playerFieldVec){
-    if ((clickX(field) != -1 ) && clickY(field) != -1){
-        if ((*playerFieldVec[clickY(field)])[clickX(field)] == 0){
-            (*playerFieldVec[clickY(field)])[clickX(field)] = 1;
-        }   
+    int x = clickX(field);
+    int y = clickY(field);
+
+    std::cout << x << std::endl << y << std::endl;
+
+    if (x != -1 && y != -1 && (*playerFieldVec[y])[x] == 0) {
+        openUp(field, playerFieldVec, x, y);
     }
 
 }
 
+void GameWindow::openUp(const Field& field, std::vector<std::unique_ptr<std::vector<int>>>& playerFieldVec, int x, int y){
+    /*if ((*playerFieldVec[y])[x] == 1) {
+        return; 
+    }*/
+
+    (*playerFieldVec[y])[x] = 1;
+
+    if ((*field.getField()[y])[x] == 0){
+        for (int dy = -1; dy <= 1; ++dy) { 
+            for (int dx = -1; dx <= 1; ++dx) { 
+                if (dy == 0 && dx== 0){
+                    continue;
+                }
+
+                int newY = y + dy;
+                int newX = x + dx;
+
+                if (newY >= 0 && newY < (field.getH()-1) && newX >= 0 && newX < (field.getW()-1)) {
+                    /*if (((*field.getField()[newH])[newW] == 0) && ((*playerFieldVec[newH])[newW] == 0)) {
+                        openUp(field, playerFieldVec, newW, newH);
+                    }*/
+                    (*playerFieldVec[newY])[newX] = 1; 
+
+                }
+            }
+        } 
+    }
+    
+}
