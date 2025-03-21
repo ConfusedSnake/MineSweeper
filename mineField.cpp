@@ -8,10 +8,10 @@ Field::Field() {
         fieldVec.push_back(std::make_unique<std::vector<int>>(fieldW, 0));
     }
 
-    plantBombs(fieldVec);
+    plantBombs();
 }
 
-void Field::plantBombs(std::vector<std::unique_ptr<std::vector<int>>>& fieldVec){
+void Field::plantBombs(){
     std::random_device rd;
     std::default_random_engine generator(rd());
     std::uniform_int_distribution<int> distributionH(0, fieldH - 1);

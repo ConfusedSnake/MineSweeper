@@ -29,7 +29,7 @@ public:
         return amountBombs;
     }
 
-    void plantBombs(std::vector<std::unique_ptr<std::vector<int>>>& fieldVec);
+    void plantBombs();
 
     Field();
 };

@@ -1,12 +1,14 @@
 #include "GameWindow.h"
 
-GameWindow::GameWindow(TDT4102::Point position, int width, int height, const std::string& title, const Field& field): 
+GameWindow::GameWindow(TDT4102::Point position, int width, int height, const std::string& title): 
     AnimationWindow{position.x, position.y, width, height, title}
 {
     playerFieldVec.reserve(field.getH());
     for (int i = 0; i < field.getH(); i++) {
         playerFieldVec.push_back(std::make_unique<std::vector<int>>(field.getW(), 0));
     }
+
+    std:cout << field;
 
 
     drawGrid(*this, field);
@@ -22,15 +24,15 @@ GameWindow::GameWindow(TDT4102::Point position, int width, int height, const std
 
         next_frame();
     }
-
 }
 
 void GameWindow::drawGrid(AnimationWindow& win, const Field& Field){
+    TDT4102::Color color = TDT4102::Color::grey;
+    TDT4102::Image numImage("nothing.png");
+
     for (int y = 0; y < Field.getH(); y++){
         for (int x = 0; x < Field.getW(); x++){
-
-            TDT4102::Color color = TDT4102::Color::grey;
-            TDT4102::Image numImage(numPic.at((*field.getField()[y])[x]));
+            numImage = TDT4102::Image(numPic.at((*field.getField()[y])[x]));
             
             if ((*field.getField()[y])[x] == -1){
                 color = TDT4102::Color::red;
@@ -38,11 +40,13 @@ void GameWindow::drawGrid(AnimationWindow& win, const Field& Field){
             } else{
                 color = TDT4102::Color::grey;
             }
+
             win.draw_rectangle(TDT4102::Point{x * cellSize, y * cellSize}, cellSize-2, cellSize-2, color);
             win.draw_image(TDT4102::Point{x * cellSize, y * cellSize}, numImage);
         }
     }
 }
+
 
 void GameWindow::drawPlayerGrid(AnimationWindow& win, const Field& field, std::vector<std::unique_ptr<std::vector<int>>>& playerFieldVec) {
     for (int y = 0; y < field.getH(); y++) {
@@ -86,8 +90,6 @@ void GameWindow::tileClick(const Field& field, std::vector<std::unique_ptr<std::
     int x = clickX(field);
     int y = clickY(field);
 
-    std::cout << x << std::endl << y << std::endl;
-
     if (x != -1 && y != -1 && (*playerFieldVec[y])[x] == 0) {
         openUp(field, playerFieldVec, x, y);
     }
@@ -95,9 +97,9 @@ void GameWindow::tileClick(const Field& field, std::vector<std::unique_ptr<std::
 }
 
 void GameWindow::openUp(const Field& field, std::vector<std::unique_ptr<std::vector<int>>>& playerFieldVec, int x, int y){
-    /*if ((*playerFieldVec[y])[x] == 1) {
+    if ((*playerFieldVec[y])[x] == 1) {
         return; 
-    }*/
+    }
 
     (*playerFieldVec[y])[x] = 1;
 
@@ -111,10 +113,10 @@ void GameWindow::openUp(const Field& field, std::vector<std::unique_ptr<std::vec
                 int newY = y + dy;
                 int newX = x + dx;
 
-                if (newY >= 0 && newY < (field.getH()-1) && newX >= 0 && newX < (field.getW()-1)) {
-                    /*if (((*field.getField()[newH])[newW] == 0) && ((*playerFieldVec[newH])[newW] == 0)) {
-                        openUp(field, playerFieldVec, newW, newH);
-                    }*/
+                if (newY >= 0 && newY < (field.getH()) && newX >= 0 && newX < (field.getW())) {
+                    if (((*field.getField()[newY])[newX] == 0) && ((*playerFieldVec[newY])[newX] == 0)) {
+                        openUp(field, playerFieldVec, newX, newY);
+                    }
                     (*playerFieldVec[newY])[newX] = 1; 
 
                 }
