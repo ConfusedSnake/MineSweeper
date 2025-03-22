@@ -10,29 +10,34 @@ GameWindow::GameWindow(TDT4102::Point position, int width, int height, const std
 
     std:cout << field;
 
+    for (const auto& [key, filename] : numPic) {
+        images[key] = TDT4102::Image(filename);
+    }
 
     drawGrid(*this, field);
     drawPlayerGrid(*this, field, playerFieldVec);
-    
+}
+
+void GameWindow::run(){
     while (!should_close()) {
         drawGrid(*this, field);
         drawPlayerGrid(*this, field, playerFieldVec);
 
         if (leftClick()) { 
             tileClick(field, playerFieldVec);
-        }
-
+               
+        }   
         next_frame();
     }
 }
 
 void GameWindow::drawGrid(AnimationWindow& win, const Field& Field){
     TDT4102::Color color = TDT4102::Color::grey;
-    TDT4102::Image numImage("nothing.png");
 
     for (int y = 0; y < Field.getH(); y++){
         for (int x = 0; x < Field.getW(); x++){
-            numImage = TDT4102::Image(numPic.at((*field.getField()[y])[x]));
+            numImage = images.at((*field.getField()[y])[x]);
+
             
             if ((*field.getField()[y])[x] == -1){
                 color = TDT4102::Color::red;
