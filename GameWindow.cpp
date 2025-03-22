@@ -25,7 +25,10 @@ void GameWindow::run(){
 
         if (mouseClicked()) { 
             tileClick(field, playerFieldVec);
-        }   
+        }
+        else if (rightClick()){
+            bombClick(field, playerFieldVec);
+        }
         next_frame();
     }
 }
@@ -61,6 +64,9 @@ void GameWindow::drawPlayerGrid(AnimationWindow& win, const Field& field, std::v
         for (int x = 0; x < field.getW(); x++) {
             if ((*playerFieldVec[y])[x] == 0) {
                 win.draw_rectangle(TDT4102::Point{x * cellSize, y * cellSize}, cellSize - 2, cellSize - 2, TDT4102::Color::grey);
+            }
+            else if ((*playerFieldVec[y])[x] == -1){
+                win.draw_rectangle(TDT4102::Point{x * cellSize, y * cellSize}, cellSize - 2, cellSize - 2, TDT4102::Color::green);
             }
         }
     }
@@ -134,7 +140,6 @@ void GameWindow::openUp(const Field& field, std::vector<std::unique_ptr<std::vec
     
 }
 
-
 bool GameWindow::mouseClicked() {
     static bool isButtonPressed = false;
 
@@ -151,4 +156,16 @@ bool GameWindow::mouseClicked() {
     }
 
     return false;  // Ingen endring i museknappens tilstand
+}
+
+void GameWindow::bombClick(const Field& field, std::vector<std::unique_ptr<std::vector<int>>>& playerFieldVec){
+    int x = clickX(field);
+    int y = clickY(field);
+
+    if (x != -1 && y != -1 && (*playerFieldVec[y])[x] == 0){
+        (*playerFieldVec[y])[x] = -1;
+    }
+    else if (x != -1 && y != -1 && (*playerFieldVec[y])[x] == -1){
+        (*playerFieldVec[y])[x] = 0;
+    }
 }
