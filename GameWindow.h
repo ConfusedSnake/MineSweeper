@@ -13,23 +13,15 @@ class GameWindow : public TDT4102::AnimationWindow
     static constexpr int cellSize = 30;
     Field field;
     std::vector<std::unique_ptr<std::vector<int>>> playerFieldVec;
+
     TDT4102::Image numImage;
+    TDT4102::Color color = TDT4102::Color::grey;
+
 
     public:
-    
-    std::map<int, TDT4102::Image> images;
-    std::map<int, std::string> numPic{
-        {-1, "Tall/bomb.png"},
-        {0, "Tall/nothing.png"},
-        {1, "Tall/one.png"}, 
-        {2, "Tall/two.png"}, 
-        {3, "Tall/three.png"}, 
-        {4, "Tall/four.png"}, 
-        {5, "Tall/five.png"}, 
-        {6, "Tall/six.png"}, 
-        {7, "Tall/seven.png"},
-        {8, "Tall/eight.png"}
-    };
+
+
+    std::map<int, std::shared_ptr<TDT4102::Image>> images;
 
     GameWindow(TDT4102::Point position, int width, int height, const std::string& title);
 

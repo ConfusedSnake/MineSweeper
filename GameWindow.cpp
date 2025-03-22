@@ -1,8 +1,22 @@
 #include "GameWindow.h"
 
 GameWindow::GameWindow(TDT4102::Point position, int width, int height, const std::string& title): 
-    AnimationWindow{position.x, position.y, width, height, title}
+    AnimationWindow{position.x, position.y, width, height, title}, 
+    numImage(TDT4102::Image("Tall/one.png"))
 {
+    std::map<int, std::string> numPic{
+        {-1, "Tall/bomb.png"},
+        {0, "Tall/nothing.png"},
+        {1, "Tall/one.png"}, 
+        {2, "Tall/two.png"}, 
+        {3, "Tall/three.png"}, 
+        {4, "Tall/four.png"}, 
+        {5, "Tall/five.png"}, 
+        {6, "Tall/six.png"}, 
+        {7, "Tall/seven.png"},
+        {8, "Tall/eight.png"}
+    };
+
     playerFieldVec.reserve(field.getH());
     for (int i = 0; i < field.getH(); i++) {
         playerFieldVec.push_back(std::make_unique<std::vector<int>>(field.getW(), 0));
@@ -11,14 +25,15 @@ GameWindow::GameWindow(TDT4102::Point position, int width, int height, const std
     std:cout << field;
 
     for (const auto& [key, filename] : numPic) {
-        images[key] = TDT4102::Image(filename);
+        images[key] = std::make_shared<TDT4102::Image>(filename);
     }
 
     drawGrid(*this, field);
     drawPlayerGrid(*this, field, playerFieldVec);
 }
 
-void GameWindow::run(){
+
+void GameWindow::run() {
     while (!should_close()) {
         drawGrid(*this, field);
         drawPlayerGrid(*this, field, playerFieldVec);
@@ -26,37 +41,36 @@ void GameWindow::run(){
         if (mouseClickedLeft()) { 
             tileClick(field, playerFieldVec);
         }
-        else if (mouseClickedRight()){
+        else if (mouseClickedRight()) {
             bombClick(field, playerFieldVec);
         }
         next_frame();
     }
 }
 
-void GameWindow::drawGrid(AnimationWindow& win, const Field& Field){
+
+void GameWindow::drawGrid(AnimationWindow& win, const Field& Field) {
     TDT4102::Color color = TDT4102::Color::grey;
 
-    for (int y = 0; y < Field.getH(); y++){
-        for (int x = 0; x < Field.getW(); x++){
-            if (images.count((*field.getField()[y])[x])) {
-                numImage = images.at((*field.getField()[y])[x]);
-            } else {
-                numImage = images.at(0);
-            }
+    for (int y = 0; y < Field.getH(); y++) {
+        for (int x = 0; x < Field.getW(); x++) {
 
-            
-            if ((*field.getField()[y])[x] == -1){
+            auto& imagePtr = images.count((*field.getField()[y])[x]) 
+                ? images.at((*field.getField()[y])[x]) 
+                : images.at(0);
+
+            if ((*field.getField()[y])[x] == -1) {
                 color = TDT4102::Color::red;
-                win.draw_rectangle(TDT4102::Point{x * cellSize, y * cellSize}, cellSize-2, cellSize-2, color);
-            } else{
+            } else {
                 color = TDT4102::Color::grey;
             }
 
-            win.draw_rectangle(TDT4102::Point{x * cellSize, y * cellSize}, cellSize-2, cellSize-2, color);
-            win.draw_image(TDT4102::Point{x * cellSize, y * cellSize}, numImage);
+            win.draw_rectangle(TDT4102::Point{x * cellSize, y * cellSize}, cellSize - 2, cellSize - 2, color);
+            win.draw_image(TDT4102::Point{x * cellSize, y * cellSize}, *imagePtr);
         }
     }
 }
+
 
 void GameWindow::drawPlayerGrid(AnimationWindow& win, const Field& field, const std::vector<std::unique_ptr<std::vector<int>>>& playerFieldVec) {
     for (int y = 0; y < field.getH(); y++) {
