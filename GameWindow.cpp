@@ -1,8 +1,8 @@
 #include "GameWindow.h"
 
 GameWindow::GameWindow(TDT4102::Point position, int width, int height, const std::string& title): 
-    AnimationWindow{position.x, position.y, width, height, title}, 
-    numImage(TDT4102::Image("Tall/one.png"))
+    AnimationWindow{position.x, position.y, width, height, title},
+    resetButton{TDT4102::Point {200, 600}, 100, 30, "Reset"}
 {
     std::map<int, std::string> numPic{
         {-1, "Tall/bomb.png"},
@@ -14,7 +14,8 @@ GameWindow::GameWindow(TDT4102::Point position, int width, int height, const std
         {5, "Tall/five.png"}, 
         {6, "Tall/six.png"}, 
         {7, "Tall/seven.png"},
-        {8, "Tall/eight.png"}
+        {8, "Tall/eight.png"},
+        {9, "Tall/flag.png"}
     };
 
     playerFieldVec.reserve(field.getH());
@@ -28,22 +29,33 @@ GameWindow::GameWindow(TDT4102::Point position, int width, int height, const std
         images[key] = std::make_shared<TDT4102::Image>(filename);
     }
 
-    drawGrid(*this, field);
-    drawPlayerGrid(*this, field, playerFieldVec);
+    //drawGrid(*this, field);
+    //drawPlayerGrid(*this, field, playerFieldVec);
+    resetButton.setCallback(std::bind(&GameWindow::callbackButton, this));
+    add(resetButton);
 }
-
 
 void GameWindow::run() {
     while (!should_close()) {
         drawGrid(*this, field);
-        drawPlayerGrid(*this, field, playerFieldVec);
+        
+        if (!dead){
+            drawPlayerGrid(*this, field, playerFieldVec);
+        }
+    
 
         if (mouseClickedLeft()) { 
-            tileClick(field, playerFieldVec);
+            tileClick(field, playerFieldVec, dead);
         }
-        else if (mouseClickedRight()) {
-            bombClick(field, playerFieldVec);
+        else if (mouseClickedRight()){
+            flagRightClick(field, playerFieldVec);
         }
+
+
+        if (resetCount){
+            std::cout << "Noe Skjedde\n";
+        }
+
         next_frame();
     }
 }
@@ -65,12 +77,12 @@ void GameWindow::drawGrid(AnimationWindow& win, const Field& Field) {
                 color = TDT4102::Color::grey;
             }
 
-            win.draw_rectangle(TDT4102::Point{x * cellSize, y * cellSize}, cellSize - 2, cellSize - 2, color);
+            win.draw_rectangle(TDT4102::Point{x * cellSize, y * cellSize}, cellSize-2, cellSize-2, color);
             win.draw_image(TDT4102::Point{x * cellSize, y * cellSize}, *imagePtr);
+            win.draw_text(TDT4102::Point {400, 600}, to_string(bombCount) , TDT4102::Color::red, 100);
         }
     }
 }
-
 
 void GameWindow::drawPlayerGrid(AnimationWindow& win, const Field& field, const std::vector<std::unique_ptr<std::vector<int>>>& playerFieldVec) {
     for (int y = 0; y < field.getH(); y++) {
@@ -79,11 +91,13 @@ void GameWindow::drawPlayerGrid(AnimationWindow& win, const Field& field, const 
                 win.draw_rectangle(TDT4102::Point{x * cellSize, y * cellSize}, cellSize - 2, cellSize - 2, TDT4102::Color::grey);
             }
             else if ((*playerFieldVec[y])[x] == -1){
-                win.draw_rectangle(TDT4102::Point{x * cellSize, y * cellSize}, cellSize - 2, cellSize - 2, TDT4102::Color::green);
+                win.draw_rectangle(TDT4102::Point{x * cellSize, y * cellSize}, cellSize - 2, cellSize - 2, TDT4102::Color::grey);
+                win.draw_image(TDT4102::Point{x * cellSize, y * cellSize}, *images.at(9));
             }
         }
     }
 }
+
 
 bool GameWindow::leftClick(){
     return TDT4102::AnimationWindow::is_left_mouse_button_down();
@@ -91,66 +105,6 @@ bool GameWindow::leftClick(){
 
 bool GameWindow::rightClick(){
     return TDT4102::AnimationWindow::is_right_mouse_button_down();
-}
-
-TDT4102::Point GameWindow::coordinates(){
-    return TDT4102::AnimationWindow::get_mouse_coordinates();
-}
-
-int GameWindow::clickY(const Field& field){
-    int yIndex = coordinates().y / cellSize;
-    if (coordinates().y < cellSize * field.getH()){
-        return yIndex;
-    }
-    return -1;
-}
-
-int GameWindow::clickX(const Field& field){
-    int xIndex = coordinates().x / cellSize;
-    if (coordinates().x < cellSize * field.getW()){
-        return xIndex;
-    }
-    return -1;
-}
-
-void GameWindow::tileClick(const Field& field, std::vector<std::unique_ptr<std::vector<int>>>& playerFieldVec){
-    int x = clickX(field);
-    int y = clickY(field);
-
-    if (x != -1 && y != -1 && (*playerFieldVec[y])[x] == 0) {
-        openUp(field, playerFieldVec, x, y);
-    }
-
-}
-
-void GameWindow::openUp(const Field& field, std::vector<std::unique_ptr<std::vector<int>>>& playerFieldVec, int x, int y){
-    if ((*playerFieldVec[y])[x] == 1) {
-        return; 
-    }
-
-    (*playerFieldVec[y])[x] = 1;
-
-    if ((*field.getField()[y])[x] == 0){
-        for (int dy = -1; dy <= 1; ++dy) { 
-            for (int dx = -1; dx <= 1; ++dx) { 
-                if (dy == 0 && dx== 0){
-                    continue;
-                }
-
-                int newY = y + dy;
-                int newX = x + dx;
-
-                if (newY >= 0 && newY < (field.getH()) && newX >= 0 && newX < (field.getW())) {
-                    if (((*field.getField()[newY])[newX] == 0) && ((*playerFieldVec[newY])[newX] == 0)) {
-                        openUp(field, playerFieldVec, newX, newY);
-                    }
-                    (*playerFieldVec[newY])[newX] = 1; 
-
-                }
-            }
-        } 
-    }
-    
 }
 
 bool GameWindow::mouseClickedLeft() {
@@ -189,14 +143,108 @@ bool GameWindow::mouseClickedRight() {
     return false; 
 }
 
-void GameWindow::bombClick(const Field& field, std::vector<std::unique_ptr<std::vector<int>>>& playerFieldVec){
+
+TDT4102::Point GameWindow::coordinates(){
+    return TDT4102::AnimationWindow::get_mouse_coordinates();
+}
+
+int GameWindow::clickY(const Field& field){
+    int yIndex = coordinates().y / cellSize;
+    if (coordinates().y < cellSize * field.getH()){
+        return yIndex;
+    }
+    return -1;
+}
+
+int GameWindow::clickX(const Field& field){
+    int xIndex = coordinates().x / cellSize;
+    if (coordinates().x < cellSize * field.getW()){
+        return xIndex;
+    }
+    return -1;
+}
+
+
+void GameWindow::tileClick(const Field& field, std::vector<std::unique_ptr<std::vector<int>>>& playerFieldVec, bool& dead){
+    int x = clickX(field);
+    int y = clickY(field);
+
+    if((*field.getField()[y])[x] == -1){
+        dead = true;
+    }
+
+    if (x != -1 && y != -1 && (*playerFieldVec[y])[x] == 0) {
+        openUp(field, playerFieldVec, x, y);
+    }
+
+
+}
+
+void GameWindow::openUp(const Field& field, std::vector<std::unique_ptr<std::vector<int>>>& playerFieldVec, int x, int y){
+    if ((*playerFieldVec[y])[x] == 1) {
+        return; 
+    }
+
+    (*playerFieldVec[y])[x] = 1;
+
+    if ((*field.getField()[y])[x] == 0){
+        for (int dy = -1; dy <= 1; ++dy) { 
+            for (int dx = -1; dx <= 1; ++dx) { 
+                if (dy == 0 && dx== 0){
+                    continue;
+                }
+
+                int newY = y + dy;
+                int newX = x + dx;
+
+                if (newY >= 0 && newY < (field.getH()) && newX >= 0 && newX < (field.getW())) {
+                    if (((*field.getField()[newY])[newX] == 0) && ((*playerFieldVec[newY])[newX] == 0)) {
+                        openUp(field, playerFieldVec, newX, newY);
+                    }
+                    (*playerFieldVec[newY])[newX] = 1; 
+
+                }
+            }
+        } 
+    }
+    
+}
+
+
+void GameWindow::flagRightClick(const Field& field, std::vector<std::unique_ptr<std::vector<int>>>& playerFieldVec){
     int x = clickX(field);
     int y = clickY(field);
 
     if (x != -1 && y != -1 && (*playerFieldVec[y])[x] == 0){
         (*playerFieldVec[y])[x] = -1;
+        bombCount--;
     }
     else if (x != -1 && y != -1 && (*playerFieldVec[y])[x] == -1){
         (*playerFieldVec[y])[x] = 0;
+        bombCount++;
+    }
+}
+
+
+void GameWindow::callbackButton(){
+    std::cout << "Reset button pressed\n";
+    this->resetCallback(resetCount);
+}
+
+void GameWindow::resetCallback(int& resetCount){
+    resetCount = 1;
+    resetCount = 0;
+}
+
+void GameWindow::reset(){
+}
+
+void GameWindow::deathFreeze(){
+    bool reset = false;
+    while (!reset){
+        if (true){
+            reset = true;
+
+        }
     }
 }
