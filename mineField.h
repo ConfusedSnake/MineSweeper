@@ -32,6 +32,8 @@ public:
     void plantBombs();
 
     Field();
+
+    void resetVec();
 };
 
 std::ostream& operator<<(std::ostream& os, const Field& field);

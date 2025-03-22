@@ -50,6 +50,16 @@ void Field::plantBombs(){
     }
 }
 
+void Field::resetVec(){
+    fieldVec.clear();
+    fieldVec.reserve(fieldH);
+
+    for (int i = 0; i < fieldH; i++) {
+        fieldVec.push_back(std::make_unique<std::vector<int>>(fieldW, 0));
+    }
+    plantBombs();
+}
+
 
 std::ostream& operator<<(std::ostream& os, const Field& field) {
     for (const auto& row : field.getField()) {
