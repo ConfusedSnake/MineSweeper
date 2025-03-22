@@ -45,7 +45,8 @@ class GameWindow : public TDT4102::AnimationWindow
     void run();
     void bombClick(const Field& field, std::vector<std::unique_ptr<std::vector<int>>>& playerFieldVec);
     void openUp(const Field& field, std::vector<std::unique_ptr<std::vector<int>>>& playerFieldVec, int x, int y);
-    bool mouseClicked();
+    bool mouseClickedLeft();
+    bool mouseClickedRight();
 };
 
 

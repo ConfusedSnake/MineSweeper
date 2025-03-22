@@ -23,10 +23,10 @@ void GameWindow::run(){
         drawGrid(*this, field);
         drawPlayerGrid(*this, field, playerFieldVec);
 
-        if (mouseClicked()) { 
+        if (mouseClickedLeft()) { 
             tileClick(field, playerFieldVec);
         }
-        else if (rightClick()){
+        else if (mouseClickedRight()){
             bombClick(field, playerFieldVec);
         }
         next_frame();
@@ -140,10 +140,28 @@ void GameWindow::openUp(const Field& field, std::vector<std::unique_ptr<std::vec
     
 }
 
-bool GameWindow::mouseClicked() {
+bool GameWindow::mouseClickedLeft() {
     static bool isButtonPressed = false;
 
     if (leftClick()) {
+        if (!isButtonPressed) {
+            isButtonPressed = true;  // Museknappen er trykket ned
+            return false;  // Returner false til du slipper knappen
+        }
+    } else {
+        if (isButtonPressed) {
+            isButtonPressed = false;  // Museknappen er sluppet
+            return true;  // Returner true når knappen er sluppet
+        }
+    }
+
+    return false;  // Ingen endring i museknappens tilstand
+}
+
+bool GameWindow::mouseClickedRight() {
+    static bool isButtonPressed = false;
+
+    if (rightClick()) {
         if (!isButtonPressed) {
             isButtonPressed = true;  // Museknappen er trykket ned
             return false;  // Returner false til du slipper knappen
