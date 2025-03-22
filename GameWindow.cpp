@@ -1,7 +1,8 @@
 #include "GameWindow.h"
 
 GameWindow::GameWindow(TDT4102::Point position, int width, int height, const std::string& title): 
-    AnimationWindow{position.x, position.y, width, height, title}
+    AnimationWindow{position.x, position.y, width, height, title},
+    resetButton{TDT4102::Point {200, 600}, 100, 30, "Reset"}
 {
     playerFieldVec.reserve(field.getH());
     for (int i = 0; i < field.getH(); i++) {
@@ -16,6 +17,8 @@ GameWindow::GameWindow(TDT4102::Point position, int width, int height, const std
 
     drawGrid(*this, field);
     drawPlayerGrid(*this, field, playerFieldVec);
+    resetButton.setCallback(std::bind(&GameWindow::callbackButton, this));
+    add(resetButton);
 }
 
 void GameWindow::run(){
@@ -27,8 +30,17 @@ void GameWindow::run(){
             tileClick(field, playerFieldVec);
         }
         else if (mouseClickedRight()){
-            bombClick(field, playerFieldVec);
+            bombRightClick(field, playerFieldVec);
         }
+
+        if (bombClicked()){
+            int doSomething;
+        }
+
+        if (resetCount){
+            std::cout << "Noe Skjedde\n";
+        }
+
         next_frame();
     }
 }
@@ -54,6 +66,7 @@ void GameWindow::drawGrid(AnimationWindow& win, const Field& Field){
 
             win.draw_rectangle(TDT4102::Point{x * cellSize, y * cellSize}, cellSize-2, cellSize-2, color);
             win.draw_image(TDT4102::Point{x * cellSize, y * cellSize}, numImage);
+            win.draw_text(TDT4102::Point {400, 600}, to_string(bombCount) , TDT4102::Color::red, 100);
         }
     }
 }
@@ -66,7 +79,8 @@ void GameWindow::drawPlayerGrid(AnimationWindow& win, const Field& field, std::v
                 win.draw_rectangle(TDT4102::Point{x * cellSize, y * cellSize}, cellSize - 2, cellSize - 2, TDT4102::Color::grey);
             }
             else if ((*playerFieldVec[y])[x] == -1){
-                win.draw_rectangle(TDT4102::Point{x * cellSize, y * cellSize}, cellSize - 2, cellSize - 2, TDT4102::Color::green);
+                win.draw_rectangle(TDT4102::Point{x * cellSize, y * cellSize}, cellSize - 2, cellSize - 2, TDT4102::Color::grey);
+                win.draw_image(TDT4102::Point{x * cellSize, y * cellSize}, images.at(9));
             }
         }
     }
@@ -176,14 +190,49 @@ bool GameWindow::mouseClickedRight() {
     return false;  // Ingen endring i museknappens tilstand
 }
 
-void GameWindow::bombClick(const Field& field, std::vector<std::unique_ptr<std::vector<int>>>& playerFieldVec){
+void GameWindow::bombRightClick(const Field& field, std::vector<std::unique_ptr<std::vector<int>>>& playerFieldVec){
     int x = clickX(field);
     int y = clickY(field);
 
     if (x != -1 && y != -1 && (*playerFieldVec[y])[x] == 0){
         (*playerFieldVec[y])[x] = -1;
+        bombCount--;
     }
     else if (x != -1 && y != -1 && (*playerFieldVec[y])[x] == -1){
         (*playerFieldVec[y])[x] = 0;
+        bombCount++;
+    }
+}
+
+bool GameWindow::bombClicked(){
+    int x = clickX(field);
+    int y = clickY(field);
+
+    if (x != -1 && y != -1 && (*fieldData[y])[x] == -1){
+        return true;
+    }
+    return false;
+}
+
+void GameWindow::callbackButton(){
+    std::cout << "Reset button pressed\n";
+    this->resetCallback(resetCount);
+}
+
+void GameWindow::resetCallback(int& resetCount){
+    resetCount = 1;
+    resetCount = 0;
+}
+
+void GameWindow::reset(){
+}
+
+void GameWindow::deathFreeze(){
+    bool reset = false;
+    while (!reset){
+        if (true){
+            reset = true;
+
+        }
     }
 }

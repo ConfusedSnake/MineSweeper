@@ -14,6 +14,9 @@ class GameWindow : public TDT4102::AnimationWindow
     Field field;
     const std::vector<std::unique_ptr<std::vector<int>>>& fieldData = field.getField();
     TDT4102::Image numImage;
+    TDT4102::Button resetButton;
+    int bombCount = 99;
+    int resetCount = 0;
     
     public:
     std::vector<std::unique_ptr<std::vector<int>>> playerFieldVec;
@@ -29,7 +32,8 @@ class GameWindow : public TDT4102::AnimationWindow
         {5, "Tall/five.png"}, 
         {6, "Tall/six.png"}, 
         {7, "Tall/seven.png"},
-        {8, "Tall/eight.png"}
+        {8, "Tall/eight.png"},
+        {9, "Tall/flag.png"}
     };
 
     GameWindow(TDT4102::Point position, int width, int height, const std::string& title);
@@ -41,12 +45,16 @@ class GameWindow : public TDT4102::AnimationWindow
     int clickY(const Field& field);
     int clickX(const Field& field);
     void tileClick(const Field& field, std::vector<std::unique_ptr<std::vector<int>>>& playerFieldVec);
-    void bombClick();
+    bool bombClicked();
     void run();
-    void bombClick(const Field& field, std::vector<std::unique_ptr<std::vector<int>>>& playerFieldVec);
+    void bombRightClick(const Field& field, std::vector<std::unique_ptr<std::vector<int>>>& playerFieldVec);
     void openUp(const Field& field, std::vector<std::unique_ptr<std::vector<int>>>& playerFieldVec, int x, int y);
     bool mouseClickedLeft();
     bool mouseClickedRight();
+    void deathFreeze();
+    void callbackButton();
+    void resetCallback(int& resetCount);
+    void reset();
 };
 
 
