@@ -23,9 +23,8 @@ void GameWindow::run(){
         drawGrid(*this, field);
         drawPlayerGrid(*this, field, playerFieldVec);
 
-        if (leftClick()) { 
+        if (mouseClicked()) { 
             tileClick(field, playerFieldVec);
-               
         }   
         next_frame();
     }
@@ -36,7 +35,11 @@ void GameWindow::drawGrid(AnimationWindow& win, const Field& Field){
 
     for (int y = 0; y < Field.getH(); y++){
         for (int x = 0; x < Field.getW(); x++){
-            numImage = images.at((*field.getField()[y])[x]);
+            if (images.count((*fieldData[y])[x])) {
+                numImage = images.at((*fieldData[y])[x]);
+            } else {
+                numImage = images.at(0);
+            }
 
             
             if ((*field.getField()[y])[x] == -1){
@@ -108,7 +111,7 @@ void GameWindow::openUp(const Field& field, std::vector<std::unique_ptr<std::vec
 
     (*playerFieldVec[y])[x] = 1;
 
-    if ((*field.getField()[y])[x] == 0){
+    if ((*fieldData[y])[x] == 0){
         for (int dy = -1; dy <= 1; ++dy) { 
             for (int dx = -1; dx <= 1; ++dx) { 
                 if (dy == 0 && dx== 0){
@@ -119,7 +122,7 @@ void GameWindow::openUp(const Field& field, std::vector<std::unique_ptr<std::vec
                 int newX = x + dx;
 
                 if (newY >= 0 && newY < (field.getH()) && newX >= 0 && newX < (field.getW())) {
-                    if (((*field.getField()[newY])[newX] == 0) && ((*playerFieldVec[newY])[newX] == 0)) {
+                    if (((*fieldData[newY])[newX] == 0) && ((*playerFieldVec[newY])[newX] == 0)) {
                         openUp(field, playerFieldVec, newX, newY);
                     }
                     (*playerFieldVec[newY])[newX] = 1; 
@@ -129,4 +132,23 @@ void GameWindow::openUp(const Field& field, std::vector<std::unique_ptr<std::vec
         } 
     }
     
+}
+
+
+bool GameWindow::mouseClicked() {
+    static bool isButtonPressed = false;
+
+    if (leftClick()) {
+        if (!isButtonPressed) {
+            isButtonPressed = true;  // Museknappen er trykket ned
+            return false;  // Returner false til du slipper knappen
+        }
+    } else {
+        if (isButtonPressed) {
+            isButtonPressed = false;  // Museknappen er sluppet
+            return true;  // Returner true når knappen er sluppet
+        }
+    }
+
+    return false;  // Ingen endring i museknappens tilstand
 }

@@ -12,12 +12,12 @@ class GameWindow : public TDT4102::AnimationWindow
     private:
     static constexpr int cellSize = 30;
     Field field;
+    const std::vector<std::unique_ptr<std::vector<int>>>& fieldData = field.getField();
     TDT4102::Image numImage;
     
     public:
     std::vector<std::unique_ptr<std::vector<int>>> playerFieldVec;
     std::map<int, TDT4102::Image> images;
-
 
     std::map<int, std::string> numPic{
         {-1, "Tall/bomb.png"},
@@ -32,8 +32,6 @@ class GameWindow : public TDT4102::AnimationWindow
         {8, "Tall/eight.png"}
     };
 
-
-
     GameWindow(TDT4102::Point position, int width, int height, const std::string& title);
     void drawGrid(AnimationWindow& win, const Field& Field);
     void drawPlayerGrid(AnimationWindow& win, const Field& Field, std::vector<std::unique_ptr<std::vector<int>>>& playerFieldVec);
@@ -47,5 +45,9 @@ class GameWindow : public TDT4102::AnimationWindow
     void run();
 
     void openUp(const Field& field, std::vector<std::unique_ptr<std::vector<int>>>& playerFieldVec, int x, int y);
+
+    bool mouseClicked();
 };
+
+
 
