@@ -38,8 +38,8 @@ void GameWindow::drawGrid(AnimationWindow& win, const Field& Field){
 
     for (int y = 0; y < Field.getH(); y++){
         for (int x = 0; x < Field.getW(); x++){
-            if (images.count((*fieldData[y])[x])) {
-                numImage = images.at((*fieldData[y])[x]);
+            if (images.count((*field.getField()[y])[x])) {
+                numImage = images.at((*field.getField()[y])[x]);
             } else {
                 numImage = images.at(0);
             }
@@ -58,8 +58,7 @@ void GameWindow::drawGrid(AnimationWindow& win, const Field& Field){
     }
 }
 
-
-void GameWindow::drawPlayerGrid(AnimationWindow& win, const Field& field, std::vector<std::unique_ptr<std::vector<int>>>& playerFieldVec) {
+void GameWindow::drawPlayerGrid(AnimationWindow& win, const Field& field, const std::vector<std::unique_ptr<std::vector<int>>>& playerFieldVec) {
     for (int y = 0; y < field.getH(); y++) {
         for (int x = 0; x < field.getW(); x++) {
             if ((*playerFieldVec[y])[x] == 0) {
@@ -117,7 +116,7 @@ void GameWindow::openUp(const Field& field, std::vector<std::unique_ptr<std::vec
 
     (*playerFieldVec[y])[x] = 1;
 
-    if ((*fieldData[y])[x] == 0){
+    if ((*field.getField()[y])[x] == 0){
         for (int dy = -1; dy <= 1; ++dy) { 
             for (int dx = -1; dx <= 1; ++dx) { 
                 if (dy == 0 && dx== 0){
@@ -128,7 +127,7 @@ void GameWindow::openUp(const Field& field, std::vector<std::unique_ptr<std::vec
                 int newX = x + dx;
 
                 if (newY >= 0 && newY < (field.getH()) && newX >= 0 && newX < (field.getW())) {
-                    if (((*fieldData[newY])[newX] == 0) && ((*playerFieldVec[newY])[newX] == 0)) {
+                    if (((*field.getField()[newY])[newX] == 0) && ((*playerFieldVec[newY])[newX] == 0)) {
                         openUp(field, playerFieldVec, newX, newY);
                     }
                     (*playerFieldVec[newY])[newX] = 1; 
@@ -145,17 +144,17 @@ bool GameWindow::mouseClickedLeft() {
 
     if (leftClick()) {
         if (!isButtonPressed) {
-            isButtonPressed = true;  // Museknappen er trykket ned
-            return false;  // Returner false til du slipper knappen
+            isButtonPressed = true; 
+            return false; 
         }
     } else {
         if (isButtonPressed) {
-            isButtonPressed = false;  // Museknappen er sluppet
-            return true;  // Returner true når knappen er sluppet
+            isButtonPressed = false; 
+            return true;
         }
     }
 
-    return false;  // Ingen endring i museknappens tilstand
+    return false; 
 }
 
 bool GameWindow::mouseClickedRight() {
@@ -163,17 +162,17 @@ bool GameWindow::mouseClickedRight() {
 
     if (rightClick()) {
         if (!isButtonPressed) {
-            isButtonPressed = true;  // Museknappen er trykket ned
-            return false;  // Returner false til du slipper knappen
+            isButtonPressed = true;  
+            return false;  
         }
     } else {
         if (isButtonPressed) {
-            isButtonPressed = false;  // Museknappen er sluppet
-            return true;  // Returner true når knappen er sluppet
+            isButtonPressed = false;  
+            return true; 
         }
     }
 
-    return false;  // Ingen endring i museknappens tilstand
+    return false; 
 }
 
 void GameWindow::bombClick(const Field& field, std::vector<std::unique_ptr<std::vector<int>>>& playerFieldVec){

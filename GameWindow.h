@@ -12,13 +12,12 @@ class GameWindow : public TDT4102::AnimationWindow
     private:
     static constexpr int cellSize = 30;
     Field field;
-    const std::vector<std::unique_ptr<std::vector<int>>>& fieldData = field.getField();
-    TDT4102::Image numImage;
-    
-    public:
     std::vector<std::unique_ptr<std::vector<int>>> playerFieldVec;
-    std::map<int, TDT4102::Image> images;
+    TDT4102::Image numImage;
 
+    public:
+    
+    std::map<int, TDT4102::Image> images;
     std::map<int, std::string> numPic{
         {-1, "Tall/bomb.png"},
         {0, "Tall/nothing.png"},
@@ -33,20 +32,24 @@ class GameWindow : public TDT4102::AnimationWindow
     };
 
     GameWindow(TDT4102::Point position, int width, int height, const std::string& title);
+
+    void run();
+
     void drawGrid(AnimationWindow& win, const Field& Field);
-    void drawPlayerGrid(AnimationWindow& win, const Field& Field, std::vector<std::unique_ptr<std::vector<int>>>& playerFieldVec);
-    bool leftClick();
-    bool rightClick();
+    void drawPlayerGrid(AnimationWindow& win, const Field& Field, const std::vector<std::unique_ptr<std::vector<int>>>& playerFieldVec);
+
     TDT4102::Point coordinates();
     int clickY(const Field& field);
     int clickX(const Field& field);
-    void tileClick(const Field& field, std::vector<std::unique_ptr<std::vector<int>>>& playerFieldVec);
-    void bombClick();
-    void run();
-    void bombClick(const Field& field, std::vector<std::unique_ptr<std::vector<int>>>& playerFieldVec);
-    void openUp(const Field& field, std::vector<std::unique_ptr<std::vector<int>>>& playerFieldVec, int x, int y);
+    
     bool mouseClickedLeft();
     bool mouseClickedRight();
+    bool leftClick();
+    bool rightClick();
+
+    void tileClick(const Field& field, std::vector<std::unique_ptr<std::vector<int>>>& playerFieldVec);
+    void openUp(const Field& field, std::vector<std::unique_ptr<std::vector<int>>>& playerFieldVec, int x, int y);
+    void bombClick(const Field& field, std::vector<std::unique_ptr<std::vector<int>>>& playerFieldVec);
 };
 
 
