@@ -21,6 +21,9 @@ GameWindow::GameWindow(TDT4102::Point position, int width, int height, const std
         if (leftClick()) { 
             tileClick(field, playerFieldVec);
         }
+        else if (rightClick()){
+            bombClick(field, playerFieldVec);
+        }
 
         next_frame();
     }
@@ -53,6 +56,9 @@ void GameWindow::drawPlayerGrid(AnimationWindow& win, const Field& field, std::v
         for (int x = 0; x < field.getW(); x++) {
             if ((*playerFieldVec[y])[x] == 0) {
                 win.draw_rectangle(TDT4102::Point{x * cellSize, y * cellSize}, cellSize - 2, cellSize - 2, TDT4102::Color::grey);
+            }
+            else if ((*playerFieldVec[y])[x] == -1){
+                win.draw_rectangle(TDT4102::Point{x * cellSize, y * cellSize}, cellSize - 2, cellSize - 2, TDT4102::Color::green);
             }
         }
     }
@@ -124,4 +130,16 @@ void GameWindow::openUp(const Field& field, std::vector<std::unique_ptr<std::vec
         } 
     }
     
+}
+
+void GameWindow::bombClick(const Field& field, std::vector<std::unique_ptr<std::vector<int>>>& playerFieldVec){
+    int x = clickX(field);
+    int y = clickY(field);
+
+    if (x != -1 && y != -1 && (*playerFieldVec[y])[x] == 0){
+        (*playerFieldVec[y])[x] = -1;
+    }
+    else if (x != -1 && y != -1 && (*playerFieldVec[y])[x] == -1){
+        (*playerFieldVec[y])[x] = 0;
+    }
 }

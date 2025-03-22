@@ -39,7 +39,7 @@ class GameWindow : public TDT4102::AnimationWindow
     int clickY(const Field& field);
     int clickX(const Field& field);
     void tileClick(const Field& field, std::vector<std::unique_ptr<std::vector<int>>>& playerFieldVec);
-    void bombClick();
+    void bombClick(const Field& field, std::vector<std::unique_ptr<std::vector<int>>>& playerFieldVec);
 
     void openUp(const Field& field, std::vector<std::unique_ptr<std::vector<int>>>& playerFieldVec, int x, int y);
 };
