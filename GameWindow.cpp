@@ -51,11 +51,6 @@ void GameWindow::run() {
             flagRightClick(field, playerFieldVec);
         }
 
-
-        if (resetCount){
-            std::cout << "Noe Skjedde\n";
-        }
-
         next_frame();
     }
 }
@@ -228,15 +223,18 @@ void GameWindow::flagRightClick(const Field& field, std::vector<std::unique_ptr<
 
 void GameWindow::callbackButton(){
     std::cout << "Reset button pressed\n";
-    this->resetCallback(resetCount);
-}
-
-void GameWindow::resetCallback(int& resetCount){
-    resetCount = 1;
-    resetCount = 0;
+    this->reset();
 }
 
 void GameWindow::reset(){
+    playerFieldVec.clear();
+    playerFieldVec.reserve(field.getH());
+    for (int i = 0; i < field.getH(); i++) {
+        playerFieldVec.push_back(std::make_unique<std::vector<int>>(field.getW(), 0));
+    }
+    field.resetVec();
+    dead = false;
+    bombCount = 99;
 }
 
 void GameWindow::deathFreeze(){
