@@ -9,12 +9,14 @@
 class GameWindow : public TDT4102::AnimationWindow
 {
     private:
+    const int W = 30;
+    const int H = 16;
+
     static constexpr int cellSize = 40;
-
-    Field field;
-
     TDT4102::Image numImage;
     TDT4102::Button resetButton;
+
+    std::unique_ptr<Field> field;
 
     int bombCount = 99;
     int resetCount = 0;
@@ -28,8 +30,8 @@ class GameWindow : public TDT4102::AnimationWindow
     GameWindow(TDT4102::Point position, int width, int height, const std::string& title);
     void run();
 
-    void drawGrid(AnimationWindow& win, const Field& Field);
-    void drawPlayerGrid(AnimationWindow& win, const Field& Field, const std::vector<std::unique_ptr<std::vector<int>>>& playerFieldVec);
+    void drawGrid(AnimationWindow& win);
+    void drawPlayerGrid(AnimationWindow& win, const std::vector<std::unique_ptr<std::vector<int>>>& playerFieldVec);
 
     bool rightClick();
     bool leftClick();
@@ -37,8 +39,8 @@ class GameWindow : public TDT4102::AnimationWindow
     bool mouseClickedRight();
 
     TDT4102::Point coordinates();
-    int clickY(const Field& field);
-    int clickX(const Field& field);
+    int clickY();
+    int clickX();
     
     void tileClick(const Field& field, std::vector<std::unique_ptr<std::vector<int>>>& playerFieldVec, bool& dead);
     void openUp(const Field& field, std::vector<std::unique_ptr<std::vector<int>>>& playerFieldVec, int x, int y);

@@ -18,9 +18,9 @@ GameWindow::GameWindow(TDT4102::Point position, int width, int height, const std
         {9, "Tall/flag.png"}
     };
 
-    playerFieldVec.reserve(field.getH());
-    for (int i = 0; i < field.getH(); i++) {
-        playerFieldVec.push_back(std::make_unique<std::vector<int>>(field.getW(), 0));
+    playerFieldVec.reserve(H);
+    for (int i = 0; i < H; i++) {
+        playerFieldVec.push_back(std::make_unique<std::vector<int>>(W, 0));
     }
 
     std:cout << field;
@@ -30,25 +30,48 @@ GameWindow::GameWindow(TDT4102::Point position, int width, int height, const std
     }
 
     //drawGrid(*this, field);
-    //drawPlayerGrid(*this, field, playerFieldVec);
+    //drawPlayerGrid(*this, playerFieldVec);
     resetButton.setCallback(std::bind(&GameWindow::callbackButton, this));
     add(resetButton);
 }
 
 void GameWindow::run() {
-    while (!should_close()) {
-        drawGrid(*this, field);
-        
-        if (!dead){
-            drawPlayerGrid(*this, field, playerFieldVec);
-        }
-    
 
-        if (mouseClickedLeft()) { 
-            tileClick(field, playerFieldVec, dead);
+    /*while (!should_close() && !field) {
+        drawPlayerGrid(*this, playerFieldVec);
+        if (mouseClickedLeft()) {
+            field = std::make_unique<Field>(W, H, clickX(), clickY());
+            tileClick(*field, playerFieldVec, dead);
+            drawGrid(*this);
+            drawPlayerGrid(*this, playerFieldVec);
+            next_frame();
         }
-        else if (mouseClickedRight()){
-            flagRightClick(field, playerFieldVec);
+
+        next_frame();
+    }*/
+
+    while (!should_close()) {
+
+        if(!field){
+            drawPlayerGrid(*this, playerFieldVec);
+            if (mouseClickedLeft()) {
+                field = std::make_unique<Field>(W, H, clickX(), clickY());
+                tileClick(*field, playerFieldVec, dead);
+                drawGrid(*this);
+                drawPlayerGrid(*this, playerFieldVec);
+            }
+        } else {
+            drawGrid(*this);
+            if (!dead){
+                drawPlayerGrid(*this, playerFieldVec);
+            }
+        
+            if (mouseClickedLeft()) { 
+                tileClick(*field, playerFieldVec, dead);
+            }
+            else if (mouseClickedRight()){
+                flagRightClick(*field, playerFieldVec);
+            }
         }
 
         next_frame();
@@ -56,17 +79,19 @@ void GameWindow::run() {
 }
 
 
-void GameWindow::drawGrid(AnimationWindow& win, const Field& Field) {
+void GameWindow::drawGrid(AnimationWindow& win) {
+    if (!field) return;
+
     TDT4102::Color color = TDT4102::Color::grey;
 
-    for (int y = 0; y < Field.getH(); y++) {
-        for (int x = 0; x < Field.getW(); x++) {
+    for (int y = 0; y < H; y++) {
+        for (int x = 0; x < W; x++) {
 
-            auto& imagePtr = images.count((*field.getField()[y])[x]) 
-                ? images.at((*field.getField()[y])[x]) 
+            auto& imagePtr = images.count((*field->getField()[y])[x]) 
+                ? images.at((*field->getField()[y])[x]) 
                 : images.at(0);
 
-            if ((*field.getField()[y])[x] == -1) {
+            if ((*field->getField()[y])[x] == -1) {
                 color = TDT4102::Color::red;
             } else {
                 color = TDT4102::Color::grey;
@@ -79,9 +104,9 @@ void GameWindow::drawGrid(AnimationWindow& win, const Field& Field) {
     }
 }
 
-void GameWindow::drawPlayerGrid(AnimationWindow& win, const Field& field, const std::vector<std::unique_ptr<std::vector<int>>>& playerFieldVec) {
-    for (int y = 0; y < field.getH(); y++) {
-        for (int x = 0; x < field.getW(); x++) {
+void GameWindow::drawPlayerGrid(AnimationWindow& win, const std::vector<std::unique_ptr<std::vector<int>>>& playerFieldVec) {
+    for (int y = 0; y < H; y++) {
+        for (int x = 0; x < W; x++) {
             if ((*playerFieldVec[y])[x] == 0) {
                 win.draw_rectangle(TDT4102::Point{x * cellSize, y * cellSize}, cellSize - 2, cellSize - 2, TDT4102::Color::grey);
             }
@@ -143,17 +168,17 @@ TDT4102::Point GameWindow::coordinates(){
     return TDT4102::AnimationWindow::get_mouse_coordinates();
 }
 
-int GameWindow::clickY(const Field& field){
+int GameWindow::clickY(){
     int yIndex = coordinates().y / cellSize;
-    if (coordinates().y < cellSize * field.getH()){
+    if (coordinates().y < cellSize * H){
         return yIndex;
     }
     return -1;
 }
 
-int GameWindow::clickX(const Field& field){
+int GameWindow::clickX(){
     int xIndex = coordinates().x / cellSize;
-    if (coordinates().x < cellSize * field.getW()){
+    if (coordinates().x < cellSize * W){
         return xIndex;
     }
     return -1;
@@ -161,8 +186,8 @@ int GameWindow::clickX(const Field& field){
 
 
 void GameWindow::tileClick(const Field& field, std::vector<std::unique_ptr<std::vector<int>>>& playerFieldVec, bool& dead){
-    int x = clickX(field);
-    int y = clickY(field);
+    int x = clickX();
+    int y = clickY();
 
     if((*field.getField()[y])[x] == -1){
         dead = true;
@@ -207,8 +232,8 @@ void GameWindow::openUp(const Field& field, std::vector<std::unique_ptr<std::vec
 
 
 void GameWindow::flagRightClick(const Field& field, std::vector<std::unique_ptr<std::vector<int>>>& playerFieldVec){
-    int x = clickX(field);
-    int y = clickY(field);
+    int x = clickX();
+    int y = clickY();
 
     if (x != -1 && y != -1 && (*playerFieldVec[y])[x] == 0){
         (*playerFieldVec[y])[x] = -1;
@@ -228,11 +253,11 @@ void GameWindow::callbackButton(){
 
 void GameWindow::reset(){
     playerFieldVec.clear();
-    playerFieldVec.reserve(field.getH());
-    for (int i = 0; i < field.getH(); i++) {
-        playerFieldVec.push_back(std::make_unique<std::vector<int>>(field.getW(), 0));
+    playerFieldVec.reserve(H);
+    for (int i = 0; i < H; i++) {
+        playerFieldVec.push_back(std::make_unique<std::vector<int>>(W, 0));
     }
-    field.resetVec();
+    field->resetVec();
     dead = false;
     bombCount = 99;
 }
