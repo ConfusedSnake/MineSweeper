@@ -30,8 +30,8 @@ void Field::plantBombs(){
             }
         }
 
-        for (int dh = -1; dh <= 1; ++dh) {  //rad
-            for (int dw = -1; dw <= 1; ++dw) {  //kolonne
+        for (int dh = -1; dh <= 1; ++dh) {
+            for (int dw = -1; dw <= 1; ++dw) {
                 if (dh == 0 && dw == 0){
                     (*fieldVec[indexH])[indexW] = -1;
                     continue;

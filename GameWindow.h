@@ -6,12 +6,11 @@
 
 #include <vector>
 
-
 class GameWindow : public TDT4102::AnimationWindow
 {
     private:
     static constexpr int cellSize = 40;
-    
+
     Field field;
 
     TDT4102::Image numImage;
