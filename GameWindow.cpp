@@ -2,7 +2,7 @@
 
 GameWindow::GameWindow(TDT4102::Point position, int width, int height, const std::string& title): 
     AnimationWindow{position.x, position.y, width, height, title},
-    resetButton{TDT4102::Point {200, 600}, 100, 30, "Reset"}
+    resetButton{TDT4102::Point {100, 650}, 100, 30, "Reset"}
 {
     std::map<int, std::string> numPic{
         {-1, "Tall/bomb.png"},
@@ -36,25 +36,11 @@ GameWindow::GameWindow(TDT4102::Point position, int width, int height, const std
 }
 
 void GameWindow::run() {
-
-    /*while (!should_close() && !field) {
-        drawPlayerGrid(*this, playerFieldVec);
-        if (mouseClickedLeft()) {
-            field = std::make_unique<Field>(W, H, clickX(), clickY());
-            tileClick(*field, playerFieldVec, dead);
-            drawGrid(*this);
-            drawPlayerGrid(*this, playerFieldVec);
-            next_frame();
-        }
-
-        next_frame();
-    }*/
-
     while (!should_close()) {
 
         if(!field){
             drawPlayerGrid(*this, playerFieldVec);
-            if (mouseClickedLeft()) {
+            if (mouseClickedLeft() && clickX() != -1 && clickY() != -1) {
                 field = std::make_unique<Field>(W, H, clickX(), clickY());
                 tileClick(*field, playerFieldVec, dead);
                 drawGrid(*this);
@@ -66,10 +52,10 @@ void GameWindow::run() {
                 drawPlayerGrid(*this, playerFieldVec);
             }
         
-            if (mouseClickedLeft()) { 
+            if (mouseClickedLeft() && clickX() != -1 && clickY() != -1) { 
                 tileClick(*field, playerFieldVec, dead);
             }
-            else if (mouseClickedRight()){
+            else if (mouseClickedRight() && clickX() != -1 && clickY() != -1){
                 flagRightClick(*field, playerFieldVec);
             }
         }
@@ -257,7 +243,8 @@ void GameWindow::reset(){
     for (int i = 0; i < H; i++) {
         playerFieldVec.push_back(std::make_unique<std::vector<int>>(W, 0));
     }
-    field->resetVec();
+    field.reset();
+
     dead = false;
     bombCount = 99;
 }
