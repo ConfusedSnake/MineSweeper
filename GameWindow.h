@@ -20,6 +20,7 @@ class GameWindow : public TDT4102::AnimationWindow
     int bombCount = 99;
     int resetCount = 0;
     bool dead = false;
+    // bool shouldReset = false;
     
     public:
     std::vector<std::unique_ptr<std::vector<int>>> playerFieldVec;

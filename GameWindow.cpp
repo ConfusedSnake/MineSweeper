@@ -2,7 +2,7 @@
 
 GameWindow::GameWindow(TDT4102::Point position, int width, int height, const std::string& title): 
     AnimationWindow{position.x, position.y, width, height, title},
-    resetButton{TDT4102::Point {200, 600}, 100, 30, "Reset"}
+    resetButton{TDT4102::Point {200, 650}, 100, 30, "Reset"}
 {
     std::map<int, std::string> numPic{
         {-1, "Tall/bomb.png"},
@@ -37,6 +37,11 @@ GameWindow::GameWindow(TDT4102::Point position, int width, int height, const std
 
 void GameWindow::run() {
     while (!should_close()) {
+        // if (shouldReset){
+        //     reset();
+        //     shouldReset = false;
+        // }
+
         drawGrid(*this, field);
         
         if (!dead){
@@ -68,7 +73,11 @@ void GameWindow::drawGrid(AnimationWindow& win, const Field& Field) {
 
             if ((*field.getField()[y])[x] == -1) {
                 color = TDT4102::Color::red;
-            } else {
+            }
+            else if ((*playerFieldVec[y])[x] == 1){
+                color = TDT4102::Color::light_gray;
+            }
+            else {
                 color = TDT4102::Color::grey;
             }
 
@@ -224,6 +233,7 @@ void GameWindow::flagRightClick(const Field& field, std::vector<std::unique_ptr<
 void GameWindow::callbackButton(){
     std::cout << "Reset button pressed\n";
     this->reset();
+    // shouldReset = true;
 }
 
 void GameWindow::reset(){
@@ -236,6 +246,7 @@ void GameWindow::reset(){
     dead = false;
     bombCount = 99;
 }
+
 
 void GameWindow::deathFreeze(){
     bool reset = false;
