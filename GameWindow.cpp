@@ -60,6 +60,7 @@ void GameWindow::run() {
             }
         }
 
+        draw_text(TDT4102::Point {200, 650}, to_string(bombCount) , TDT4102::Color::red, 45);
         next_frame();
     }
 }
@@ -79,13 +80,15 @@ void GameWindow::drawGrid(AnimationWindow& win) {
 
             if ((*field->getField()[y])[x] == -1) {
                 color = TDT4102::Color::red;
+            } else if((*playerFieldVec[y])[x] == 1){
+                color = TDT4102::Color::silver;
             } else {
                 color = TDT4102::Color::grey;
             }
 
             win.draw_rectangle(TDT4102::Point{x * cellSize, y * cellSize}, cellSize-2, cellSize-2, color);
             win.draw_image(TDT4102::Point{x * cellSize, y * cellSize}, *imagePtr);
-            win.draw_text(TDT4102::Point {400, 600}, to_string(bombCount) , TDT4102::Color::red, 100);
+            //win.draw_text(TDT4102::Point {200, 650}, to_string(bombCount) , TDT4102::Color::red, 40);
         }
     }
 }
