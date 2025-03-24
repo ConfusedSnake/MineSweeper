@@ -15,7 +15,10 @@ GameWindow::GameWindow(TDT4102::Point position, int width, int height, const std
         {6, "Tall/six.png"}, 
         {7, "Tall/seven.png"},
         {8, "Tall/eight.png"},
-        {9, "Tall/flag.png"}
+        {9, "Tall/flag.png"},
+        {10, "gameArt/lightDirt.png"},
+        {11, "gameArt/darkDirt.png"},
+        {12, "gameArt/lightGrass.png"}
     };
 
     playerFieldVec.reserve(H);
@@ -82,11 +85,10 @@ void GameWindow::drawGrid(AnimationWindow& win) {
                 color = TDT4102::Color::red;
             } else if((*playerFieldVec[y])[x] == 1){
                 color = TDT4102::Color::silver;
-            } else {
-                color = TDT4102::Color::grey;
             }
 
-            win.draw_rectangle(TDT4102::Point{x * cellSize, y * cellSize}, cellSize-2, cellSize-2, color);
+            //win.draw_rectangle(TDT4102::Point{x * cellSize, y * cellSize}, cellSize-2, cellSize-2, color);
+            win.draw_image(TDT4102::Point{x * cellSize, y * cellSize}, *images.at(10), cellSize, cellSize);
             win.draw_image(TDT4102::Point{x * cellSize, y * cellSize}, *imagePtr);
             //win.draw_text(TDT4102::Point {200, 650}, to_string(bombCount) , TDT4102::Color::red, 40);
         }
@@ -97,10 +99,12 @@ void GameWindow::drawPlayerGrid(AnimationWindow& win, const std::vector<std::uni
     for (int y = 0; y < H; y++) {
         for (int x = 0; x < W; x++) {
             if ((*playerFieldVec[y])[x] == 0) {
-                win.draw_rectangle(TDT4102::Point{x * cellSize, y * cellSize}, cellSize - 2, cellSize - 2, TDT4102::Color::grey);
+                //win.draw_rectangle(TDT4102::Point{x * cellSize, y * cellSize}, cellSize - 2, cellSize - 2, TDT4102::Color::grey);
+                win.draw_image(TDT4102::Point{x * cellSize, y * cellSize}, *images.at(12), cellSize, cellSize);
             }
             else if ((*playerFieldVec[y])[x] == -1){
-                win.draw_rectangle(TDT4102::Point{x * cellSize, y * cellSize}, cellSize - 2, cellSize - 2, TDT4102::Color::grey);
+                //win.draw_rectangle(TDT4102::Point{x * cellSize, y * cellSize}, cellSize - 2, cellSize - 2, TDT4102::Color::grey);
+                win.draw_image(TDT4102::Point{x * cellSize, y * cellSize}, *images.at(12), cellSize, cellSize);
                 win.draw_image(TDT4102::Point{x * cellSize, y * cellSize}, *images.at(9));
             }
         }
