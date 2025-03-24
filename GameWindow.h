@@ -21,6 +21,7 @@ class GameWindow : public TDT4102::AnimationWindow
     int bombCount = 99;
     int resetCount = 0;
     bool dead = false;
+    bool shouldResetTimer = false;
     
     public:
     std::vector<std::unique_ptr<std::vector<int>>> playerFieldVec;
@@ -51,6 +52,7 @@ class GameWindow : public TDT4102::AnimationWindow
     void callbackButton();
     void resetCallback(int& resetCount);
     void reset();
+    void resetTimer();
 };
 
 

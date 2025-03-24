@@ -1,4 +1,5 @@
 #include "GameWindow.h"
+#include "Timer.h"
 
 GameWindow::GameWindow(TDT4102::Point position, int width, int height, const std::string& title): 
     AnimationWindow{position.x, position.y, width, height, title},
@@ -36,7 +37,14 @@ GameWindow::GameWindow(TDT4102::Point position, int width, int height, const std
 }
 
 void GameWindow::run() {
+    Timer t;
+    t.start();
     while (!should_close()) {
+
+        if (shouldResetTimer){
+            t.start();
+            shouldResetTimer = false;
+        }
 
         if(!field){
             drawPlayerGrid(*this, playerFieldVec);
@@ -61,6 +69,7 @@ void GameWindow::run() {
         }
 
         draw_text(TDT4102::Point {200, 650}, to_string(bombCount) , TDT4102::Color::red, 45);
+        draw_text(TDT4102::Point {400, 650}, to_string(static_cast<int>(t.stop())) , TDT4102::Color::red, 45);
         next_frame();
     }
 }
@@ -238,6 +247,7 @@ void GameWindow::flagRightClick(const Field& field, std::vector<std::unique_ptr<
 void GameWindow::callbackButton(){
     std::cout << "Reset button pressed\n";
     this->reset();
+    this->resetTimer();
 }
 
 void GameWindow::reset(){
@@ -250,6 +260,10 @@ void GameWindow::reset(){
 
     dead = false;
     bombCount = 99;
+}
+
+void GameWindow::resetTimer(){
+    shouldResetTimer = true;
 }
 
 void GameWindow::deathFreeze(){
