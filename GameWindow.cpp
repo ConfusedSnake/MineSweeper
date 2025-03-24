@@ -1,5 +1,4 @@
 #include "GameWindow.h"
-#include "Timer.h"
 
 GameWindow::GameWindow(TDT4102::Point position, int width, int height, const std::string& title): 
     AnimationWindow{position.x, position.y, width, height, title},
@@ -37,7 +36,6 @@ GameWindow::GameWindow(TDT4102::Point position, int width, int height, const std
 }
 
 void GameWindow::run() {
-    Timer t;
     t.start();
     while (!should_close()) {
 
@@ -68,6 +66,39 @@ void GameWindow::run() {
             }
         }
 
+        if (!up()){
+            draw_rectangle(TDT4102::Point{600, 650}, 50, 50, TDT4102::Color::gray);
+        }
+        else if (up()){
+            draw_rectangle(TDT4102::Point{600, 650}, 50, 50, TDT4102::Color::dark_gray);
+        }
+        if (!down()){
+            draw_rectangle(TDT4102::Point{600, 702}, 50, 50, TDT4102::Color::gray);
+        }
+        else if (down()){
+            draw_rectangle(TDT4102::Point{600, 702}, 50, 50, TDT4102::Color::dark_gray);
+        }
+        if (!left()){
+            draw_rectangle(TDT4102::Point{548, 702}, 50, 50, TDT4102::Color::gray);
+        }
+        else if (left()){
+            draw_rectangle(TDT4102::Point{548, 702}, 50, 50, TDT4102::Color::dark_gray);
+        }
+        if (!right()){
+            draw_rectangle(TDT4102::Point{652, 702}, 50, 50, TDT4102::Color::gray);
+        }
+        else if (right()){
+            draw_rectangle(TDT4102::Point{652, 702}, 50, 50, TDT4102::Color::dark_gray);
+        }
+
+        // draw_rectangle(TDT4102::Point{600, 650}, 50, 50, TDT4102::Color::black);
+        // draw_rectangle(TDT4102::Point{600, 702}, 50, 50, TDT4102::Color::black);
+        // draw_rectangle(TDT4102::Point{548, 702}, 50, 50, TDT4102::Color::black);
+        // draw_rectangle(TDT4102::Point{652, 702}, 50, 50, TDT4102::Color::black);
+        draw_text(TDT4102::Point {617, 665}, "^" , TDT4102::Color::white, 45);
+        draw_text(TDT4102::Point {555, 710}, "<" , TDT4102::Color::white, 35);
+        draw_text(TDT4102::Point {670, 710}, ">" , TDT4102::Color::white, 35);
+        draw_text(TDT4102::Point {617, 710}, "v" , TDT4102::Color::white, 35);
         draw_text(TDT4102::Point {200, 650}, to_string(bombCount) , TDT4102::Color::red, 45);
         draw_text(TDT4102::Point {400, 650}, to_string(static_cast<int>(t.stop())) , TDT4102::Color::red, 45);
         next_frame();
@@ -161,6 +192,93 @@ bool GameWindow::mouseClickedRight() {
     return false; 
 }
 
+bool GameWindow::up(){
+    return TDT4102::AnimationWindow::is_key_down(KeyboardKey::UP);
+}
+
+bool GameWindow::upClicked() {
+    static bool isButtonPressed = false;
+
+    if (up()) {
+        if (!isButtonPressed) {
+            isButtonPressed = true;  
+            return false;  
+        }
+    } else {
+        if (isButtonPressed) {
+            isButtonPressed = false;  
+            return true; 
+        }
+    }
+
+    return false; 
+}
+
+bool GameWindow::down(){
+    return TDT4102::AnimationWindow::is_key_down(KeyboardKey::DOWN);
+}
+
+bool GameWindow::downClicked() {
+    static bool isButtonPressed = false;
+
+    if (down()) {
+        if (!isButtonPressed) {
+            isButtonPressed = true;  
+            return false;  
+        }
+    } else {
+        if (isButtonPressed) {
+            isButtonPressed = false;  
+            return true; 
+        }
+    }
+
+    return false; 
+}
+
+bool GameWindow::left(){
+    return TDT4102::AnimationWindow::is_key_down(KeyboardKey::LEFT);
+}
+
+bool GameWindow::leftClicked() {
+    static bool isButtonPressed = false;
+
+    if (left()) {
+        if (!isButtonPressed) {
+            isButtonPressed = true;  
+            return false;  
+        }
+    } else {
+        if (isButtonPressed) {
+            isButtonPressed = false;  
+            return true; 
+        }
+    }
+
+    return false; 
+}
+
+bool GameWindow::right(){
+    return TDT4102::AnimationWindow::is_key_down(KeyboardKey::RIGHT);
+}
+
+bool GameWindow::rightClicked() {
+    static bool isButtonPressed = false;
+
+    if (right()) {
+        if (!isButtonPressed) {
+            isButtonPressed = true;  
+            return false;  
+        }
+    } else {
+        if (isButtonPressed) {
+            isButtonPressed = false;  
+            return true; 
+        }
+    }
+
+    return false; 
+}
 
 TDT4102::Point GameWindow::coordinates(){
     return TDT4102::AnimationWindow::get_mouse_coordinates();
@@ -247,7 +365,7 @@ void GameWindow::flagRightClick(const Field& field, std::vector<std::unique_ptr<
 void GameWindow::callbackButton(){
     std::cout << "Reset button pressed\n";
     this->reset();
-    this->resetTimer();
+    // this->resetTimer();
 }
 
 void GameWindow::reset(){
@@ -259,11 +377,8 @@ void GameWindow::reset(){
     field.reset();
 
     dead = false;
-    bombCount = 99;
-}
-
-void GameWindow::resetTimer(){
     shouldResetTimer = true;
+    bombCount = 99;
 }
 
 void GameWindow::deathFreeze(){
@@ -275,3 +390,4 @@ void GameWindow::deathFreeze(){
         }
     }
 }
+

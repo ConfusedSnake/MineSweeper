@@ -3,6 +3,7 @@
 #include "widgets/Button.h"
 #include "mineField.h"
 #include "std_lib_facilities.h"
+#include "Timer.h"
 
 #include <vector>
 
@@ -17,6 +18,7 @@ class GameWindow : public TDT4102::AnimationWindow
     TDT4102::Button resetButton;
 
     std::unique_ptr<Field> field;
+    Timer t;
 
     int bombCount = 99;
     int resetCount = 0;
@@ -39,6 +41,15 @@ class GameWindow : public TDT4102::AnimationWindow
     bool mouseClickedLeft();
     bool mouseClickedRight();
 
+    bool up();
+    bool upClicked();
+    bool down();
+    bool downClicked();
+    bool left();
+    bool leftClicked();
+    bool right();
+    bool rightClicked();
+
     TDT4102::Point coordinates();
     int clickY();
     int clickX();
@@ -52,7 +63,6 @@ class GameWindow : public TDT4102::AnimationWindow
     void callbackButton();
     void resetCallback(int& resetCount);
     void reset();
-    void resetTimer();
 };
 
 
