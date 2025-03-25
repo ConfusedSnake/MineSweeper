@@ -58,7 +58,7 @@ void GameWindow::run() {
                 drawPlayerGrid(*this, playerFieldVec);
             }
         
-            if (mouseClickedLeft() && clickX() != -1 && clickY() != -1) { 
+            if (mouseClickedLeft() && clickX() != -1 && clickY() != -1 && (*playerFieldVec[clickY()])[clickX()] != -1) { 
                 tileClick(*field, playerFieldVec, dead);
             }
             else if (mouseClickedRight() && clickX() != -1 && clickY() != -1){
