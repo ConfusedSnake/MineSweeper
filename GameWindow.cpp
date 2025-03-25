@@ -22,7 +22,6 @@ GameWindow::GameWindow(TDT4102::Point position, int width, int height, const std
     for (int i = 0; i < H; i++) {
         playerFieldVec.push_back(std::make_unique<std::vector<int>>(W, 0));
     }
-
     std:cout << field;
 
     for (const auto& [key, filename] : numPic) {
@@ -36,31 +35,33 @@ GameWindow::GameWindow(TDT4102::Point position, int width, int height, const std
 }
 
 void GameWindow::run() {
-    t.start();
     while (!should_close()) {
-
-        if (shouldResetTimer){
-            t.start();
-            shouldResetTimer = false;
-        }
 
         if(!field){
             drawPlayerGrid(*this, playerFieldVec);
+            draw_text(TDT4102::Point {400, 650}, to_string(static_cast<int>(0)) , TDT4102::Color::red, 45);
             if (mouseClickedLeft() && clickX() != -1 && clickY() != -1) {
                 field = std::make_unique<Field>(W, H, clickX(), clickY());
                 tileClick(*field, playerFieldVec, dead);
                 drawGrid(*this);
                 drawPlayerGrid(*this, playerFieldVec);
+                t.start();
             }
         } else {
             drawGrid(*this);
             if (!dead){
                 drawPlayerGrid(*this, playerFieldVec);
+                draw_text(TDT4102::Point {400, 650}, to_string(static_cast<int>(t.stop())) , TDT4102::Color::red, 45);
+                frozenTimer = t.stop();
+            }
+            else {
+                draw_text(TDT4102::Point {400, 650}, to_string(static_cast<int>(frozenTimer)) , TDT4102::Color::red, 45);
             }
         
             if (mouseClickedLeft() && clickX() != -1 && clickY() != -1 && (*playerFieldVec[clickY()])[clickX()] != -1) { 
                 tileClick(*field, playerFieldVec, dead);
             }
+
             else if (mouseClickedRight() && clickX() != -1 && clickY() != -1){
                 flagRightClick(*field, playerFieldVec);
             }
@@ -68,7 +69,6 @@ void GameWindow::run() {
 
         drawArrows();
         draw_text(TDT4102::Point {200, 650}, to_string(bombCount) , TDT4102::Color::red, 45);
-        draw_text(TDT4102::Point {400, 650}, to_string(static_cast<int>(t.stop())) , TDT4102::Color::red, 45);
         next_frame();
     }
 }
@@ -110,6 +110,16 @@ void GameWindow::drawPlayerGrid(AnimationWindow& win, const std::vector<std::uni
             else if ((*playerFieldVec[y])[x] == -1){
                 win.draw_rectangle(TDT4102::Point{x * cellSize, y * cellSize}, cellSize - 2, cellSize - 2, TDT4102::Color::grey);
                 win.draw_image(TDT4102::Point{x * cellSize, y * cellSize}, *images.at(9));
+            }
+        }
+    }
+}
+
+void GameWindow::drawPlayer(AnimationWindow& win){
+    for (int y = 0; y < H; y++) {
+        for (int x = 0; x < W; x++) {
+            if ((*player->getPlayer()[y])[x] == 1) {
+                win.draw_circle(TDT4102::Point{x * cellSize, y * cellSize}, 20, TDT4102::Color::black);
             }
         }
     }
@@ -376,7 +386,6 @@ void GameWindow::reset(){
     field.reset();
 
     dead = false;
-    shouldResetTimer = true;
     bombCount = 99;
 }
 

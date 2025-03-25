@@ -4,7 +4,7 @@
 #include "mineField.h"
 #include "std_lib_facilities.h"
 #include "Timer.h"
-
+#include "Player.h"
 #include <vector>
 
 class GameWindow : public TDT4102::AnimationWindow
@@ -19,11 +19,12 @@ class GameWindow : public TDT4102::AnimationWindow
 
     std::unique_ptr<Field> field;
     Timer t;
+    std::unique_ptr<Player> player;    
 
     int bombCount = 99;
     int resetCount = 0;
     bool dead = false;
-    bool shouldResetTimer = false;
+    double frozenTimer;
     
     public:
     std::vector<std::unique_ptr<std::vector<int>>> playerFieldVec;
@@ -35,6 +36,7 @@ class GameWindow : public TDT4102::AnimationWindow
 
     void drawGrid(AnimationWindow& win);
     void drawPlayerGrid(AnimationWindow& win, const std::vector<std::unique_ptr<std::vector<int>>>& playerFieldVec);
+    void drawPlayer(AnimationWindow& win);
     void drawArrows();
 
     bool rightClick();
