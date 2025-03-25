@@ -35,6 +35,7 @@ class GameWindow : public TDT4102::AnimationWindow
 
     void drawGrid(AnimationWindow& win);
     void drawPlayerGrid(AnimationWindow& win, const std::vector<std::unique_ptr<std::vector<int>>>& playerFieldVec);
+    void drawArrows();
 
     bool rightClick();
     bool leftClick();

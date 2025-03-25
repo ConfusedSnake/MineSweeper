@@ -58,7 +58,7 @@ void GameWindow::run() {
                 drawPlayerGrid(*this, playerFieldVec);
             }
         
-            if (mouseClickedLeft() && clickX() != -1 && clickY() != -1) { 
+            if (mouseClickedLeft() && clickX() != -1 && clickY() != -1 && (*playerFieldVec[clickY()])[clickX()] != -1) { 
                 tileClick(*field, playerFieldVec, dead);
             }
             else if (mouseClickedRight() && clickX() != -1 && clickY() != -1){
@@ -66,39 +66,7 @@ void GameWindow::run() {
             }
         }
 
-        if (!up()){
-            draw_rectangle(TDT4102::Point{600, 650}, 50, 50, TDT4102::Color::gray);
-        }
-        else if (up()){
-            draw_rectangle(TDT4102::Point{600, 650}, 50, 50, TDT4102::Color::dark_gray);
-        }
-        if (!down()){
-            draw_rectangle(TDT4102::Point{600, 702}, 50, 50, TDT4102::Color::gray);
-        }
-        else if (down()){
-            draw_rectangle(TDT4102::Point{600, 702}, 50, 50, TDT4102::Color::dark_gray);
-        }
-        if (!left()){
-            draw_rectangle(TDT4102::Point{548, 702}, 50, 50, TDT4102::Color::gray);
-        }
-        else if (left()){
-            draw_rectangle(TDT4102::Point{548, 702}, 50, 50, TDT4102::Color::dark_gray);
-        }
-        if (!right()){
-            draw_rectangle(TDT4102::Point{652, 702}, 50, 50, TDT4102::Color::gray);
-        }
-        else if (right()){
-            draw_rectangle(TDT4102::Point{652, 702}, 50, 50, TDT4102::Color::dark_gray);
-        }
-
-        // draw_rectangle(TDT4102::Point{600, 650}, 50, 50, TDT4102::Color::black);
-        // draw_rectangle(TDT4102::Point{600, 702}, 50, 50, TDT4102::Color::black);
-        // draw_rectangle(TDT4102::Point{548, 702}, 50, 50, TDT4102::Color::black);
-        // draw_rectangle(TDT4102::Point{652, 702}, 50, 50, TDT4102::Color::black);
-        draw_text(TDT4102::Point {617, 665}, "^" , TDT4102::Color::white, 45);
-        draw_text(TDT4102::Point {555, 710}, "<" , TDT4102::Color::white, 35);
-        draw_text(TDT4102::Point {670, 710}, ">" , TDT4102::Color::white, 35);
-        draw_text(TDT4102::Point {617, 710}, "v" , TDT4102::Color::white, 35);
+        drawArrows();
         draw_text(TDT4102::Point {200, 650}, to_string(bombCount) , TDT4102::Color::red, 45);
         draw_text(TDT4102::Point {400, 650}, to_string(static_cast<int>(t.stop())) , TDT4102::Color::red, 45);
         next_frame();
@@ -147,6 +115,37 @@ void GameWindow::drawPlayerGrid(AnimationWindow& win, const std::vector<std::uni
     }
 }
 
+void GameWindow::drawArrows(){
+        if (!up()){
+            draw_rectangle(TDT4102::Point{600, 650}, 50, 50, TDT4102::Color::gray);
+        }
+        else if (up()){
+            draw_rectangle(TDT4102::Point{600, 650}, 50, 50, TDT4102::Color::dark_gray);
+        }
+        if (!down()){
+            draw_rectangle(TDT4102::Point{600, 702}, 50, 50, TDT4102::Color::gray);
+        }
+        else if (down()){
+            draw_rectangle(TDT4102::Point{600, 702}, 50, 50, TDT4102::Color::dark_gray);
+        }
+        if (!left()){
+            draw_rectangle(TDT4102::Point{548, 702}, 50, 50, TDT4102::Color::gray);
+        }
+        else if (left()){
+            draw_rectangle(TDT4102::Point{548, 702}, 50, 50, TDT4102::Color::dark_gray);
+        }
+        if (!right()){
+            draw_rectangle(TDT4102::Point{652, 702}, 50, 50, TDT4102::Color::gray);
+        }
+        else if (right()){
+            draw_rectangle(TDT4102::Point{652, 702}, 50, 50, TDT4102::Color::dark_gray);
+        }
+        draw_text(TDT4102::Point {617, 665}, "^" , TDT4102::Color::white, 45);
+        draw_text(TDT4102::Point {555, 710}, "<" , TDT4102::Color::white, 35);
+        draw_text(TDT4102::Point {670, 710}, ">" , TDT4102::Color::white, 35);
+        draw_text(TDT4102::Point {617, 710}, "v" , TDT4102::Color::white, 35);
+        draw_text(TDT4102::Point {200, 650}, to_string(bombCount) , TDT4102::Color::red, 45);
+}
 
 bool GameWindow::leftClick(){
     return TDT4102::AnimationWindow::is_left_mouse_button_down();
