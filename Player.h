@@ -2,29 +2,33 @@
 #include "std_lib_facilities.h"
 #include "Input.h"
 
-class Player : public TDT4102::AnimationWindow{
+class Player{
     private:
     int W = 30;
     int H = 16;
     int playerX = 0;
-    int playerY = 7;
+    int playerY = 0;
+    char playerDirection = 'R';
 
-    
-    bool facingEast = true;
-    bool facingWest = false;
-    bool facingNorth = false;
-    bool facingSouth = false;
-
-    std::vector<std::unique_ptr<std::vector<int>>> playerPositionVec;
+    std::chrono::steady_clock::time_point lastMoveTime;
+    const std::chrono::milliseconds moveDelay = std::chrono::milliseconds(200); // 200 ms delay
 
     public:
-    
+
     Player();
-    void movement();
 
-    const std::vector<std::unique_ptr<std::vector<int>>>& getPlayer() const {
-       return playerPositionVec;
+    bool canMove();
+    
+    int getPlayerY(){
+        return playerY;
     }
-};
+    int getPlayerX(){
+        return playerX;
+    }
 
-std::ostream& operator<<(std::ostream& os, const Player& player);
+    void moveLeft(AnimationWindow& win);
+    void moveRight(AnimationWindow& win);
+    void moveUp(AnimationWindow& win);
+    void moveDown(AnimationWindow& win);
+
+};

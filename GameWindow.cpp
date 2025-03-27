@@ -40,15 +40,18 @@ void GameWindow::run() {
             draw_text(TDT4102::Point {400, 650}, to_string(static_cast<int>(0)) , TDT4102::Color::red, 45);
             if (mouseClickedLeft(*this) && clickX() != -1 && clickY() != -1) {
                 field = std::make_unique<Field>(W, H, clickX(), clickY());
+                player = std::make_unique<Player>();
                 tileClick(*field, playerFieldVec, dead);
                 drawGrid(*this);
                 drawPlayerGrid(*this, playerFieldVec);
+                drawPlayer(*this);
                 t.start();
             }
         } else {
             drawGrid(*this);
             if (!dead){
                 drawPlayerGrid(*this, playerFieldVec);
+                drawPlayer(*this);
                 draw_text(TDT4102::Point {400, 650}, to_string(static_cast<int>(t.stop())) , TDT4102::Color::red, 45);
                 frozenTimer = t.stop();
             }
@@ -114,13 +117,9 @@ void GameWindow::drawPlayerGrid(AnimationWindow& win, const std::vector<std::uni
 }
 
 void GameWindow::drawPlayer(AnimationWindow& win){
-    for (int y = 0; y < H; y++) {
-        for (int x = 0; x < W; x++) {
-            if ((*player->getPlayer()[y])[x] == 1) {
-                win.draw_circle(TDT4102::Point{x * cellSize, y * cellSize}, 20, TDT4102::Color::black);
-            }
-        }
-    }
+    int x = player->getPlayerX();
+    int y = player->getPlayerY();
+    win.draw_circle(TDT4102::Point{x * cellSize + cellSize/2, y * cellSize + cellSize/2}, 10, TDT4102::Color::black);
 }
 
 void GameWindow::drawArrows(){
@@ -128,24 +127,28 @@ void GameWindow::drawArrows(){
             draw_rectangle(TDT4102::Point{600, 650}, 50, 50, TDT4102::Color::gray);
         }
         else if (up(*this)){
+            player->moveUp(*this);
             draw_rectangle(TDT4102::Point{600, 650}, 50, 50, TDT4102::Color::dark_gray);
         }
         if (!down(*this)){
             draw_rectangle(TDT4102::Point{600, 702}, 50, 50, TDT4102::Color::gray);
         }
         else if (down(*this)){
+            player->moveDown(*this);
             draw_rectangle(TDT4102::Point{600, 702}, 50, 50, TDT4102::Color::dark_gray);
         }
         if (!left(*this)){
             draw_rectangle(TDT4102::Point{548, 702}, 50, 50, TDT4102::Color::gray);
         }
         else if (left(*this)){
+            player->moveLeft(*this);
             draw_rectangle(TDT4102::Point{548, 702}, 50, 50, TDT4102::Color::dark_gray);
         }
         if (!right(*this)){
             draw_rectangle(TDT4102::Point{652, 702}, 50, 50, TDT4102::Color::gray);
         }
         else if (right(*this)){
+            player->moveRight(*this);
             draw_rectangle(TDT4102::Point{652, 702}, 50, 50, TDT4102::Color::dark_gray);
         }
         draw_text(TDT4102::Point {617, 665}, "^" , TDT4102::Color::white, 45);

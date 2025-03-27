@@ -4,7 +4,7 @@ bool up(TDT4102::AnimationWindow& win){
     return win.is_key_down(KeyboardKey::UP);
 }
 
-bool upClicked(TDT4102::AnimationWindow& win) {
+bool keyUp(TDT4102::AnimationWindow& win) {
     static bool isButtonPressed = false;
 
     if (up(win)) {
@@ -26,7 +26,7 @@ bool down(TDT4102::AnimationWindow& win){
     return win.is_key_down(KeyboardKey::DOWN);
 }
 
-bool downClicked(TDT4102::AnimationWindow& win) {
+bool keyDown(TDT4102::AnimationWindow& win) {
     static bool isButtonPressed = false;
 
     if (down(win)) {
@@ -48,7 +48,7 @@ bool left(TDT4102::AnimationWindow& win){
     return win.is_key_down(KeyboardKey::LEFT);
 }
 
-bool leftClicked(TDT4102::AnimationWindow& win) {
+bool keyLeft(TDT4102::AnimationWindow& win) {
     static bool isButtonPressed = false;
 
     if (left(win)) {
@@ -70,7 +70,7 @@ bool right(TDT4102::AnimationWindow& win){
     return win.is_key_down(KeyboardKey::RIGHT);
 }
 
-bool rightClicked(TDT4102::AnimationWindow& win) {
+bool keyRight(TDT4102::AnimationWindow& win) {
     static bool isButtonPressed = false;
 
     if (right(win)) {

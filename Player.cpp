@@ -1,98 +1,54 @@
 #include "Player.h"
 
 Player::Player(){
-    playerPositionVec.reserve(H);
-    for (int i = 0; i < H; i++) {
-        playerPositionVec.push_back(std::make_unique<std::vector<int>>(W, 0));
-    }
-    (*playerPositionVec[playerY])[playerX] = 1;
+    lastMoveTime = std::chrono::steady_clock::now();
 }
 
-void Player::movement(){
-    if (leftClicked(*this)){
-        facingWest = true;
-        facingEast = false;
-        facingNorth = false;
-        facingSouth = false;
+bool Player::canMove() {
+    auto now = std::chrono::steady_clock::now();
+    if (now - lastMoveTime >= moveDelay) {
+        lastMoveTime = now;
+        return true;
     }
-    else if (leftClicked(*this) && facingWest){
-        try
-        {
-            (*playerPositionVec[playerY])[playerX] = 0;
-            playerX--;
-            (*playerPositionVec[playerY])[playerX] = 1;
-        }
-        catch(const std::exception& e)
-        {
-            std::cout << "Out of range" << "\n";
-            std::cerr << e.what() << '\n';
-        }
-    }
-    if (rightClicked(*this)){
-        facingEast = true;
-        facingWest = false;
-        facingNorth = false;
-        facingSouth = false;
-    }
-    else if (rightClicked(*this) && facingEast){
-        try
-        {
-            (*playerPositionVec[playerY])[playerX] = 0;
-            playerX++;
-            (*playerPositionVec[playerY])[playerX] = 1;
-        }
-        catch(const std::exception& e)
-        {
-            std::cout << "Out of range" << "\n";
-            std::cerr << e.what() << '\n';
-        }
-    }
-    if (upClicked(*this)){
-        facingNorth = true;
-        facingWest = false;
-        facingEast = false;
-        facingSouth = false;
-    }
-    else if (upClicked(*this) && facingNorth){
-        try
-        {
-            (*playerPositionVec[playerY])[playerX] = 0;
-            playerY--;
-            (*playerPositionVec[playerY])[playerX] = 1;
-        }
-        catch(const std::exception& e)
-        {
-            std::cout << "Out of range" << "\n";
-            std::cerr << e.what() << '\n';
-        }
-    }
-    if (downClicked(*this)){
-        facingSouth = true;
-        facingWest = false;
-        facingEast = false;
-        facingNorth = false;
-    }
-    else if (downClicked(*this) && facingSouth){
-        try
-        {
-            (*playerPositionVec[playerY])[playerX] = 0;
-            playerY++;
-            (*playerPositionVec[playerY])[playerX] = 1;
-        }
-        catch(const std::exception& e)
-        {
-            std::cout << "Out of range" << "\n";
-            std::cerr << e.what() << '\n';
-        }
+    return false;
+}
+
+void Player::moveLeft(AnimationWindow& win){
+    if (!canMove()) return;
+    playerDirection = 'L';
+    if (playerX == 0){
+        std::cout << "Out of range";
+    } else {
+        playerX--;
     }
 }
 
-std::ostream& operator<<(std::ostream& os, const Player& player) {
-    for (const auto& row : player.getPlayer()) {
-        for (int val : *row) {
-            os << val << " ";
-        }
-        os << std::endl;
+void Player::moveRight(AnimationWindow& win){ 
+    if (!canMove()) return;
+    playerDirection = 'R';
+    if (playerX == (W-1)){
+        std::cout << "Out of range";
+    } else {
+        playerX++;
     }
-    return os;
+}
+
+void Player::moveUp(AnimationWindow& win){
+    if (!canMove()) return;
+    playerDirection = 'U';
+    if (playerY == 0){
+        std::cout << "Out of range";
+    } else {
+        playerY--;
+    }
+}
+
+void Player::moveDown(AnimationWindow& win){
+    if (!canMove()) return;
+    playerDirection = 'D';
+    if (playerY == (H-1)){
+        std::cout << "Out of range";
+    } else {
+        playerY++;
+    }
 }
