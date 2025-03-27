@@ -35,12 +35,13 @@ GameWindow::GameWindow(TDT4102::Point position, int width, int height, const std
 void GameWindow::run() {
     while (!should_close()) {
 
-        if(!field){
+        if(!field || !player){
             drawPlayerGrid(*this, playerFieldVec);
             draw_text(TDT4102::Point {400, 650}, to_string(static_cast<int>(0)) , TDT4102::Color::red, 45);
-            if (mouseClickedLeft(*this) && clickX() != -1 && clickY() != -1) {
+            if ((mouseClickedLeft(*this) && clickX() != -1 && clickY() != -1)||(up(*this) || down(*this) || left(*this) || right(*this))) {
                 field = std::make_unique<Field>(W, H, clickX(), clickY());
                 player = std::make_unique<Player>();
+
                 tileClick(*field, playerFieldVec, dead);
                 drawGrid(*this);
                 drawPlayerGrid(*this, playerFieldVec);
@@ -59,10 +60,6 @@ void GameWindow::run() {
                 draw_text(TDT4102::Point {400, 650}, to_string(static_cast<int>(frozenTimer)) , TDT4102::Color::red, 45);
             }
 
-            if(up(*this) || down(*this) || left(*this) || right(*this)){
-                move();
-            }
-
             if (mouseClickedLeft(*this) && clickX() != -1 && clickY() != -1 && (*playerFieldVec[clickY()])[clickX()] != -1) { 
                 tileClick(*field, playerFieldVec, dead);
             }
@@ -71,11 +68,10 @@ void GameWindow::run() {
                 flagRightClick(*field, playerFieldVec);
             }
 
-            if (spaceBarClicked(*this)){
+            /*if (spaceBarClicked(*this)){
                 std:cout << "space" << std::endl;
                 //flagSpace(*field, playerFieldVec);
-            }
-
+            }*/
         }
 
         drawArrows();
@@ -129,30 +125,34 @@ void GameWindow::drawPlayerGrid(AnimationWindow& win, const std::vector<std::uni
 void GameWindow::drawPlayer(AnimationWindow& win){
     int x = player->getPlayerX();
     int y = player->getPlayerY();
+
     win.draw_circle(TDT4102::Point{x * cellSize + cellSize/2, y * cellSize + cellSize/2}, 10, TDT4102::Color::black);
 }
 
 void GameWindow::move(){
+    int x = player->getPlayerX();
+    int y = player->getPlayerY();
+
     if (up(*this)){
-        if((*playerFieldVec[player->getPlayerY()-1])[player->getPlayerX()] != -1){
+        if((*playerFieldVec[y-1])[x] != -1){
             player->moveUp(*this);
             tileClick(*field, playerFieldVec, dead);
         }
         
     } else if (down(*this)){
-        if((*playerFieldVec[player->getPlayerY()+1])[player->getPlayerX()] != -1){
+        if((*playerFieldVec[y+1])[x] != -1){
             player->moveDown(*this);
             tileClick(*field, playerFieldVec, dead);
         }
         
     } else if (left(*this)){
-        if((*playerFieldVec[player->getPlayerY()])[player->getPlayerX()-1] == -1){
+        if((*playerFieldVec[y])[x-1] == -1){
             player->moveLeft(*this);
             tileClick(*field, playerFieldVec, dead);
         }
         
     } else if (right(*this)){
-        if((*playerFieldVec[player->getPlayerY()])[player->getPlayerX()+1] == -1){
+        if((*playerFieldVec[y])[x+1] == -1){
             player->moveRight(*this);
             tileClick(*field, playerFieldVec, dead);
         }
@@ -165,6 +165,10 @@ void GameWindow::drawArrows(){
         draw_rectangle(TDT4102::Point{600, 650}, 50, 50, TDT4102::Color::gray);
     }
     else if (up(*this)){
+        if((*playerFieldVec[y])[x+1] == -1){
+            player->moveRight(*this);
+            tileClick(*field, playerFieldVec, dead);
+        }
         draw_rectangle(TDT4102::Point{600, 650}, 50, 50, TDT4102::Color::dark_gray);
     }
     if (!down(*this)){
@@ -261,7 +265,7 @@ void GameWindow::openUp(const Field& field, std::vector<std::unique_ptr<std::vec
     
 }
 
-void GameWindow::flagSpace(const Field& field, std::vector<std::unique_ptr<std::vector<int>>>& playerFieldVec){
+/*void GameWindow::flagSpace(const Field& field, std::vector<std::unique_ptr<std::vector<int>>>& playerFieldVec){
     int x = player->getPlayerX();
     int y = player->getPlayerY();
     char direction = player->getDirection();
@@ -299,7 +303,7 @@ void GameWindow::flagSpace(const Field& field, std::vector<std::unique_ptr<std::
         (*playerFieldVec[y+dy])[x+dx] = 0;
         bombCount++;
     }     
-}
+}*/
 
 void GameWindow::flagRightClick(const Field& field, std::vector<std::unique_ptr<std::vector<int>>>& playerFieldVec){
     int x = clickX();
