@@ -1,6 +1,8 @@
 #include "std_lib_facilities.h"
 #include "GameWindow.h"
 #include "mineField.h"
+#include "Timer.h"
+#include "Player.h"
 
 int main() {
     

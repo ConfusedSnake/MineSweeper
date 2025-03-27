@@ -24,10 +24,9 @@ class Player {
     
     Player();
     void movement();
-    
+
     const std::vector<std::unique_ptr<std::vector<int>>>& getPlayer() const {
        return playerPositionVec;
     }
-
-
 };
+std::ostream& operator<<(std::ostream& os, const Player& player);

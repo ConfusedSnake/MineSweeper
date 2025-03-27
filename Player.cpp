@@ -16,7 +16,17 @@ void Player::movement(){
         facingSouth = false;
     }
     else if (key.leftClicked() && facingWest){
-        playerX--;
+        try
+        {
+            (*playerPositionVec[playerY])[playerX] = 0;
+            playerX--;
+            (*playerPositionVec[playerY])[playerX] = 1;
+        }
+        catch(const std::exception& e)
+        {
+            std::cout << "Out of range" << "\n";
+            std::cerr << e.what() << '\n';
+        }
     }
     if (key.rightClicked()){
         facingEast = true;
@@ -25,7 +35,17 @@ void Player::movement(){
         facingSouth = false;
     }
     else if (key.rightClicked() && facingEast){
-        playerX++;
+        try
+        {
+            (*playerPositionVec[playerY])[playerX] = 0;
+            playerX++;
+            (*playerPositionVec[playerY])[playerX] = 1;
+        }
+        catch(const std::exception& e)
+        {
+            std::cout << "Out of range" << "\n";
+            std::cerr << e.what() << '\n';
+        }
     }
     if (key.upClicked()){
         facingNorth = true;
@@ -34,7 +54,17 @@ void Player::movement(){
         facingSouth = false;
     }
     else if (key.upClicked() && facingNorth){
-        playerY--;
+        try
+        {
+            (*playerPositionVec[playerY])[playerX] = 0;
+            playerY--;
+            (*playerPositionVec[playerY])[playerX] = 1;
+        }
+        catch(const std::exception& e)
+        {
+            std::cout << "Out of range" << "\n";
+            std::cerr << e.what() << '\n';
+        }
     }
     if (key.downClicked()){
         facingSouth = true;
@@ -43,7 +73,17 @@ void Player::movement(){
         facingNorth = false;
     }
     else if (key.downClicked() && facingSouth){
-        playerY++;
+        try
+        {
+            (*playerPositionVec[playerY])[playerX] = 0;
+            playerY++;
+            (*playerPositionVec[playerY])[playerX] = 1;
+        }
+        catch(const std::exception& e)
+        {
+            std::cout << "Out of range" << "\n";
+            std::cerr << e.what() << '\n';
+        }
     }
 }
 
