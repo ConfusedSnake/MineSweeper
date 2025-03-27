@@ -53,6 +53,8 @@ class GameWindow : public TDT4102::AnimationWindow
     void callbackButton();
     void resetCallback(int& resetCount);
     void reset();
+
+    void move();
 };
 
 

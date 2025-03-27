@@ -58,19 +58,24 @@ void GameWindow::run() {
             else {
                 draw_text(TDT4102::Point {400, 650}, to_string(static_cast<int>(frozenTimer)) , TDT4102::Color::red, 45);
             }
-        
+
+            if(up(*this) || down(*this) || left(*this) || right(*this)){
+                move();
+            }
+
             if (mouseClickedLeft(*this) && clickX() != -1 && clickY() != -1 && (*playerFieldVec[clickY()])[clickX()] != -1) { 
                 tileClick(*field, playerFieldVec, dead);
             }
 
-            else if (mouseClickedRight(*this) && clickX() != -1 && clickY() != -1){
+            if (mouseClickedRight(*this) && clickX() != -1 && clickY() != -1){
                 flagRightClick(*field, playerFieldVec);
             }
 
-            /*if (spaceBarClicked(*this)){
+            if (spaceBarClicked(*this)){
                 std:cout << "space" << std::endl;
                 //flagSpace(*field, playerFieldVec);
-            }*/
+            }
+
         }
 
         drawArrows();
@@ -127,56 +132,65 @@ void GameWindow::drawPlayer(AnimationWindow& win){
     win.draw_circle(TDT4102::Point{x * cellSize + cellSize/2, y * cellSize + cellSize/2}, 10, TDT4102::Color::black);
 }
 
-void GameWindow::drawArrows(){
-        if (!up(*this)){
-            draw_rectangle(TDT4102::Point{600, 650}, 50, 50, TDT4102::Color::gray);
-        }
-        else if (up(*this)){
-            if((*playerFieldVec[player->getPlayerY()-1])[player->getPlayerX()] == -1){
-                return;
-            }
+void GameWindow::move(){
+    if (up(*this)){
+        if((*playerFieldVec[player->getPlayerY()-1])[player->getPlayerX()] != -1){
             player->moveUp(*this);
             tileClick(*field, playerFieldVec, dead);
-            draw_rectangle(TDT4102::Point{600, 650}, 50, 50, TDT4102::Color::dark_gray);
         }
-        if (!down(*this)){
-            draw_rectangle(TDT4102::Point{600, 702}, 50, 50, TDT4102::Color::gray);
-        }
-        else if (down(*this)){
-            if((*playerFieldVec[player->getPlayerY()+1])[player->getPlayerX()] == -1){
-                return;
-            }
+        
+    } else if (down(*this)){
+        if((*playerFieldVec[player->getPlayerY()+1])[player->getPlayerX()] != -1){
             player->moveDown(*this);
             tileClick(*field, playerFieldVec, dead);
-            draw_rectangle(TDT4102::Point{600, 702}, 50, 50, TDT4102::Color::dark_gray);
         }
-        if (!left(*this)){
-            draw_rectangle(TDT4102::Point{548, 702}, 50, 50, TDT4102::Color::gray);
-        }
-        else if (left(*this)){
-            if((*playerFieldVec[player->getPlayerY()])[player->getPlayerX()-1] == -1){
-                return;
-            }
+        
+    } else if (left(*this)){
+        if((*playerFieldVec[player->getPlayerY()])[player->getPlayerX()-1] == -1){
             player->moveLeft(*this);
             tileClick(*field, playerFieldVec, dead);
-            draw_rectangle(TDT4102::Point{548, 702}, 50, 50, TDT4102::Color::dark_gray);
         }
-        if (!right(*this)){
-            draw_rectangle(TDT4102::Point{652, 702}, 50, 50, TDT4102::Color::gray);
-        }
-        else if (right(*this)){
-            if((*playerFieldVec[player->getPlayerY()])[player->getPlayerX()+1] == -1){
-                return;
-            }
+        
+    } else if (right(*this)){
+        if((*playerFieldVec[player->getPlayerY()])[player->getPlayerX()+1] == -1){
             player->moveRight(*this);
             tileClick(*field, playerFieldVec, dead);
-            draw_rectangle(TDT4102::Point{652, 702}, 50, 50, TDT4102::Color::dark_gray);
         }
-        draw_text(TDT4102::Point {617, 665}, "^" , TDT4102::Color::white, 45);
-        draw_text(TDT4102::Point {555, 710}, "<" , TDT4102::Color::white, 35);
-        draw_text(TDT4102::Point {670, 710}, ">" , TDT4102::Color::white, 35);
-        draw_text(TDT4102::Point {617, 710}, "v" , TDT4102::Color::white, 35);
-        draw_text(TDT4102::Point {200, 650}, to_string(bombCount) , TDT4102::Color::red, 45);
+        
+    }
+}
+
+void GameWindow::drawArrows(){
+    if (!up(*this)){
+        draw_rectangle(TDT4102::Point{600, 650}, 50, 50, TDT4102::Color::gray);
+    }
+    else if (up(*this)){
+        draw_rectangle(TDT4102::Point{600, 650}, 50, 50, TDT4102::Color::dark_gray);
+    }
+    if (!down(*this)){
+        draw_rectangle(TDT4102::Point{600, 702}, 50, 50, TDT4102::Color::gray);
+    }
+    else if (down(*this)){
+        draw_rectangle(TDT4102::Point{600, 702}, 50, 50, TDT4102::Color::dark_gray);
+    }
+    if (!left(*this)){
+        draw_rectangle(TDT4102::Point{548, 702}, 50, 50, TDT4102::Color::gray);
+    }
+    else if (left(*this)){
+        draw_rectangle(TDT4102::Point{548, 702}, 50, 50, TDT4102::Color::dark_gray);
+        
+    }
+    if (!right(*this)){
+        draw_rectangle(TDT4102::Point{652, 702}, 50, 50, TDT4102::Color::gray);
+    }
+    else if (right(*this)){
+        draw_rectangle(TDT4102::Point{652, 702}, 50, 50, TDT4102::Color::dark_gray);
+    }
+    draw_text(TDT4102::Point {617, 665}, "^" , TDT4102::Color::white, 45);
+    draw_text(TDT4102::Point {555, 710}, "<" , TDT4102::Color::white, 35);
+    draw_text(TDT4102::Point {670, 710}, ">" , TDT4102::Color::white, 35);
+    draw_text(TDT4102::Point {617, 710}, "v" , TDT4102::Color::white, 35);
+    draw_text(TDT4102::Point {200, 650}, to_string(bombCount) , TDT4102::Color::red, 45);
 }
 
 
