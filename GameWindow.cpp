@@ -66,6 +66,11 @@ void GameWindow::run() {
             else if (mouseClickedRight(*this) && clickX() != -1 && clickY() != -1){
                 flagRightClick(*field, playerFieldVec);
             }
+
+            /*if (spaceBarClicked(*this)){
+                std:cout << "space" << std::endl;
+                //flagSpace(*field, playerFieldVec);
+            }*/
         }
 
         drawArrows();
@@ -127,6 +132,9 @@ void GameWindow::drawArrows(){
             draw_rectangle(TDT4102::Point{600, 650}, 50, 50, TDT4102::Color::gray);
         }
         else if (up(*this)){
+            if((*playerFieldVec[player->getPlayerY()-1])[player->getPlayerX()] == -1){
+                return;
+            }
             player->moveUp(*this);
             tileClick(*field, playerFieldVec, dead);
             draw_rectangle(TDT4102::Point{600, 650}, 50, 50, TDT4102::Color::dark_gray);
@@ -135,6 +143,9 @@ void GameWindow::drawArrows(){
             draw_rectangle(TDT4102::Point{600, 702}, 50, 50, TDT4102::Color::gray);
         }
         else if (down(*this)){
+            if((*playerFieldVec[player->getPlayerY()+1])[player->getPlayerX()] == -1){
+                return;
+            }
             player->moveDown(*this);
             tileClick(*field, playerFieldVec, dead);
             draw_rectangle(TDT4102::Point{600, 702}, 50, 50, TDT4102::Color::dark_gray);
@@ -143,6 +154,9 @@ void GameWindow::drawArrows(){
             draw_rectangle(TDT4102::Point{548, 702}, 50, 50, TDT4102::Color::gray);
         }
         else if (left(*this)){
+            if((*playerFieldVec[player->getPlayerY()])[player->getPlayerX()-1] == -1){
+                return;
+            }
             player->moveLeft(*this);
             tileClick(*field, playerFieldVec, dead);
             draw_rectangle(TDT4102::Point{548, 702}, 50, 50, TDT4102::Color::dark_gray);
@@ -151,6 +165,9 @@ void GameWindow::drawArrows(){
             draw_rectangle(TDT4102::Point{652, 702}, 50, 50, TDT4102::Color::gray);
         }
         else if (right(*this)){
+            if((*playerFieldVec[player->getPlayerY()])[player->getPlayerX()+1] == -1){
+                return;
+            }
             player->moveRight(*this);
             tileClick(*field, playerFieldVec, dead);
             draw_rectangle(TDT4102::Point{652, 702}, 50, 50, TDT4102::Color::dark_gray);
@@ -230,6 +247,45 @@ void GameWindow::openUp(const Field& field, std::vector<std::unique_ptr<std::vec
     
 }
 
+void GameWindow::flagSpace(const Field& field, std::vector<std::unique_ptr<std::vector<int>>>& playerFieldVec){
+    int x = player->getPlayerX();
+    int y = player->getPlayerY();
+    char direction = player->getDirection();
+    int dx = 0;
+    int dy = 0;
+
+    if (direction == 'L')
+    {
+        dx = -1;
+        if(x == 0){
+            return;
+        }
+    } else if(direction == 'R'){
+        dx = 1;
+        if(x == (W-1)){
+            return;
+        }
+    } else if(direction == 'U'){
+        dy=-1;
+        if(y == 0){
+            return;
+        }
+    } else if(direction == 'D'){
+        dy=+1;
+        if(y == (H-1)){
+            return;
+        }
+    }
+
+    if ((*playerFieldVec[y+dy])[x+dx] == 0){
+        (*playerFieldVec[y+dy])[x+dx] = -1;
+        bombCount--;
+    }
+    else if ((*playerFieldVec[y+dy])[x+dx] == -1){
+        (*playerFieldVec[y+dy])[x+dx] = 0;
+        bombCount++;
+    }     
+}
 
 void GameWindow::flagRightClick(const Field& field, std::vector<std::unique_ptr<std::vector<int>>>& playerFieldVec){
     int x = clickX();
@@ -261,7 +317,7 @@ void GameWindow::reset(){
 
     dead = false;
     bombCount = 70;
-}
+} 
 
 void GameWindow::deathFreeze(){
     bool reset = false;

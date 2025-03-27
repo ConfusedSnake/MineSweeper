@@ -132,3 +132,25 @@ bool mouseClickedRight(TDT4102::AnimationWindow& win) {
 
     return false; 
 }
+
+bool spaceBar(TDT4102::AnimationWindow& win){
+    return win.is_key_down(KeyboardKey::SPACE);
+}
+
+bool spaceBarClicked(TDT4102::AnimationWindow& win) {
+    static bool isButtonPressed = false;
+
+    if (spaceBar(win)) {
+        if (!isButtonPressed) {
+            isButtonPressed = true;  
+            return false;  
+        }
+    } else {
+        if (isButtonPressed) {
+            isButtonPressed = false;  
+            return true; 
+        }
+    }
+
+    return false; 
+}

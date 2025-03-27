@@ -14,10 +14,15 @@ class Player{
     const std::chrono::milliseconds moveDelay = std::chrono::milliseconds(200);
 
     public:
+    
 
     Player();
 
     bool canMove();
+
+    char getDirection(){
+        return playerDirection;
+    }
     
     int getPlayerY(){
         return playerY;

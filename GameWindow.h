@@ -47,6 +47,7 @@ class GameWindow : public TDT4102::AnimationWindow
     void openUp(const Field& field, std::vector<std::unique_ptr<std::vector<int>>>& playerFieldVec, int x, int y);
 
     void flagRightClick(const Field& field, std::vector<std::unique_ptr<std::vector<int>>>& playerFieldVec);
+    void flagSpace(const Field& field, std::vector<std::unique_ptr<std::vector<int>>>& playerFieldVec);
 
     void deathFreeze();
     void callbackButton();
