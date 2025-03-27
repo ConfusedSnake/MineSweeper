@@ -128,6 +128,7 @@ void GameWindow::drawArrows(){
         }
         else if (up(*this)){
             player->moveUp(*this);
+            tileClick(*field, playerFieldVec, dead);
             draw_rectangle(TDT4102::Point{600, 650}, 50, 50, TDT4102::Color::dark_gray);
         }
         if (!down(*this)){
@@ -135,6 +136,7 @@ void GameWindow::drawArrows(){
         }
         else if (down(*this)){
             player->moveDown(*this);
+            tileClick(*field, playerFieldVec, dead);
             draw_rectangle(TDT4102::Point{600, 702}, 50, 50, TDT4102::Color::dark_gray);
         }
         if (!left(*this)){
@@ -142,6 +144,7 @@ void GameWindow::drawArrows(){
         }
         else if (left(*this)){
             player->moveLeft(*this);
+            tileClick(*field, playerFieldVec, dead);
             draw_rectangle(TDT4102::Point{548, 702}, 50, 50, TDT4102::Color::dark_gray);
         }
         if (!right(*this)){
@@ -149,6 +152,7 @@ void GameWindow::drawArrows(){
         }
         else if (right(*this)){
             player->moveRight(*this);
+            tileClick(*field, playerFieldVec, dead);
             draw_rectangle(TDT4102::Point{652, 702}, 50, 50, TDT4102::Color::dark_gray);
         }
         draw_text(TDT4102::Point {617, 665}, "^" , TDT4102::Color::white, 45);
@@ -182,8 +186,8 @@ int GameWindow::clickX(){
 
 
 void GameWindow::tileClick(const Field& field, std::vector<std::unique_ptr<std::vector<int>>>& playerFieldVec, bool& dead){
-    int x = clickX();
-    int y = clickY();
+    int x = player->getPlayerX();
+    int y = player->getPlayerY();
 
     if((*field.getField()[y])[x] == -1){
         dead = true;
@@ -245,7 +249,6 @@ void GameWindow::flagRightClick(const Field& field, std::vector<std::unique_ptr<
 void GameWindow::callbackButton(){
     std::cout << "Reset button pressed\n";
     this->reset();
-    // this->resetTimer();
 }
 
 void GameWindow::reset(){
@@ -257,7 +260,7 @@ void GameWindow::reset(){
     field.reset();
 
     dead = false;
-    bombCount = 99;
+    bombCount = 70;
 }
 
 void GameWindow::deathFreeze(){

@@ -11,7 +11,7 @@ class Player{
     char playerDirection = 'R';
 
     std::chrono::steady_clock::time_point lastMoveTime;
-    const std::chrono::milliseconds moveDelay = std::chrono::milliseconds(200); // 200 ms delay
+    const std::chrono::milliseconds moveDelay = std::chrono::milliseconds(200);
 
     public:
 

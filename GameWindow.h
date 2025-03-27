@@ -21,7 +21,7 @@ class GameWindow : public TDT4102::AnimationWindow
     Timer t;
     std::unique_ptr<Player> player;    
 
-    int bombCount = 99;
+    int bombCount = 70;
     int resetCount = 0;
     bool dead = false;
     double frozenTimer;

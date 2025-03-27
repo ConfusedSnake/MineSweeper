@@ -14,7 +14,7 @@ private:
     int dy = 1;
 
 
-    const int amountBombs = 99;
+    const int amountBombs = 70;
 
     std::vector<std::unique_ptr<std::vector<int>>> fieldVec;
 
