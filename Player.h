@@ -1,12 +1,9 @@
 #pragma once
 #include "std_lib_facilities.h"
-#include "Keybinds.h"
+#include "Input.h"
 
-class Player {
+class Player : public TDT4102::AnimationWindow{
     private:
-
-    Keybinds key;
-
     int W = 30;
     int H = 16;
     int playerX = 0;
@@ -29,4 +26,5 @@ class Player {
        return playerPositionVec;
     }
 };
+
 std::ostream& operator<<(std::ostream& os, const Player& player);

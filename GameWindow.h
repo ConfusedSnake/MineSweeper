@@ -39,20 +39,6 @@ class GameWindow : public TDT4102::AnimationWindow
     void drawPlayer(AnimationWindow& win);
     void drawArrows();
 
-    bool rightClick();
-    bool leftClick();
-    bool mouseClickedLeft();
-    bool mouseClickedRight();
-
-    bool up();
-    bool upClicked();
-    bool down();
-    bool downClicked();
-    bool left();
-    bool leftClicked();
-    bool right();
-    bool rightClicked();
-
     TDT4102::Point coordinates();
     int clickY();
     int clickX();

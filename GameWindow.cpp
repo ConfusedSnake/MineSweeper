@@ -28,8 +28,6 @@ GameWindow::GameWindow(TDT4102::Point position, int width, int height, const std
         images[key] = std::make_shared<TDT4102::Image>(filename);
     }
 
-    //drawGrid(*this, field);
-    //drawPlayerGrid(*this, playerFieldVec);
     resetButton.setCallback(std::bind(&GameWindow::callbackButton, this));
     add(resetButton);
 }
@@ -40,7 +38,7 @@ void GameWindow::run() {
         if(!field){
             drawPlayerGrid(*this, playerFieldVec);
             draw_text(TDT4102::Point {400, 650}, to_string(static_cast<int>(0)) , TDT4102::Color::red, 45);
-            if (mouseClickedLeft() && clickX() != -1 && clickY() != -1) {
+            if (mouseClickedLeft(*this) && clickX() != -1 && clickY() != -1) {
                 field = std::make_unique<Field>(W, H, clickX(), clickY());
                 tileClick(*field, playerFieldVec, dead);
                 drawGrid(*this);
@@ -58,11 +56,11 @@ void GameWindow::run() {
                 draw_text(TDT4102::Point {400, 650}, to_string(static_cast<int>(frozenTimer)) , TDT4102::Color::red, 45);
             }
         
-            if (mouseClickedLeft() && clickX() != -1 && clickY() != -1 && (*playerFieldVec[clickY()])[clickX()] != -1) { 
+            if (mouseClickedLeft(*this) && clickX() != -1 && clickY() != -1 && (*playerFieldVec[clickY()])[clickX()] != -1) { 
                 tileClick(*field, playerFieldVec, dead);
             }
 
-            else if (mouseClickedRight() && clickX() != -1 && clickY() != -1){
+            else if (mouseClickedRight(*this) && clickX() != -1 && clickY() != -1){
                 flagRightClick(*field, playerFieldVec);
             }
         }
@@ -126,28 +124,28 @@ void GameWindow::drawPlayer(AnimationWindow& win){
 }
 
 void GameWindow::drawArrows(){
-        if (!up()){
+        if (!up(*this)){
             draw_rectangle(TDT4102::Point{600, 650}, 50, 50, TDT4102::Color::gray);
         }
-        else if (up()){
+        else if (up(*this)){
             draw_rectangle(TDT4102::Point{600, 650}, 50, 50, TDT4102::Color::dark_gray);
         }
-        if (!down()){
+        if (!down(*this)){
             draw_rectangle(TDT4102::Point{600, 702}, 50, 50, TDT4102::Color::gray);
         }
-        else if (down()){
+        else if (down(*this)){
             draw_rectangle(TDT4102::Point{600, 702}, 50, 50, TDT4102::Color::dark_gray);
         }
-        if (!left()){
+        if (!left(*this)){
             draw_rectangle(TDT4102::Point{548, 702}, 50, 50, TDT4102::Color::gray);
         }
-        else if (left()){
+        else if (left(*this)){
             draw_rectangle(TDT4102::Point{548, 702}, 50, 50, TDT4102::Color::dark_gray);
         }
-        if (!right()){
+        if (!right(*this)){
             draw_rectangle(TDT4102::Point{652, 702}, 50, 50, TDT4102::Color::gray);
         }
-        else if (right()){
+        else if (right(*this)){
             draw_rectangle(TDT4102::Point{652, 702}, 50, 50, TDT4102::Color::dark_gray);
         }
         draw_text(TDT4102::Point {617, 665}, "^" , TDT4102::Color::white, 45);
@@ -157,137 +155,7 @@ void GameWindow::drawArrows(){
         draw_text(TDT4102::Point {200, 650}, to_string(bombCount) , TDT4102::Color::red, 45);
 }
 
-bool GameWindow::leftClick(){
-    return TDT4102::AnimationWindow::is_left_mouse_button_down();
-}
 
-bool GameWindow::rightClick(){
-    return TDT4102::AnimationWindow::is_right_mouse_button_down();
-}
-
-bool GameWindow::mouseClickedLeft() {
-    static bool isButtonPressed = false;
-
-    if (leftClick()) {
-        if (!isButtonPressed) {
-            isButtonPressed = true; 
-            return false; 
-        }
-    } else {
-        if (isButtonPressed) {
-            isButtonPressed = false; 
-            return true;
-        }
-    }
-
-    return false; 
-}
-
-bool GameWindow::mouseClickedRight() {
-    static bool isButtonPressed = false;
-
-    if (rightClick()) {
-        if (!isButtonPressed) {
-            isButtonPressed = true;  
-            return false;  
-        }
-    } else {
-        if (isButtonPressed) {
-            isButtonPressed = false;  
-            return true; 
-        }
-    }
-
-    return false; 
-}
-
-bool GameWindow::up(){
-    return TDT4102::AnimationWindow::is_key_down(KeyboardKey::UP);
-}
-
-bool GameWindow::upClicked() {
-    static bool isButtonPressed = false;
-
-    if (up()) {
-        if (!isButtonPressed) {
-            isButtonPressed = true;  
-            return false;  
-        }
-    } else {
-        if (isButtonPressed) {
-            isButtonPressed = false;  
-            return true; 
-        }
-    }
-
-    return false; 
-}
-
-bool GameWindow::down(){
-    return TDT4102::AnimationWindow::is_key_down(KeyboardKey::DOWN);
-}
-
-bool GameWindow::downClicked() {
-    static bool isButtonPressed = false;
-
-    if (down()) {
-        if (!isButtonPressed) {
-            isButtonPressed = true;  
-            return false;  
-        }
-    } else {
-        if (isButtonPressed) {
-            isButtonPressed = false;  
-            return true; 
-        }
-    }
-
-    return false; 
-}
-
-bool GameWindow::left(){
-    return TDT4102::AnimationWindow::is_key_down(KeyboardKey::LEFT);
-}
-
-bool GameWindow::leftClicked() {
-    static bool isButtonPressed = false;
-
-    if (left()) {
-        if (!isButtonPressed) {
-            isButtonPressed = true;  
-            return false;  
-        }
-    } else {
-        if (isButtonPressed) {
-            isButtonPressed = false;  
-            return true; 
-        }
-    }
-
-    return false; 
-}
-
-bool GameWindow::right(){
-    return TDT4102::AnimationWindow::is_key_down(KeyboardKey::RIGHT);
-}
-
-bool GameWindow::rightClicked() {
-    static bool isButtonPressed = false;
-
-    if (right()) {
-        if (!isButtonPressed) {
-            isButtonPressed = true;  
-            return false;  
-        }
-    } else {
-        if (isButtonPressed) {
-            isButtonPressed = false;  
-            return true; 
-        }
-    }
-
-    return false; 
-}
 
 TDT4102::Point GameWindow::coordinates(){
     return TDT4102::AnimationWindow::get_mouse_coordinates();

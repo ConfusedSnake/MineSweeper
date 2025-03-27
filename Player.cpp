@@ -9,13 +9,13 @@ Player::Player(){
 }
 
 void Player::movement(){
-    if (key.leftClicked()){
+    if (leftClicked(*this)){
         facingWest = true;
         facingEast = false;
         facingNorth = false;
         facingSouth = false;
     }
-    else if (key.leftClicked() && facingWest){
+    else if (leftClicked(*this) && facingWest){
         try
         {
             (*playerPositionVec[playerY])[playerX] = 0;
@@ -28,13 +28,13 @@ void Player::movement(){
             std::cerr << e.what() << '\n';
         }
     }
-    if (key.rightClicked()){
+    if (rightClicked(*this)){
         facingEast = true;
         facingWest = false;
         facingNorth = false;
         facingSouth = false;
     }
-    else if (key.rightClicked() && facingEast){
+    else if (rightClicked(*this) && facingEast){
         try
         {
             (*playerPositionVec[playerY])[playerX] = 0;
@@ -47,13 +47,13 @@ void Player::movement(){
             std::cerr << e.what() << '\n';
         }
     }
-    if (key.upClicked()){
+    if (upClicked(*this)){
         facingNorth = true;
         facingWest = false;
         facingEast = false;
         facingSouth = false;
     }
-    else if (key.upClicked() && facingNorth){
+    else if (upClicked(*this) && facingNorth){
         try
         {
             (*playerPositionVec[playerY])[playerX] = 0;
@@ -66,13 +66,13 @@ void Player::movement(){
             std::cerr << e.what() << '\n';
         }
     }
-    if (key.downClicked()){
+    if (downClicked(*this)){
         facingSouth = true;
         facingWest = false;
         facingEast = false;
         facingNorth = false;
     }
-    else if (key.downClicked() && facingSouth){
+    else if (downClicked(*this) && facingSouth){
         try
         {
             (*playerPositionVec[playerY])[playerX] = 0;

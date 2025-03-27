@@ -30,7 +30,7 @@ exe = executable(
   src,
 'Game.cpp',
 'GameWindow.cpp',
-'Keybinds.cpp',
+'Input.cpp',
 'Player.cpp',
 'Timer.cpp',
 'main.cpp',
