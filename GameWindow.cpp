@@ -2,7 +2,7 @@
 
 GameWindow::GameWindow(TDT4102::Point position, int width, int height, const std::string& title): 
     AnimationWindow{position.x, position.y, width, height, title},
-    resetButton{TDT4102::Point {100, 650}, 100, 30, "Reset"}
+    resetButton{TDT4102::Point {xOffset, yOffset - cellSize}, 100, 30, "Reset"}
 {
     std::map<int, std::string> numPic{
         {-1, "Tall/bomb.png"},
@@ -18,6 +18,18 @@ GameWindow::GameWindow(TDT4102::Point position, int width, int height, const std
         {9, "Tall/flag.png"}
     };
 
+    std::map<std::string, std::string> imageMap {
+        {"backgroundTop", "background3.png"},
+        {"upDark", "arrowKeys/upDark.png"},
+        {"upLight", "arrowKeys/upLight.png"},
+        {"downDark", "arrowKeys/downDark.png"},
+        {"downLight", "arrowKeys/downLight.png"},
+        {"leftDark", "arrowKeys/leftDark.png"},
+        {"leftLight", "arrowKeys/leftLight.png"},
+        {"rightDark", "arrowKeys/rightDark.png"},
+        {"rightLight", "arrowKeys/rightLight.png"}
+    };
+
     playerFieldVec.reserve(H);
     for (int i = 0; i < H; i++) {
         playerFieldVec.push_back(std::make_unique<std::vector<int>>(W, 0));
@@ -25,8 +37,13 @@ GameWindow::GameWindow(TDT4102::Point position, int width, int height, const std
     std:cout << field;
 
     for (const auto& [key, filename] : numPic) {
-        images[key] = std::make_shared<TDT4102::Image>(filename);
+        images[key] = std::make_unique<TDT4102::Image>(filename);
     }
+
+    for (const auto& [key, filename] : imageMap) {
+        pictures[key] = std::make_unique<TDT4102::Image>(filename);
+    }
+
 
     resetButton.setCallback(std::bind(&GameWindow::callbackButton, this));
     add(resetButton);
@@ -35,9 +52,10 @@ GameWindow::GameWindow(TDT4102::Point position, int width, int height, const std
 void GameWindow::run() {
     while (!should_close()) {
 
+        draw_image(TDT4102::Point{0,0}, *pictures.at("backgroundTop"));
         if(!field || !player){
             drawPlayerGrid(*this, playerFieldVec);
-            draw_text(TDT4102::Point {400, 650}, to_string(static_cast<int>(0)) , TDT4102::Color::red, 45);
+            draw_text(TDT4102::Point {720, xOffset-22}, to_string(static_cast<int>(0)) , TDT4102::Color::red, 45, Font::courier_bold);
             if ((mouseClickedLeft(*this) && clickX() != -1 && clickY() != -1)||(up(*this) || down(*this) || left(*this) || right(*this))) {
                 field = std::make_unique<Field>(W, H, 0, 0);
                 player = std::make_unique<Player>();
@@ -53,11 +71,15 @@ void GameWindow::run() {
             if (!dead){
                 drawPlayerGrid(*this, playerFieldVec);
                 drawPlayer(*this);
-                draw_text(TDT4102::Point {400, 650}, to_string(static_cast<int>(t.stop())) , TDT4102::Color::red, 45);
+                draw_text(TDT4102::Point {720, xOffset-22}, to_string(static_cast<int>(t.stop())) , TDT4102::Color::red, 45, Font::courier_bold);
                 frozenTimer = t.stop();
+
+                if(!spaceBar(*this)){
+                    move();
+                }
             }
             else {
-                draw_text(TDT4102::Point {400, 650}, to_string(static_cast<int>(frozenTimer)) , TDT4102::Color::red, 45);
+                draw_text(TDT4102::Point {720, xOffset-22}, to_string(static_cast<int>(frozenTimer)) , TDT4102::Color::red, 45, Font::courier_bold);
             }
 
             if (mouseClickedLeft(*this) && clickX() != -1 && clickY() != -1 && (*playerFieldVec[clickY()])[clickX()] != -1) { 
@@ -72,15 +94,17 @@ void GameWindow::run() {
                 flagSpaceMode();
             }
 
+            if (keyRClicked(*this)){
+                reset();
+            }
+
             /*if (spaceBarClicked(*this)){
                 flagSpace(*field, playerFieldVec);
             }*/
         }
         
-        if(!spaceBar(*this)){
-            move();
-        }
-        drawArrows();
+        
+        drawArrows(*this);
         draw_text(TDT4102::Point {200, 650}, to_string(bombCount) , TDT4102::Color::red, 45);
         next_frame();
     }
@@ -107,8 +131,8 @@ void GameWindow::drawGrid(AnimationWindow& win) {
                 color = TDT4102::Color::grey;
             }
 
-            win.draw_rectangle(TDT4102::Point{x * cellSize, y * cellSize}, cellSize-2, cellSize-2, color);
-            win.draw_image(TDT4102::Point{x * cellSize, y * cellSize}, *imagePtr);
+            win.draw_rectangle(TDT4102::Point{x * cellSize + xOffset, y * cellSize + yOffset}, cellSize-2, cellSize-2, color);
+            win.draw_image(TDT4102::Point{x * cellSize + xOffset, y * cellSize + yOffset}, *imagePtr);
             //win.draw_text(TDT4102::Point {200, 650}, to_string(bombCount) , TDT4102::Color::red, 40);
         }
     }
@@ -118,11 +142,11 @@ void GameWindow::drawPlayerGrid(AnimationWindow& win, const std::vector<std::uni
     for (int y = 0; y < H; y++) {
         for (int x = 0; x < W; x++) {
             if ((*playerFieldVec[y])[x] == 0) {
-                win.draw_rectangle(TDT4102::Point{x * cellSize, y * cellSize}, cellSize - 2, cellSize - 2, TDT4102::Color::grey);
+                win.draw_rectangle(TDT4102::Point{x * cellSize + xOffset, y * cellSize + yOffset}, cellSize - 2, cellSize - 2, TDT4102::Color::grey);
             }
             else if ((*playerFieldVec[y])[x] == -1){
-                win.draw_rectangle(TDT4102::Point{x * cellSize, y * cellSize}, cellSize - 2, cellSize - 2, TDT4102::Color::grey);
-                win.draw_image(TDT4102::Point{x * cellSize, y * cellSize}, *images.at(9));
+                win.draw_rectangle(TDT4102::Point{x * cellSize + xOffset, y * cellSize + yOffset}, cellSize - 2, cellSize - 2, TDT4102::Color::grey);
+                win.draw_image(TDT4102::Point{x * cellSize + xOffset, y * cellSize + yOffset}, *images.at(9));
             }
         }
     }
@@ -132,7 +156,7 @@ void GameWindow::drawPlayer(AnimationWindow& win){
     int x = player->getPlayerX();
     int y = player->getPlayerY();
 
-    win.draw_circle(TDT4102::Point{x * cellSize + cellSize/2, y * cellSize + cellSize/2}, 10, TDT4102::Color::black);
+    win.draw_circle(TDT4102::Point{x * cellSize + cellSize/2 + xOffset, y * cellSize + cellSize/2 + yOffset}, 10, TDT4102::Color::black);
 }
 
 
@@ -165,36 +189,35 @@ void GameWindow::move(){
     }
 }
 
-void GameWindow::drawArrows(){
+void GameWindow::drawArrows(AnimationWindow& win){
     if (!up(*this)){
-        draw_rectangle(TDT4102::Point{600, 650}, 50, 50, TDT4102::Color::gray);
+        win.draw_image(TDT4102::Point{1440 - xOffset - 2* cellSize - 2, xOffset - 20}, *pictures.at("upLight"));
     }
     else if (up(*this)){
-        draw_rectangle(TDT4102::Point{600, 650}, 50, 50, TDT4102::Color::dark_gray);
+        win.draw_image(TDT4102::Point{1440 - xOffset - 2* cellSize - 2, xOffset - 20}, *pictures.at("upDark"));
     }
     if (!down(*this)){
-        draw_rectangle(TDT4102::Point{600, 702}, 50, 50, TDT4102::Color::gray);
+        win.draw_image(TDT4102::Point{1440 - xOffset - 2* cellSize - 2, xOffset + cellSize - 18}, *pictures.at("downLight"));
     }
     else if (down(*this)){
-        draw_rectangle(TDT4102::Point{600, 702}, 50, 50, TDT4102::Color::dark_gray);
+        win.draw_image(TDT4102::Point{1440 - xOffset - 2* cellSize - 2, xOffset + cellSize - 18}, *pictures.at("downDark"));
     }
     if (!left(*this)){
-        draw_rectangle(TDT4102::Point{548, 702}, 50, 50, TDT4102::Color::gray);
+        win.draw_image(TDT4102::Point{1440 - xOffset - 3* cellSize - 4, xOffset + cellSize - 18}, *pictures.at("leftLight"));
     }
     else if (left(*this)){
-        draw_rectangle(TDT4102::Point{548, 702}, 50, 50, TDT4102::Color::dark_gray);
-        
+        win.draw_image(TDT4102::Point{1440 - xOffset - 3* cellSize - 4, xOffset + cellSize - 18}, *pictures.at("leftDark")); 
     }
     if (!right(*this)){
-        draw_rectangle(TDT4102::Point{652, 702}, 50, 50, TDT4102::Color::gray);
+        win.draw_image(TDT4102::Point{1440 - xOffset - cellSize, xOffset + cellSize - 18}, *pictures.at("rightLight"));
     }
     else if (right(*this)){
-        draw_rectangle(TDT4102::Point{652, 702}, 50, 50, TDT4102::Color::dark_gray);
+        win.draw_image(TDT4102::Point{1440 - xOffset - cellSize, xOffset + cellSize - 18}, *pictures.at("rightDark"));
     }
-    draw_text(TDT4102::Point {617, 665}, "^" , TDT4102::Color::white, 45);
-    draw_text(TDT4102::Point {555, 710}, "<" , TDT4102::Color::white, 35);
-    draw_text(TDT4102::Point {670, 710}, ">" , TDT4102::Color::white, 35);
-    draw_text(TDT4102::Point {617, 710}, "v" , TDT4102::Color::white, 35);
+    // win.draw_image(TDT4102::Point{1440 - xOffset - 2* cellSize - 2, xOffset - 20}, UPIMAGE);
+    // win.draw_image(TDT4102::Point{1440 - xOffset - 2* cellSize - 2, xOffset + cellSize - 18}, DOWNIMAGE);
+    // win.draw_image(TDT4102::Point{1440 - xOffset - 3* cellSize - 4, xOffset + cellSize - 18}, LEFTIMAGE);
+    // win.draw_image(TDT4102::Point{1440 - xOffset - cellSize, xOffset + cellSize - 18}, RIGHTIMAGE);
     draw_text(TDT4102::Point {200, 650}, to_string(bombCount) , TDT4102::Color::red, 45);
 }
 
@@ -206,7 +229,7 @@ TDT4102::Point GameWindow::coordinates(){
 
 int GameWindow::clickY(){
     int yIndex = coordinates().y / cellSize;
-    if (coordinates().y < cellSize * H){
+    if (coordinates().y < cellSize * H + yOffset && coordinates().y > yOffset){
         return yIndex;
     }
     return -1;
@@ -214,7 +237,7 @@ int GameWindow::clickY(){
 
 int GameWindow::clickX(){
     int xIndex = coordinates().x / cellSize;
-    if (coordinates().x < cellSize * W){
+    if (coordinates().x < cellSize * W + xOffset && coordinates().x > xOffset){
         return xIndex;
     }
     return -1;
@@ -406,15 +429,34 @@ void GameWindow::reset(){
 
     dead = false;
     bombCount = 70;
-} 
-
-void GameWindow::deathFreeze(){
-    bool reset = false;
-    while (!reset){
-        if (true){
-            reset = true;
-
-        }
-    }
 }
 
+void GameWindow::saveGame(){
+    std::filesystem::path fileName{"myFile.txt"};
+    std::ofstream outputStream{fileName};
+    std::string line;
+
+    outputStream << to_string(player->getPlayerX()) << " " << to_string(player->getPlayerY()) << std::endl;
+    outputStream << to_string(static_cast<int>(frozenTimer)) << std::endl;
+    outputStream << to_string(bombCount) << std::endl;
+
+    outputStream << to_string(W) << std::endl;
+    outputStream << to_string(H) << std::endl;
+    for (int y = 0; y < H; y++){
+        line = "";
+        for (int x = 0; x < W; x++){
+            line += to_string((*field->getField()[y])[x]) + " ";
+        }
+        outputStream << line << endl;
+    }
+    outputStream << to_string(W) << std::endl;
+    outputStream << to_string(H) << std::endl;
+
+    for (int y = 0; y < H; y++){
+        line = "";
+        for (int x = 0; x < W; x++){
+            line += to_string((*playerFieldVec[y])[x]) + " ";
+        }
+        outputStream << line << endl;
+    }
+}
