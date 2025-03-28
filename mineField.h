@@ -6,9 +6,13 @@
 
 class Field {
 private:
-    const int fieldW = 30;
-    const int fieldH = 16;
-    const int amountBombs = 99;
+    const int fieldW;
+    const int fieldH;
+    int x;
+    int y;
+    int dx = 1;
+    int dy = 1;
+    const int amountBombs = 70;
 
     std::vector<std::unique_ptr<std::vector<int>>> fieldVec;
 
@@ -29,9 +33,11 @@ public:
         return amountBombs;
     }
 
-    void plantBombs(std::vector<std::unique_ptr<std::vector<int>>>& fieldVec);
+    void plantBombs();
 
-    Field();
+    Field(const int fieldW, const int fieldH, int x, int y);
+
+    void resetVec();
 };
 
 std::ostream& operator<<(std::ostream& os, const Field& field);

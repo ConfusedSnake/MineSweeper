@@ -28,7 +28,11 @@ src = []
 exe = executable(
   'program',
   src,
+'Game.cpp',
 'GameWindow.cpp',
+'Input.cpp',
+'Player.cpp',
+'Timer.cpp',
 'main.cpp',
 'mineField.cpp',
   dependencies : [animationwindow_dep, sdl2_dep, std_lib_facilities_dep],

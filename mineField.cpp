@@ -1,37 +1,54 @@
 #include "mineField.h"
 #include <iostream>
 
-Field::Field() {
+Field::Field(const int fieldW, const int fieldH, int x, int y) : fieldW(fieldW), fieldH(fieldH), x(x), y(y) {
     fieldVec.reserve(fieldH);
 
     for (int i = 0; i < fieldH; i++) {
         fieldVec.push_back(std::make_unique<std::vector<int>>(fieldW, 0));
     }
+    plantBombs();
 
-    plantBombs(fieldVec);
+
+    dx = (x > 0 && x < fieldW - 1) ? 1 : 0;
+    dy = (y > 0 && y < fieldH - 1) ? 1 : 0;
 }
 
-void Field::plantBombs(std::vector<std::unique_ptr<std::vector<int>>>& fieldVec){
+void Field::plantBombs(){
     std::random_device rd;
     std::default_random_engine generator(rd());
     std::uniform_int_distribution<int> distributionH(0, fieldH - 1);
     std::uniform_int_distribution<int> distributionW(0, fieldW - 1);
 
+    int indexH = distributionH(generator);
+    int indexW = distributionW(generator);
+
     for (int i = 0; i < amountBombs; i++) {
-        int indexH = distributionH(generator);
-        int indexW = distributionW(generator);
+        
+        do{
+            indexH = distributionH(generator);
+            indexW = distributionW(generator);
+        } while(
+            indexW >= (x-dx) && indexW <= (x+dx) &&
+            indexH >= (y-dy) && indexH <= (y+dy)
+        );
 
         while (1){
             if (((*fieldVec[indexH])[indexW] != -1)){
                 break;
             } else {
-                indexH = distributionH(generator);
-                indexW = distributionW(generator);
+                do{
+                    indexH = distributionH(generator);
+                    indexW = distributionW(generator);
+                } while(
+                    indexW >= (x-dx) && indexW <= (x+dx) &&
+                    indexH >= (y-dy) && indexH <= (y+dy)
+        );
             }
         }
 
-        for (int dh = -1; dh <= 1; ++dh) {  //rad
-            for (int dw = -1; dw <= 1; ++dw) {  //kolonne
+        for (int dh = -1; dh <= 1; ++dh) {
+            for (int dw = -1; dw <= 1; ++dw) {
                 if (dh == 0 && dw == 0){
                     (*fieldVec[indexH])[indexW] = -1;
                     continue;
@@ -48,6 +65,16 @@ void Field::plantBombs(std::vector<std::unique_ptr<std::vector<int>>>& fieldVec)
             }
         } 
     }
+}
+
+void Field::resetVec(){
+    fieldVec.clear();
+    fieldVec.reserve(fieldH);
+
+    for (int i = 0; i < fieldH; i++) {
+        fieldVec.push_back(std::make_unique<std::vector<int>>(fieldW, 0));
+    }
+    plantBombs();
 }
 
 
