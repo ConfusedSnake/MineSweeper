@@ -55,6 +55,7 @@ class GameWindow : public TDT4102::AnimationWindow
     void reset();
 
     void move();
+    void flagSpaceMode();
 };
 
 
