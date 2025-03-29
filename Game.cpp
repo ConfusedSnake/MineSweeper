@@ -1,4 +1,3 @@
-#pragma once
 #include "std_lib_facilities.h"
 #include "GameWindow.h"
 #include "mineField.h"

@@ -37,7 +37,7 @@ public:
 
     Field(const int fieldW, const int fieldH, int x, int y);
 
-    void resetVec();
+    void changeFieldVec(int y, int x, int value);
 };
 
 std::ostream& operator<<(std::ostream& os, const Field& field);

@@ -50,6 +50,7 @@ GameWindow::GameWindow(TDT4102::Point position, int width, int height, const std
 }
 
 void GameWindow::run() {
+    // loadGame();
     while (!should_close()) {
 
         draw_image(TDT4102::Point{0,0}, *pictures.at("backgroundTop"));
@@ -458,5 +459,59 @@ void GameWindow::saveGame(){
             line += to_string((*playerFieldVec[y])[x]) + " ";
         }
         outputStream << line << endl;
+    }
+}
+
+void GameWindow::loadGame(){
+    std::filesystem::path fileName{"myFile.txt"};
+    std::ifstream inputStream{fileName};
+
+    std::string nextWord;
+    std::string line;
+
+    if (!inputStream) {
+        std::cout << "Could not open file" << std::endl;
+    }
+    else {
+        inputStream >> nextWord;
+        player->changePlayerX(std::stoi(nextWord));
+        inputStream >> nextWord;
+        player->changePlayerY(std::stoi(nextWord));
+        inputStream >> nextWord;
+        frozenTimer = std::stoi(nextWord);
+        inputStream >> nextWord;
+        bombCount = std::stoi(nextWord);
+
+        inputStream >> nextWord;
+        int x = std::stoi(nextWord);
+        inputStream >> nextWord;
+        int y = std::stoi(nextWord);
+
+        std::unique_ptr<std::vector<int>> ptr = std::make_unique<std::vector<int>>(H);
+        field.reset();
+        playerFieldVec.clear();
+        playerFieldVec.reserve(H);
+
+        
+        for (int n = 0; n < y; n++){
+            for (int i = 0; i < x; i++){
+                inputStream >> nextWord;
+                field->changeFieldVec(n, i, std::stoi(nextWord));
+            }
+        }
+
+        inputStream >> nextWord;
+        x = std::stoi(nextWord);
+        inputStream >> nextWord;
+        y = std::stoi(nextWord);
+
+        for (int n = 0; n < y; n++){
+            ptr = std::make_unique<std::vector<int>>(H);
+            for (int i = 0; i < x; i++){
+                inputStream >> nextWord;
+                ptr->push_back(std::stoi(nextWord));
+            }
+            playerFieldVec.push_back(std::move(ptr));
+        }
     }
 }

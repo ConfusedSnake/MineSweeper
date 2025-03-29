@@ -31,6 +31,14 @@ class Player{
         return playerX;
     }
 
+    void changePlayerY(int positionY){
+        playerY = positionY;
+    }
+
+    void changePlayerX(int positionX){
+        playerX = positionX;
+    }
+
     void changeDirection(char direc){
         playerDirection = direc;
     }

@@ -22,7 +22,8 @@ class GameWindow : public TDT4102::AnimationWindow
 
     std::unique_ptr<Field> field;
     Timer t;
-    std::unique_ptr<Player> player;    
+    std::unique_ptr<Player> player;   
+    std::vector<std::unique_ptr<std::vector<int>>> playerFieldVec; 
 
     int bombCount = 70;
     bool dead = false;
@@ -30,7 +31,7 @@ class GameWindow : public TDT4102::AnimationWindow
     
     public:
 
-    std::vector<std::unique_ptr<std::vector<int>>> playerFieldVec;
+    
     TDT4102::Color color = TDT4102::Color::grey;
     std::map<int, std::unique_ptr<TDT4102::Image>> images;
     std::map<std::string, std::unique_ptr<TDT4102::Image>> pictures;
@@ -61,6 +62,7 @@ class GameWindow : public TDT4102::AnimationWindow
     void flagSpaceMode();
 
     void saveGame();
+    void loadGame();
 };
 
 
