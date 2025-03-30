@@ -34,7 +34,6 @@ GameWindow::GameWindow(TDT4102::Point position, int width, int height, const std
     for (int i = 0; i < H; i++) {
         playerFieldVec.push_back(std::make_unique<std::vector<int>>(W, 0));
     }
-    std:cout << field;
 
     for (const auto& [key, filename] : numPic) {
         images[key] = std::make_unique<TDT4102::Image>(filename);
@@ -44,31 +43,43 @@ GameWindow::GameWindow(TDT4102::Point position, int width, int height, const std
         pictures[key] = std::make_unique<TDT4102::Image>(filename);
     }
 
-
     resetButton.setCallback(std::bind(&GameWindow::callbackButton, this));
     add(resetButton);
 }
 
 void GameWindow::run() {
-    // loadGame();
+    std::filesystem::path fileName{"myFile.txt"};
+    std::ifstream inputStream{fileName};
+
     while (!should_close()) {
 
         draw_image(TDT4102::Point{0,0}, *pictures.at("backgroundTop"));
+
+        // ==================== Before first click ==================== //
         if(!field || !player){
             drawPlayerGrid(*this, playerFieldVec);
             draw_text(TDT4102::Point {720, xOffset-22}, to_string(static_cast<int>(0)) , TDT4102::Color::red, 45, Font::courier_bold);
             if ((mouseClickedLeft(*this) && clickX() != -1 && clickY() != -1)||(up(*this) || down(*this) || left(*this) || right(*this))) {
-                field = std::make_unique<Field>(W, H, 0, 0);
-                player = std::make_unique<Player>();
-
-                tileClick(*field, playerFieldVec, dead);
+                
+                try{ 
+                    loadGame();
+                } catch(const exception& e) {
+                    std::cout << e.what() << std::endl;
+                    field = std::make_unique<Field>(W, H, 0, 0, false);
+                    player = std::make_unique<Player>();
+                    tileClick(*field, playerFieldVec, dead);
+                } 
+                
                 drawGrid(*this);
                 drawPlayerGrid(*this, playerFieldVec);
                 drawPlayer(*this);
                 t.start();
             }
+        
+        // ==================== After first click ==================== //
         } else {
             drawGrid(*this);
+
             if (!dead){
                 drawPlayerGrid(*this, playerFieldVec);
                 drawPlayer(*this);
@@ -83,6 +94,7 @@ void GameWindow::run() {
                 draw_text(TDT4102::Point {720, xOffset-22}, to_string(static_cast<int>(frozenTimer)) , TDT4102::Color::red, 45, Font::courier_bold);
             }
 
+            // ==================== Input while playing ==================== //
             if (mouseClickedLeft(*this) && clickX() != -1 && clickY() != -1 && (*playerFieldVec[clickY()])[clickX()] != -1) { 
                 tileClick(*field, playerFieldVec, dead);
             }
@@ -98,19 +110,13 @@ void GameWindow::run() {
             if (keyRClicked(*this)){
                 reset();
             }
-
-            /*if (spaceBarClicked(*this)){
-                flagSpace(*field, playerFieldVec);
-            }*/
         }
-        
         
         drawArrows(*this);
         draw_text(TDT4102::Point {200, 650}, to_string(bombCount) , TDT4102::Color::red, 45);
         next_frame();
     }
 }
-
 
 void GameWindow::drawGrid(AnimationWindow& win) {
     if (!field) return;
@@ -421,6 +427,15 @@ void GameWindow::callbackButton(){
 }
 
 void GameWindow::reset(){
+
+    std::ofstream file("myFile.txt", std::ios::trunc);
+    if (file.is_open()) {
+        std::cout << "Filen ble clearet!\n";
+        file.close(); // Lukk filen
+    } else {
+        std::cerr << "Kunne ikke åpne filen.\n";
+    }
+
     playerFieldVec.clear();
     playerFieldVec.reserve(H);
     for (int i = 0; i < H; i++) {
@@ -463,9 +478,11 @@ void GameWindow::saveGame(){
 }
 
 void GameWindow::loadGame(){
+    std::cout << "Loading..." << std::endl;
     std::filesystem::path fileName{"myFile.txt"};
+    std::cout << "Path complete" << std::endl;
     std::ifstream inputStream{fileName};
-
+    std::cout << "Inputstream open" << std::endl;
     std::string nextWord;
     std::string line;
 
@@ -473,26 +490,38 @@ void GameWindow::loadGame(){
         std::cout << "Could not open file" << std::endl;
     }
     else {
+        
+        player = std::make_unique<Player>();
         inputStream >> nextWord;
         player->changePlayerX(std::stoi(nextWord));
+        std::cout << player->getPlayerX() << std::endl;
+
         inputStream >> nextWord;
         player->changePlayerY(std::stoi(nextWord));
+        std::cout << player->getPlayerY() << std::endl;
+
         inputStream >> nextWord;
         frozenTimer = std::stoi(nextWord);
+        std::cout << frozenTimer << std::endl;
+
         inputStream >> nextWord;
         bombCount = std::stoi(nextWord);
+        std::cout << bombCount << std::endl;
 
         inputStream >> nextWord;
         int x = std::stoi(nextWord);
+        std::cout << x << std::endl;
+
         inputStream >> nextWord;
         int y = std::stoi(nextWord);
+        std::cout << y << std::endl;
 
-        std::unique_ptr<std::vector<int>> ptr = std::make_unique<std::vector<int>>(H);
-        field.reset();
-        playerFieldVec.clear();
-        playerFieldVec.reserve(H);
+        //std::unique_ptr<std::vector<int>> ptr = std::make_unique<std::vector<int>>(H);
+        //field.reset();
+        //playerFieldVec.clear();
+        //playerFieldVec.reserve(H);
 
-        
+        field = std::make_unique<Field>(x,y,0,0,true);
         for (int n = 0; n < y; n++){
             for (int i = 0; i < x; i++){
                 inputStream >> nextWord;
@@ -500,18 +529,23 @@ void GameWindow::loadGame(){
             }
         }
 
+        std::cout << *field << std::endl;
+
         inputStream >> nextWord;
         x = std::stoi(nextWord);
+        std::cout << x << std::endl;
+
         inputStream >> nextWord;
         y = std::stoi(nextWord);
+        std::cout << y << std::endl;
 
         for (int n = 0; n < y; n++){
-            ptr = std::make_unique<std::vector<int>>(H);
             for (int i = 0; i < x; i++){
                 inputStream >> nextWord;
-                ptr->push_back(std::stoi(nextWord));
+                playerFieldVec.at(n)->at(i) = std::stoi(nextWord);
+                //ptr->push_back(std::stoi(nextWord));
             }
-            playerFieldVec.push_back(std::move(ptr));
+            //playerFieldVec.push_back(std::move(ptr));
         }
     }
 }

@@ -23,13 +23,14 @@ class GameWindow : public TDT4102::AnimationWindow
     std::unique_ptr<Field> field;
     Timer t;
     std::unique_ptr<Player> player;   
+    //std::unique_ptr<std::vector<std::unique_ptr<std::vector<int>>>> playerFieldVec;
     std::vector<std::unique_ptr<std::vector<int>>> playerFieldVec; 
 
     int bombCount = 70;
-    bool dead = false;
     double frozenTimer;
     
     public:
+    bool dead = false;
 
     
     TDT4102::Color color = TDT4102::Color::grey;
@@ -38,6 +39,7 @@ class GameWindow : public TDT4102::AnimationWindow
 
     GameWindow(TDT4102::Point position, int width, int height, const std::string& title);
     void run();
+    void runSaved();
 
     void drawGrid(AnimationWindow& win);
     void drawPlayerGrid(AnimationWindow& win, const std::vector<std::unique_ptr<std::vector<int>>>& playerFieldVec);

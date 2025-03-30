@@ -35,7 +35,7 @@ public:
 
     void plantBombs();
 
-    Field(const int fieldW, const int fieldH, int x, int y);
+    Field(const int fieldW, const int fieldH, int x, int y, bool load);
 
     void changeFieldVec(int y, int x, int value);
 };
