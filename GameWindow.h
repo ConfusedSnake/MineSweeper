@@ -28,6 +28,7 @@ class GameWindow : public TDT4102::AnimationWindow
 
     int bombCount = 70;
     double frozenTimer;
+    int savedTimer = 0;
     
     public:
     bool dead = false;

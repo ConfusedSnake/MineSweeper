@@ -83,15 +83,26 @@ void GameWindow::run() {
             if (!dead){
                 drawPlayerGrid(*this, playerFieldVec);
                 drawPlayer(*this);
-                draw_text(TDT4102::Point {720, xOffset-22}, to_string(static_cast<int>(t.stop())) , TDT4102::Color::red, 45, Font::courier_bold);
                 frozenTimer = t.stop();
 
                 if(!spaceBar(*this)){
                     move();
                 }
+                
+                draw_text(TDT4102::Point {720, xOffset-22}, to_string(static_cast<int>(frozenTimer + savedTimer)) , TDT4102::Color::red, 45, Font::courier_bold);
+
+                // if (!std::filesystem::is_empty("myFile.txt")){
+                //     std::ofstream file("myFile.txt", std::ios::trunc);
+                // }
+                // else{
+                //     draw_text(TDT4102::Point {720, xOffset-22}, to_string(static_cast<int>(t.stop())) , TDT4102::Color::red, 45, Font::courier_bold);
+                // }
             }
             else {
-                draw_text(TDT4102::Point {720, xOffset-22}, to_string(static_cast<int>(frozenTimer)) , TDT4102::Color::red, 45, Font::courier_bold);
+                draw_text(TDT4102::Point {720, xOffset-22}, to_string(static_cast<int>(frozenTimer + savedTimer)) , TDT4102::Color::red, 45, Font::courier_bold);
+                if (!std::filesystem::is_empty("myFile.txt")){
+                    std::ofstream file("myFile.txt", std::ios::trunc);
+                }
             }
 
             // ==================== Input while playing ==================== //
@@ -445,6 +456,7 @@ void GameWindow::reset(){
 
     dead = false;
     bombCount = 70;
+    savedTimer = 0;
 }
 
 void GameWindow::saveGame(){
@@ -453,7 +465,7 @@ void GameWindow::saveGame(){
     std::string line;
 
     outputStream << to_string(player->getPlayerX()) << " " << to_string(player->getPlayerY()) << std::endl;
-    outputStream << to_string(static_cast<int>(frozenTimer)) << std::endl;
+    outputStream << to_string(static_cast<int>(frozenTimer) + savedTimer) << std::endl;
     outputStream << to_string(bombCount) << std::endl;
 
     outputStream << to_string(W) << std::endl;
@@ -501,8 +513,8 @@ void GameWindow::loadGame(){
         std::cout << player->getPlayerY() << std::endl;
 
         inputStream >> nextWord;
-        frozenTimer = std::stoi(nextWord);
-        std::cout << frozenTimer << std::endl;
+        savedTimer = std::stoi(nextWord);
+        std::cout << savedTimer << std::endl;
 
         inputStream >> nextWord;
         bombCount = std::stoi(nextWord);
