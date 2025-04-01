@@ -14,10 +14,10 @@ class GameWindow : public TDT4102::AnimationWindow
     const int W = 31;
     const int H = 16;
 
-    const int xOffset = 45;
+    const int xOffset =90;
     const int yOffset = 140;
 
-    static constexpr int cellSize = 45;
+    static constexpr int cellSize = 90;
     TDT4102::Button resetButton;
 
     std::unique_ptr<Field> field;

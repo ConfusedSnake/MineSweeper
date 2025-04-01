@@ -34,6 +34,7 @@ exe = executable(
 'Player.cpp',
 'Timer.cpp',
 'main.cpp',
+'menu.cpp',
 'mineField.cpp',
   dependencies : [animationwindow_dep, sdl2_dep, std_lib_facilities_dep],
   cpp_args : compiler_flags
