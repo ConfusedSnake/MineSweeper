@@ -17,6 +17,9 @@ class GameWindow : public TDT4102::AnimationWindow
     const int xOffset =90;
     const int yOffset = 140;
 
+    const int viewXdirec = 8;
+    const int viewYdirec = 4;
+
     static constexpr int cellSize = 90;
     TDT4102::Button resetButton;
 
@@ -26,7 +29,7 @@ class GameWindow : public TDT4102::AnimationWindow
     //std::unique_ptr<std::vector<std::unique_ptr<std::vector<int>>>> playerFieldVec;
     std::vector<std::unique_ptr<std::vector<int>>> playerFieldVec; 
 
-    int bombCount = 70;
+    int bombCount = 99;
     double frozenTimer;
     
     public:
@@ -45,6 +48,7 @@ class GameWindow : public TDT4102::AnimationWindow
     void drawPlayerGrid(AnimationWindow& win, const std::vector<std::unique_ptr<std::vector<int>>>& playerFieldVec);
     void drawPlayer(AnimationWindow& win);
     void drawArrows(AnimationWindow& win);
+    void drawGame(bool field, bool playerField, bool player, AnimationWindow& win);
 
     TDT4102::Point coordinates();
     int clickY();
