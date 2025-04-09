@@ -108,7 +108,7 @@ void GameWindow::run() {
 
 
             if (!dead){
-                drawGame(false, true, true, *this);
+                drawGame(false, false, true, *this);
                 frozenTimer = t.stop();
                 draw_text(TDT4102::Point {720, xOffset-22}, to_string(static_cast<int>(frozenTimer + savedTimer)) , TDT4102::Color::red, 45, Font::courier_bold);
 
@@ -317,28 +317,28 @@ void GameWindow::move(){
 
 void GameWindow::drawArrows(AnimationWindow& win){
     if (!up(*this)){
-        win.draw_image(TDT4102::Point{1440 - xOffset - 2* cellSize - 2, xOffset - 20}, *pictures.at("upLight"));
+        win.draw_image(TDT4102::Point{1440 - xOffset - 2* arrowSize - 2, 20}, *pictures.at("upLight"));
     }
     else if (up(*this)){
-        win.draw_image(TDT4102::Point{1440 - xOffset - 2* cellSize - 2, xOffset - 20}, *pictures.at("upDark"));
+        win.draw_image(TDT4102::Point{1440 - xOffset - 2* arrowSize - 2, 20}, *pictures.at("upDark"));
     }
     if (!down(*this)){
-        win.draw_image(TDT4102::Point{1440 - xOffset - 2* cellSize - 2, xOffset + cellSize - 18}, *pictures.at("downLight"));
+        win.draw_image(TDT4102::Point{1440 - xOffset - 2* arrowSize - 2, 22 + arrowSize }, *pictures.at("downLight"));
     }
     else if (down(*this)){
-        win.draw_image(TDT4102::Point{1440 - xOffset - 2* cellSize - 2, xOffset + cellSize - 18}, *pictures.at("downDark"));
+        win.draw_image(TDT4102::Point{1440 - xOffset - 2* arrowSize - 2, 22 + arrowSize}, *pictures.at("downDark"));
     }
     if (!left(*this)){
-        win.draw_image(TDT4102::Point{1440 - xOffset - 3* cellSize - 4, xOffset + cellSize - 18}, *pictures.at("leftLight"));
+        win.draw_image(TDT4102::Point{1440 - xOffset - 3* arrowSize - 4, 22 + arrowSize}, *pictures.at("leftLight"));
     }
     else if (left(*this)){
-        win.draw_image(TDT4102::Point{1440 - xOffset - 3* cellSize - 4, xOffset + cellSize - 18}, *pictures.at("leftDark")); 
+        win.draw_image(TDT4102::Point{1440 - xOffset - 3* arrowSize - 4, 22 + arrowSize}, *pictures.at("leftDark")); 
     }
     if (!right(*this)){
-        win.draw_image(TDT4102::Point{1440 - xOffset - cellSize, xOffset + cellSize - 18}, *pictures.at("rightLight"));
+        win.draw_image(TDT4102::Point{1440 - xOffset - arrowSize, 22 + arrowSize}, *pictures.at("rightLight"));
     }
     else if (right(*this)){
-        win.draw_image(TDT4102::Point{1440 - xOffset - cellSize, xOffset + cellSize - 18}, *pictures.at("rightDark"));
+        win.draw_image(TDT4102::Point{1440 - xOffset - arrowSize, 22 + arrowSize}, *pictures.at("rightDark"));
     }
     draw_text(TDT4102::Point {200, 650}, to_string(bombCount) , TDT4102::Color::red, 45);
 }

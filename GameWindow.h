@@ -21,6 +21,7 @@ class GameWindow : public TDT4102::AnimationWindow
     const int viewYdirec = 4;
 
     static constexpr int cellSize = 90;
+    static constexpr int arrowSize = 45;
     TDT4102::Button resetButton;
 
     std::unique_ptr<Field> field;
