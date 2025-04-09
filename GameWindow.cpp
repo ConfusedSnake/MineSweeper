@@ -93,52 +93,42 @@ void GameWindow::run() {
 
             // Drawing top background, moving when player moves
             if(player->getPlayerX() < 9){
-                draw_image(TDT4102::Point{0,0}, *pictures.at("backgroundTop"));
+                draw_image(TDT4102::Point{0,0}, *pictures.at("backgroundTop"), 1440, cellSize*2);
             } else if(player->getPlayerX() > (W-8)){
-                draw_image(TDT4102::Point{-((W-8)-8)*cellSize/6,0}, *pictures.at("backgroundTop"));
-                draw_image(TDT4102::Point{1440-((W-8)-8)*cellSize/6,0}, *pictures.at("backgroundTop"));
+                draw_image(TDT4102::Point{-((W-8)-8)*cellSize/6,0}, *pictures.at("backgroundTop"), 1440, cellSize*2);
+                draw_image(TDT4102::Point{1440-((W-8)-8)*cellSize/6,0}, *pictures.at("backgroundTop"), 1440, cellSize*2);
             }else {
-                draw_image(TDT4102::Point{-(player->getPlayerX()-8)*cellSize/6,0}, *pictures.at("backgroundTop"));
-                draw_image(TDT4102::Point{1440-(player->getPlayerX()-8)*cellSize/6,0}, *pictures.at("backgroundTop"));
+                draw_image(TDT4102::Point{-(player->getPlayerX()-8)*cellSize/6,0}, *pictures.at("backgroundTop"), 1440, cellSize*2);
+                draw_image(TDT4102::Point{1440-(player->getPlayerX()-8)*cellSize/6,0}, *pictures.at("backgroundTop"), 1440, cellSize*2);
             }
 
             // =======================================================
 
-            drawGrid(*this);
-
 
             if (!dead){
-                drawGame(false, true, true, *this);
+                drawGame(true, false, true, *this);
                 frozenTimer = t.stop();
                 draw_text(TDT4102::Point {720, xOffset-22}, to_string(static_cast<int>(frozenTimer + savedTimer)) , TDT4102::Color::red, 45, Font::courier_bold);
 
                 if(!spaceBar(*this)){
                     move();
                 }
+
+                if(spaceBar(*this)){
+                    flagSpaceMode();
+                }
             }
             else {
+                drawGame(true, false, true, *this);
                 draw_text(TDT4102::Point {720, xOffset-22}, to_string(static_cast<int>(frozenTimer + savedTimer)) , TDT4102::Color::red, 45, Font::courier_bold);
                 if (!std::filesystem::is_empty("myFile.txt")){
                     std::ofstream file("myFile.txt", std::ios::trunc);
                 }
             }
 
-            // ==================== Input while playing ==================== //
-            if (mouseClickedLeft(*this) && clickX() != -1 && clickY() != -1 && (*playerFieldVec[clickY()])[clickX()] != -1) { 
-                tileClick(*field, playerFieldVec, dead);
-            }
-
-            if (mouseClickedRight(*this) && clickX() != -1 && clickY() != -1){
-                flagRightClick(*field, playerFieldVec);
-            }
-
-            if(spaceBar(*this)){
-                flagSpaceMode();
-            }
-
             if (keyRClicked(*this)){
-                reset();
-            }
+                    reset();
+                }
         }
         
         drawArrows(*this);
@@ -166,6 +156,14 @@ void GameWindow::drawGrid(AnimationWindow& win) {
     int boty;
     int botx;
 
+    int yoff = 0;
+    if(player->getPlayerY() == (viewYdirec-1)){
+        yoff = -cellSize;
+    } else if(player->getPlayerY() >= viewYdirec){
+        yoff = -2*cellSize;
+        viewYdirec = 5;
+    }
+
     boty = player->getPlayerY()-viewYdirec;
     topy = player->getPlayerY()+viewYdirec;
     botx = player->getPlayerX()-viewXdirec;
@@ -175,7 +173,7 @@ void GameWindow::drawGrid(AnimationWindow& win) {
         botx = 0;
         topx = viewXdirec*2;
     }
-    if(player->getPlayerY() < viewYdirec ){
+    if(player->getPlayerY() < viewYdirec){
         boty = 0;
         topy = viewYdirec*2;
     }
@@ -205,8 +203,8 @@ void GameWindow::drawGrid(AnimationWindow& win) {
                 color = TDT4102::Color::grey;
             }
 
-            win.draw_rectangle(TDT4102::Point{(x-botx) * cellSize, (y-boty) * cellSize + yOffset}, cellSize-2, cellSize-2, color);
-            win.draw_image(TDT4102::Point{(x-botx) * cellSize, (y-boty) * cellSize + yOffset}, *imagePtr);
+            win.draw_rectangle(TDT4102::Point{(x-botx) * cellSize, (y-boty) * cellSize + yOffset + yoff}, cellSize-2, cellSize-2, color);
+            win.draw_image(TDT4102::Point{(x-botx) * cellSize, (y-boty) * cellSize + yOffset + yoff}, *imagePtr);
         }
     }
 }
@@ -267,9 +265,15 @@ void GameWindow::drawPlayer(AnimationWindow& win){
     int x = player->getPlayerX();
     int y = player->getPlayerY();
 
+    int yoff = 0;
+    if(y == (viewYdirec-1)){
+        yoff = -cellSize;
+    } else if(y >= viewYdirec){
+        yoff = -2*cellSize;
+    }
+
     int xpos = viewXdirec;
     int ypos = viewYdirec;
-
     if(x < viewXdirec){
         xpos = x;
     }
@@ -283,7 +287,7 @@ void GameWindow::drawPlayer(AnimationWindow& win){
         ypos = ((viewYdirec*2)-(H-y));
     }
 
-    win.draw_circle(TDT4102::Point{xpos * cellSize + cellSize/2, ypos * cellSize + cellSize/2 + yOffset}, 10, TDT4102::Color::black);
+    win.draw_circle(TDT4102::Point{xpos * cellSize + cellSize/2, ypos * cellSize + cellSize/2 + yOffset + yoff}, 10, TDT4102::Color::black);
     
 }
 
@@ -377,8 +381,6 @@ void GameWindow::tileClick(const Field& field, std::vector<std::unique_ptr<std::
     if (x != -1 && y != -1 && (*playerFieldVec[y])[x] == 0) {
         openUp(field, playerFieldVec, x, y);
     }
-
-
 }
 
 void GameWindow::openUp(const Field& field, std::vector<std::unique_ptr<std::vector<int>>>& playerFieldVec, int x, int y){
@@ -542,7 +544,6 @@ void GameWindow::callbackButton(){
 }
 
 void GameWindow::reset(){
-
     std::ofstream file("myFile.txt", std::ios::trunc);
     if (file.is_open()) {
         std::cout << "Filen ble clearet!\n";

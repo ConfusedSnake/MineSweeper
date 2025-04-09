@@ -16,39 +16,23 @@ bool Player::canMove() {
 void Player::moveLeft(AnimationWindow& win){
     if (!canMove()) return;
     playerDirection = 'L';
-    if (playerX == 0){
-        std::cout << "Out of range";
-    } else {
-        playerX--;
-    }
+    playerX--;
 }
 
 void Player::moveRight(AnimationWindow& win){ 
     if (!canMove()) return;
     playerDirection = 'R';
-    if (playerX == (W-1)){
-        std::cout << "Out of range";
-    } else {
-        playerX++;
-    }
+    playerX++;
 }
 
 void Player::moveUp(AnimationWindow& win){
     if (!canMove()) return;
     playerDirection = 'U';
-    if (playerY == 0){
-        std::cout << "Out of range";
-    } else {
-        playerY--;
-    }
+    playerY--;
 }
 
 void Player::moveDown(AnimationWindow& win){
     if (!canMove()) return;
     playerDirection = 'D';
-    if (playerY == (H-1)){
-        std::cout << "Out of range";
-    } else {
-        playerY++;
-    }
+    playerY++;
 }

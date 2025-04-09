@@ -14,11 +14,11 @@ class GameWindow : public TDT4102::AnimationWindow
     const int W = 31;
     const int H = 16;
 
-    const int xOffset =90;
-    const int yOffset = 140;
+    const int xOffset = 90;
+    const int yOffset = 180;
 
-    const int viewXdirec = 8;
-    const int viewYdirec = 4;
+    int viewXdirec = 8;
+    int viewYdirec = 4;
 
     static constexpr int cellSize = 90;
     TDT4102::Button resetButton;
@@ -26,7 +26,6 @@ class GameWindow : public TDT4102::AnimationWindow
     std::unique_ptr<Field> field;
     Timer t;
     std::unique_ptr<Player> player;   
-    //std::unique_ptr<std::vector<std::unique_ptr<std::vector<int>>>> playerFieldVec;
     std::vector<std::unique_ptr<std::vector<int>>> playerFieldVec; 
 
     int bombCount = 99;

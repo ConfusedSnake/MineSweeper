@@ -4,8 +4,6 @@
 
 class Player{
     private:
-    int W = 30;
-    int H = 16;
     int playerX = 0;
     int playerY = 0;
     char playerDirection = 'R';
@@ -15,7 +13,6 @@ class Player{
 
     public:
     
-
     Player();
 
     bool canMove();
@@ -47,5 +44,4 @@ class Player{
     void moveRight(AnimationWindow& win);
     void moveUp(AnimationWindow& win);
     void moveDown(AnimationWindow& win);
-
 };
