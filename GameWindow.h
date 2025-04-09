@@ -22,7 +22,13 @@ class GameWindow : public TDT4102::AnimationWindow
 
     static constexpr int cellSize = 90;
     static constexpr int arrowSize = 45;
+
     TDT4102::Button resetButton;
+    static constexpr int menuButtonHeight = 70;
+    static constexpr int menuButtonWidth = 300;
+    static constexpr int menuButtonPad = 20;
+    static constexpr int menuTriangleHeight = 25;
+    TDT4102::Color menuButtonColor = TDT4102::Color::dark_gray;
 
     std::unique_ptr<Field> field;
     Timer t;
@@ -43,6 +49,7 @@ class GameWindow : public TDT4102::AnimationWindow
     std::map<std::string, std::unique_ptr<TDT4102::Image>> pictures;
 
     GameWindow(TDT4102::Point position, int width, int height, const std::string& title);
+    void openMenu(AnimationWindow& win);
     void run();
     void runSaved();
 
