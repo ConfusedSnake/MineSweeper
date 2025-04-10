@@ -224,7 +224,7 @@ void GameWindow::run() {
                 frozenTimer = t.stop();
                 draw_text(TDT4102::Point {720, xOffset-22 + yMove}, to_string(static_cast<int>(frozenTimer + savedTimer)) , TDT4102::Color::red, 45, Font::courier_bold);
                 menuClicks();
-                g
+                
                 if(!spaceBar(*this)){
                     move();
                 }
