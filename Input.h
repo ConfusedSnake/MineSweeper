@@ -21,3 +21,5 @@ bool spaceBar(TDT4102::AnimationWindow& win);
 bool spaceBarClicked(TDT4102::AnimationWindow& win);
 bool keyR(TDT4102::AnimationWindow& win);
 bool keyRClicked(TDT4102::AnimationWindow& win);
+bool ESC(TDT4102::AnimationWindow& win);
+bool ESCclicked(TDT4102::AnimationWindow& win);
