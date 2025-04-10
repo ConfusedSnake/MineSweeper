@@ -56,10 +56,10 @@ GameWindow::GameWindow(TDT4102::Point position, int width, int height, const std
     add(resetButton);
 }
 
-void GameWindow::openMenu(AnimationWindow& win){
-    // Menu background
+void GameWindow::drawMainMenu(AnimationWindow& win){
+    // Menu Background and Text
     win.draw_rectangle(TDT4102::Point {720 - menuButtonWidth/2 - 50, 450 - menuButtonHeight/2 - menuButtonPad - menuButtonHeight - 150}, 100 + menuButtonWidth, 200 + 3*menuButtonHeight + 2*menuButtonPad);
-    draw_text(TDT4102::Point {720 - 80, 450 - menuButtonHeight/2 - menuButtonPad - menuButtonHeight - 100}, "Paused", TDT4102::Color::red, 45, Font::courier_bold);
+    win.draw_text(TDT4102::Point {720 - 110, 450 - menuButtonHeight/2 - menuButtonPad - menuButtonHeight - 100}, "Main Menu", TDT4102::Color::red, 45, Font::courier_bold);
 
     // Points right side
     TDT4102::Point rightUpper = {720 - menuButtonWidth/2 + menuButtonWidth, 450 - menuButtonHeight/2 - menuButtonPad - menuButtonHeight};
@@ -71,10 +71,54 @@ void GameWindow::openMenu(AnimationWindow& win){
     TDT4102::Point leftLower = {720 - menuButtonWidth/2, 450 - menuButtonHeight/2 - menuButtonPad};
     TDT4102::Point leftOuter = {720 - menuButtonWidth/2 - menuTriangleHeight, 450 - menuButtonHeight/2 - menuButtonPad - menuButtonHeight/2};
 
-    // Play Button
+    // Start Button
     win.draw_rectangle(TDT4102::Point {720 - menuButtonWidth/2, 450 - menuButtonHeight/2 - menuButtonPad - menuButtonHeight}, menuButtonWidth, menuButtonHeight, menuButtonColor);
     win.draw_triangle(rightUpper, rightOuter, rightLower, menuButtonColor);
     win.draw_triangle(leftUpper, leftLower, leftOuter, menuButtonColor);
+    win.draw_text(TDT4102::Point {720 - 62, 450 - menuButtonHeight/2 - menuButtonPad - menuButtonHeight + 9}, "Start", TDT4102::Color::red, 45, Font::courier_bold);
+
+    // Load Button
+    win.draw_rectangle(TDT4102::Point {720 - menuButtonWidth/2, 450 - menuButtonHeight/2}, menuButtonWidth, menuButtonHeight, menuButtonColor);
+    win.draw_triangle(TDT4102::Point {rightUpper.x, rightUpper.y + menuButtonHeight + menuButtonPad}, 
+    TDT4102::Point {rightOuter.x, rightOuter.y + menuButtonHeight + menuButtonPad}, TDT4102::Point {rightLower.x,
+    rightLower.y + menuButtonHeight + menuButtonPad}, menuButtonColor);
+    win.draw_triangle(TDT4102::Point {leftUpper.x, leftUpper.y + menuButtonHeight + menuButtonPad}, 
+    TDT4102::Point {leftLower.x, leftLower.y + menuButtonHeight + menuButtonPad}, TDT4102::Point {leftOuter.x,
+    leftOuter.y + menuButtonHeight + menuButtonPad}, menuButtonColor);
+    win.draw_text(TDT4102::Point {720 - 110, 450 - menuButtonHeight/2 + 9}, "Load Game", TDT4102::Color::red, 45, Font::courier_bold);
+
+
+    // Exit Button
+    win.draw_rectangle(TDT4102::Point {720 - menuButtonWidth/2, 450 - menuButtonHeight/2 + menuButtonPad + menuButtonHeight}, menuButtonWidth, menuButtonHeight, menuButtonColor);
+    win.draw_triangle(TDT4102::Point {rightUpper.x, rightUpper.y + 2*(menuButtonHeight + menuButtonPad),}, 
+    TDT4102::Point {rightOuter.x, rightOuter.y + 2*(menuButtonHeight + menuButtonPad)}, TDT4102::Point {rightLower.x,
+    rightLower.y + 2*(menuButtonHeight + menuButtonPad)}, menuButtonColor);
+    win.draw_triangle(TDT4102::Point {leftUpper.x, leftUpper.y + 2*(menuButtonHeight + menuButtonPad)}, 
+    TDT4102::Point {leftLower.x, leftLower.y + 2*(menuButtonHeight + menuButtonPad)}, TDT4102::Point {leftOuter.x,
+    leftOuter.y + 2*(menuButtonHeight + menuButtonPad)}, menuButtonColor);
+    win.draw_text(TDT4102::Point {720 - 50, 450 - menuButtonHeight/2 + menuButtonPad + menuButtonHeight + 9}, "Exit", TDT4102::Color::red, 45, Font::courier_bold);
+}
+
+void GameWindow::drawPauseMenu(AnimationWindow& win){
+    // Menu background and Text
+    win.draw_rectangle(TDT4102::Point {720 - menuButtonWidth/2 - 50, 450 - menuButtonHeight/2 - menuButtonPad - menuButtonHeight - 150}, 100 + menuButtonWidth, 200 + 3*menuButtonHeight + 2*menuButtonPad);
+    win.draw_text(TDT4102::Point {720 - 80, 450 - menuButtonHeight/2 - menuButtonPad - menuButtonHeight - 100}, "Paused", TDT4102::Color::red, 45, Font::courier_bold);
+
+    // Points right side
+    TDT4102::Point rightUpper = {720 - menuButtonWidth/2 + menuButtonWidth, 450 - menuButtonHeight/2 - menuButtonPad - menuButtonHeight};
+    TDT4102::Point rightLower = {720 - menuButtonWidth/2 + menuButtonWidth, 450 - menuButtonHeight/2 - menuButtonPad};
+    TDT4102::Point rightOuter = {720 - menuButtonWidth/2 + menuButtonWidth + menuTriangleHeight, 450 - menuButtonHeight/2 - menuButtonPad - menuButtonHeight/2};
+
+    // Points left side
+    TDT4102::Point leftUpper = {720 - menuButtonWidth/2, 450 - menuButtonHeight/2 - menuButtonPad - menuButtonHeight};
+    TDT4102::Point leftLower = {720 - menuButtonWidth/2, 450 - menuButtonHeight/2 - menuButtonPad};
+    TDT4102::Point leftOuter = {720 - menuButtonWidth/2 - menuTriangleHeight, 450 - menuButtonHeight/2 - menuButtonPad - menuButtonHeight/2};
+
+    // Resume Button
+    win.draw_rectangle(TDT4102::Point {720 - menuButtonWidth/2, 450 - menuButtonHeight/2 - menuButtonPad - menuButtonHeight}, menuButtonWidth, menuButtonHeight, menuButtonColor);
+    win.draw_triangle(rightUpper, rightOuter, rightLower, menuButtonColor);
+    win.draw_triangle(leftUpper, leftLower, leftOuter, menuButtonColor);
+    win.draw_text(TDT4102::Point {720 - 80, 450 - menuButtonHeight/2 - menuButtonPad - menuButtonHeight + 9}, "Resume", TDT4102::Color::red, 45, Font::courier_bold);
 
     // Save Button
     win.draw_rectangle(TDT4102::Point {720 - menuButtonWidth/2, 450 - menuButtonHeight/2}, menuButtonWidth, menuButtonHeight, menuButtonColor);
@@ -84,6 +128,7 @@ void GameWindow::openMenu(AnimationWindow& win){
     win.draw_triangle(TDT4102::Point {leftUpper.x, leftUpper.y + menuButtonHeight + menuButtonPad}, 
     TDT4102::Point {leftLower.x, leftLower.y + menuButtonHeight + menuButtonPad}, TDT4102::Point {leftOuter.x,
     leftOuter.y + menuButtonHeight + menuButtonPad}, menuButtonColor);
+    win.draw_text(TDT4102::Point {720 - 110, 450 - menuButtonHeight/2 + 9}, "Save Game", TDT4102::Color::red, 45, Font::courier_bold);
 
 
     // Quit Button
@@ -94,8 +139,50 @@ void GameWindow::openMenu(AnimationWindow& win){
     win.draw_triangle(TDT4102::Point {leftUpper.x, leftUpper.y + 2*(menuButtonHeight + menuButtonPad)}, 
     TDT4102::Point {leftLower.x, leftLower.y + 2*(menuButtonHeight + menuButtonPad)}, TDT4102::Point {leftOuter.x,
     leftOuter.y + 2*(menuButtonHeight + menuButtonPad)}, menuButtonColor);
+    win.draw_text(TDT4102::Point {720 - 50, 450 - menuButtonHeight/2 + menuButtonPad + menuButtonHeight + 9}, "Quit", TDT4102::Color::red, 45, Font::courier_bold);
 }
 
+void GameWindow::menuClicks(){
+    // Top button
+    if (coordinates().x > (720 - menuButtonWidth/2 - menuTriangleHeight) &&
+    coordinates().x < (720 - menuButtonWidth/2 + menuButtonWidth + menuTriangleHeight) &&
+    coordinates().y > (450 - menuButtonHeight/2 - menuButtonPad - menuButtonHeight) &&
+    coordinates().y < (450 - menuButtonHeight/2 - menuButtonPad) && mouseClickedLeft(*this)){
+        reset();
+        if (mainMenuOpen){
+            mainMenuOpen = false;
+        }
+        else if (pauseMenuOpen){
+            pauseMenuOpen = false;
+        }
+    }
+
+    // Middle button
+    if (coordinates().x > (720 - menuButtonWidth/2 - menuTriangleHeight) &&
+    coordinates().x < (720 - menuButtonWidth/2 + menuButtonWidth + menuTriangleHeight) &&
+    coordinates().y > (450 - menuButtonHeight/2) &&
+    coordinates().y < (450 - menuButtonHeight/2 + menuButtonHeight) && mouseClickedLeft(*this)){
+        if (mainMenuOpen){
+            loadGame();
+        }
+        else if (pauseMenuOpen){
+            saveGame();
+        }
+    }
+
+    // // Bottom button
+    if (coordinates().x > (720 - menuButtonWidth/2 - menuTriangleHeight) &&
+    coordinates().x < (720 - menuButtonWidth/2 + menuButtonWidth + menuTriangleHeight) &&
+    coordinates().y > (450 - menuButtonHeight/2  + menuButtonHeight + menuButtonPad) &&
+    coordinates().y < (450 - menuButtonHeight/2  + 2*menuButtonHeight + menuButtonPad) && mouseClickedLeft(*this)){
+        if (mainMenuOpen){
+            close();
+        }
+        else if (pauseMenuOpen){
+            mainMenuOpen = true;
+        }
+    }
+}
 
 // ==================== Functions that runs the game ==================== //
 void GameWindow::run() {
@@ -108,7 +195,7 @@ void GameWindow::run() {
         // ==================== Before first click ==================== //
         if(!field || !player){
             //drawPlayerGrid(*this, playerFieldVec);
-            draw_text(TDT4102::Point {720, xOffset-22}, to_string(0) , TDT4102::Color::red, 45, Font::courier_bold);
+            draw_text(TDT4102::Point {690, xOffset-22}, to_string(0) , TDT4102::Color::red, 45, Font::courier_bold);
             if ((mouseClickedLeft(*this) && clickX() != -1 && clickY() != -1)||(up(*this) || down(*this) || left(*this) || right(*this))) {
                 
                 // Creating game, either load og new game
@@ -149,14 +236,14 @@ void GameWindow::run() {
             if (!dead){
                 drawGame(false, false, true, *this);
                 frozenTimer = t.stop();
-                draw_text(TDT4102::Point {720, xOffset-22}, to_string(static_cast<int>(frozenTimer + savedTimer)) , TDT4102::Color::red, 45, Font::courier_bold);
-
+                draw_text(TDT4102::Point {690, xOffset-22}, to_string(static_cast<int>(frozenTimer + savedTimer)) , TDT4102::Color::red, 45, Font::courier_bold);
+                menuClicks();
                 if(!spaceBar(*this)){
                     move();
                 }
             }
             else {
-                draw_text(TDT4102::Point {720, xOffset-22}, to_string(static_cast<int>(frozenTimer + savedTimer)) , TDT4102::Color::red, 45, Font::courier_bold);
+                draw_text(TDT4102::Point {690, xOffset-22}, to_string(static_cast<int>(frozenTimer + savedTimer)) , TDT4102::Color::red, 45, Font::courier_bold);
                 if (!std::filesystem::is_empty("myFile.txt")){
                     std::ofstream file("myFile.txt", std::ios::trunc);
                 }
@@ -180,7 +267,7 @@ void GameWindow::run() {
             }
         }
         
-        openMenu(*this);
+        drawMainMenu(*this);
         drawArrows(*this);
         draw_text(TDT4102::Point {200, 650}, to_string(bombCount) , TDT4102::Color::red, 45);
         next_frame();

@@ -39,6 +39,8 @@ class GameWindow : public TDT4102::AnimationWindow
     int bombCount = 99;
     double frozenTimer;
     int savedTimer = 0;
+    bool mainMenuOpen = true;
+    bool pauseMenuOpen = false;
     
     public:
     bool dead = false;
@@ -49,7 +51,9 @@ class GameWindow : public TDT4102::AnimationWindow
     std::map<std::string, std::unique_ptr<TDT4102::Image>> pictures;
 
     GameWindow(TDT4102::Point position, int width, int height, const std::string& title);
-    void openMenu(AnimationWindow& win);
+    void drawMainMenu(AnimationWindow& win);
+    void drawPauseMenu(AnimationWindow& win);
+    void menuClicks();
     void run();
     void runSaved();
 
