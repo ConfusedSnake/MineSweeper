@@ -6,7 +6,7 @@ GameWindow::GameWindow(TDT4102::Point position, int width, int height, const std
     AnimationWindow{position.x, position.y, width, height, title},
     resetButton{TDT4102::Point {xOffset, yOffset - cellSize}, 100, 30, "Reset"}
 {
-
+    
     // ==================== Pictures on field ==================== //
     std::map<int, std::string> numPic{
         {-1, "Tall/bomb.png"},
@@ -62,13 +62,11 @@ void GameWindow::run() {
     std::filesystem::path fileName{"myFile.txt"};
     std::ifstream inputStream{fileName};
 
-    draw_image(TDT4102::Point{0,0}, *pictures.at("backgroundTop"));
-
     while (!should_close()) {
 
         // ==================== Before first click ==================== //
         if(!field || !player){
-            //drawPlayerGrid(*this, playerFieldVec);
+            draw_image(TDT4102::Point{0,0}, *pictures.at("backgroundTop"));
             draw_text(TDT4102::Point {720, xOffset-22}, to_string(0) , TDT4102::Color::red, 45, Font::courier_bold);
             if ((mouseClickedLeft(*this) && clickX() != -1 && clickY() != -1)||(up(*this) || down(*this) || left(*this) || right(*this))) {
                 
@@ -82,9 +80,7 @@ void GameWindow::run() {
                     tileClick(*field, playerFieldVec, dead);
                 } 
                 
-                draw_image(TDT4102::Point{-player->getPlayerX()*cellSize,0}, *pictures.at("backgroundTop"));
-                draw_image(TDT4102::Point{1440-player->getPlayerX()*cellSize,0}, *pictures.at("backgroundTop"));
-                drawGame(true, true, true, *this);
+                drawGame(true, true, true, true, *this);
                 t.start();
             }
         
@@ -92,23 +88,15 @@ void GameWindow::run() {
         } else {
 
             // Drawing top background, moving when player moves
-            if(player->getPlayerX() < 9){
-                draw_image(TDT4102::Point{0,0}, *pictures.at("backgroundTop"), 1440, cellSize*2);
-            } else if(player->getPlayerX() > (W-8)){
-                draw_image(TDT4102::Point{-((W-8)-8)*cellSize/6,0}, *pictures.at("backgroundTop"), 1440, cellSize*2);
-                draw_image(TDT4102::Point{1440-((W-8)-8)*cellSize/6,0}, *pictures.at("backgroundTop"), 1440, cellSize*2);
-            }else {
-                draw_image(TDT4102::Point{-(player->getPlayerX()-8)*cellSize/6,0}, *pictures.at("backgroundTop"), 1440, cellSize*2);
-                draw_image(TDT4102::Point{1440-(player->getPlayerX()-8)*cellSize/6,0}, *pictures.at("backgroundTop"), 1440, cellSize*2);
-            }
+
 
             // =======================================================
 
 
             if (!dead){
-                drawGame(true, false, true, *this);
+                drawGame(true, true, true, true, *this);
                 frozenTimer = t.stop();
-                draw_text(TDT4102::Point {720, xOffset-22}, to_string(static_cast<int>(frozenTimer + savedTimer)) , TDT4102::Color::red, 45, Font::courier_bold);
+                draw_text(TDT4102::Point {720, xOffset-22 + yMove}, to_string(static_cast<int>(frozenTimer + savedTimer)) , TDT4102::Color::red, 45, Font::courier_bold);
 
                 if(!spaceBar(*this)){
                     move();
@@ -119,7 +107,8 @@ void GameWindow::run() {
                 }
             }
             else {
-                drawGame(true, false, true, *this);
+                yMove = 0;
+                drawGame(true, false, true, true, *this);
                 draw_text(TDT4102::Point {720, xOffset-22}, to_string(static_cast<int>(frozenTimer + savedTimer)) , TDT4102::Color::red, 45, Font::courier_bold);
                 if (!std::filesystem::is_empty("myFile.txt")){
                     std::ofstream file("myFile.txt", std::ios::trunc);
@@ -132,20 +121,40 @@ void GameWindow::run() {
         }
         
         drawArrows(*this);
-        draw_text(TDT4102::Point {200, 650}, to_string(bombCount) , TDT4102::Color::red, 45);
+        draw_text(TDT4102::Point {200, 650 + yMove}, to_string(bombCount) , TDT4102::Color::red, 45);
         next_frame();
     }
 }
 
-void GameWindow::drawGame(bool field, bool playerField, bool player, AnimationWindow& win){
-    if(field){
+void GameWindow::drawGame(bool dField, bool dPlayerField, bool dPlayer, bool dBackground, AnimationWindow& win){
+    if(player->getPlayerY() == (viewYdirec-1)){
+        yMove = -cellSize;
+    } else if(player->getPlayerY() >= viewYdirec){
+        yMove = -2*cellSize;
+    } else{
+        yMove = 0;
+    }
+
+    if(dField){
         drawGrid(win);
     }
-    if(playerField){
+    if(dPlayerField){
         drawPlayerGrid(win, playerFieldVec);
     }
-    if(player){
+    if(dPlayer){
         drawPlayer(win);
+    }
+
+    if(dBackground){
+        if(player->getPlayerX() < 9){
+            draw_image(TDT4102::Point{0,yMove}, *pictures.at("backgroundTop"), 1440, cellSize*2);
+        } else if(player->getPlayerX() > (W-8)){
+            draw_image(TDT4102::Point{-((W-8)-8)*cellSize/6,yMove}, *pictures.at("backgroundTop"), 1440, cellSize*2);
+            draw_image(TDT4102::Point{1440-((W-8)-8)*cellSize/6,yMove}, *pictures.at("backgroundTop"), 1440, cellSize*2);
+        }else {
+            draw_image(TDT4102::Point{-(player->getPlayerX()-8)*cellSize/6,yMove}, *pictures.at("backgroundTop"), 1440, cellSize*2);
+            draw_image(TDT4102::Point{1440-(player->getPlayerX()-8)*cellSize/6,yMove}, *pictures.at("backgroundTop"), 1440, cellSize*2);
+        }
     }
 }
 
@@ -155,14 +164,6 @@ void GameWindow::drawGrid(AnimationWindow& win) {
     int topx;
     int boty;
     int botx;
-
-    int yoff = 0;
-    if(player->getPlayerY() == (viewYdirec-1)){
-        yoff = -cellSize;
-    } else if(player->getPlayerY() >= viewYdirec){
-        yoff = -2*cellSize;
-        viewYdirec = 5;
-    }
 
     boty = player->getPlayerY()-viewYdirec;
     topy = player->getPlayerY()+viewYdirec;
@@ -203,13 +204,11 @@ void GameWindow::drawGrid(AnimationWindow& win) {
                 color = TDT4102::Color::grey;
             }
 
-            win.draw_rectangle(TDT4102::Point{(x-botx) * cellSize, (y-boty) * cellSize + yOffset + yoff}, cellSize-2, cellSize-2, color);
-            win.draw_image(TDT4102::Point{(x-botx) * cellSize, (y-boty) * cellSize + yOffset + yoff}, *imagePtr);
+            win.draw_rectangle(TDT4102::Point{(x-botx) * cellSize, (y-boty) * cellSize + yOffset + yMove}, cellSize-2, cellSize-2, color);
+            win.draw_image(TDT4102::Point{(x-botx) * cellSize, (y-boty) * cellSize + yOffset + yMove}, *imagePtr);
         }
     }
 }
-
-
 
 void GameWindow::drawPlayerGrid(AnimationWindow& win, const std::vector<std::unique_ptr<std::vector<int>>>& playerFieldVec) {
     int topy;
@@ -241,21 +240,15 @@ void GameWindow::drawPlayerGrid(AnimationWindow& win, const std::vector<std::uni
 
     for (int y = boty; y < topy; y++) {
         for (int x = botx; x < topx; x++) {
-            if ((*playerFieldVec[y])[x] == 0) {
-                win.draw_rectangle(TDT4102::Point{(x-botx) * cellSize, (y-boty) * cellSize + yOffset}, cellSize-2, cellSize-2, TDT4102::Color::grey);
+            if ((*playerFieldVec[y])[x] != 1){
                 if(y%2==0){
-                    win.draw_image(TDT4102::Point{(x-botx) * cellSize, (y-boty) * cellSize + yOffset}, *pictures.at("groundLight"));
+                    win.draw_image(TDT4102::Point{(x-botx) * cellSize, (y-boty) * cellSize + yOffset + yMove}, *pictures.at("groundLight"));
                 } else{
-                    win.draw_image(TDT4102::Point{(x-botx) * cellSize, (y-boty) * cellSize + yOffset}, *pictures.at("groundDark"));
+                    win.draw_image(TDT4102::Point{(x-botx) * cellSize, (y-boty) * cellSize + yOffset + yMove}, *pictures.at("groundDark"));
                 }
-            }
-            else if ((*playerFieldVec[y])[x] == -1){
-                if(y%2==0){
-                    win.draw_image(TDT4102::Point{(x-botx) * cellSize, (y-boty) * cellSize + yOffset}, *pictures.at("groundLight"));
-                } else{
-                    win.draw_image(TDT4102::Point{(x-botx) * cellSize, (y-boty) * cellSize + yOffset}, *pictures.at("groundDark"));
+                if ((*playerFieldVec[y])[x] == -1){
+                    win.draw_image(TDT4102::Point{(x-botx) * cellSize, (y-boty) * cellSize + yOffset + yMove}, *images.at(9), cellSize, cellSize);
                 }
-                win.draw_image(TDT4102::Point{(x-botx) * cellSize, (y-boty) * cellSize + yOffset}, *images.at(9), cellSize, cellSize);
             }
         }
     }
@@ -264,13 +257,6 @@ void GameWindow::drawPlayerGrid(AnimationWindow& win, const std::vector<std::uni
 void GameWindow::drawPlayer(AnimationWindow& win){
     int x = player->getPlayerX();
     int y = player->getPlayerY();
-
-    int yoff = 0;
-    if(y == (viewYdirec-1)){
-        yoff = -cellSize;
-    } else if(y >= viewYdirec){
-        yoff = -2*cellSize;
-    }
 
     int xpos = viewXdirec;
     int ypos = viewYdirec;
@@ -287,7 +273,7 @@ void GameWindow::drawPlayer(AnimationWindow& win){
         ypos = ((viewYdirec*2)-(H-y));
     }
 
-    win.draw_circle(TDT4102::Point{xpos * cellSize + cellSize/2, ypos * cellSize + cellSize/2 + yOffset + yoff}, 10, TDT4102::Color::black);
+    win.draw_circle(TDT4102::Point{xpos * cellSize + cellSize/2, ypos * cellSize + cellSize/2 + yOffset + yMove}, 10, TDT4102::Color::black);
     
 }
 
@@ -321,30 +307,29 @@ void GameWindow::move(){
 
 void GameWindow::drawArrows(AnimationWindow& win){
     if (!up(*this)){
-        win.draw_image(TDT4102::Point{1440 - xOffset - 2* cellSize - 2, xOffset - 20}, *pictures.at("upLight"));
+        win.draw_image(TDT4102::Point{1440 - xOffset - 2* arrowSize - 2, 40 + yMove}, *pictures.at("upLight"));
     }
     else if (up(*this)){
-        win.draw_image(TDT4102::Point{1440 - xOffset - 2* cellSize - 2, xOffset - 20}, *pictures.at("upDark"));
+        win.draw_image(TDT4102::Point{1440 - xOffset - 2* arrowSize - 2, 40 + yMove}, *pictures.at("upDark"));
     }
     if (!down(*this)){
-        win.draw_image(TDT4102::Point{1440 - xOffset - 2* cellSize - 2, xOffset + cellSize - 18}, *pictures.at("downLight"));
+        win.draw_image(TDT4102::Point{1440 - xOffset - 2* arrowSize - 2, 42 + arrowSize + yMove}, *pictures.at("downLight"));
     }
     else if (down(*this)){
-        win.draw_image(TDT4102::Point{1440 - xOffset - 2* cellSize - 2, xOffset + cellSize - 18}, *pictures.at("downDark"));
+        win.draw_image(TDT4102::Point{1440 - xOffset - 2* arrowSize - 2, 42 + arrowSize + yMove}, *pictures.at("downDark"));
     }
     if (!left(*this)){
-        win.draw_image(TDT4102::Point{1440 - xOffset - 3* cellSize - 4, xOffset + cellSize - 18}, *pictures.at("leftLight"));
+        win.draw_image(TDT4102::Point{1440 - xOffset - 3* arrowSize - 4, 42 + arrowSize + yMove}, *pictures.at("leftLight"));
     }
     else if (left(*this)){
-        win.draw_image(TDT4102::Point{1440 - xOffset - 3* cellSize - 4, xOffset + cellSize - 18}, *pictures.at("leftDark")); 
+        win.draw_image(TDT4102::Point{1440 - xOffset - 3* arrowSize - 4, 42 + arrowSize + yMove}, *pictures.at("leftDark")); 
     }
     if (!right(*this)){
-        win.draw_image(TDT4102::Point{1440 - xOffset - cellSize, xOffset + cellSize - 18}, *pictures.at("rightLight"));
+        win.draw_image(TDT4102::Point{1440 - xOffset - arrowSize, 42 + arrowSize + yMove}, *pictures.at("rightLight"));
     }
     else if (right(*this)){
-        win.draw_image(TDT4102::Point{1440 - xOffset - cellSize, xOffset + cellSize - 18}, *pictures.at("rightDark"));
+        win.draw_image(TDT4102::Point{1440 - xOffset - arrowSize, 42 + arrowSize + yMove}, *pictures.at("rightDark"));
     }
-    draw_text(TDT4102::Point {200, 650}, to_string(bombCount) , TDT4102::Color::red, 45);
 }
 
 

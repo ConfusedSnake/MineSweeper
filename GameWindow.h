@@ -16,11 +16,13 @@ class GameWindow : public TDT4102::AnimationWindow
 
     const int xOffset = 90;
     const int yOffset = 180;
+    int yMove = 0;
 
     int viewXdirec = 8;
-    int viewYdirec = 4;
+    int viewYdirec = 5;
 
     static constexpr int cellSize = 90;
+    static constexpr int arrowSize = 45;
     TDT4102::Button resetButton;
 
     std::unique_ptr<Field> field;
@@ -48,7 +50,7 @@ class GameWindow : public TDT4102::AnimationWindow
     void drawPlayerGrid(AnimationWindow& win, const std::vector<std::unique_ptr<std::vector<int>>>& playerFieldVec);
     void drawPlayer(AnimationWindow& win);
     void drawArrows(AnimationWindow& win);
-    void drawGame(bool field, bool playerField, bool player, AnimationWindow& win);
+    void drawGame(bool dField, bool dPlayerField, bool dPlayer, bool dBackground, AnimationWindow& win);
 
     TDT4102::Point coordinates();
     int clickY();
