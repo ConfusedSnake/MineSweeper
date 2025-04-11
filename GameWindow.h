@@ -63,11 +63,14 @@ class GameWindow : public TDT4102::AnimationWindow
     void drawYouWin(AnimationWindow& win);
     void drawYouDied(AnimationWindow& win);
     void drawControls(AnimationWindow& win);
+    void drawMenus(AnimationWindow& win);
 
     bool mouseOnTopMenuButton();
     bool mouseOnTopMiddleMenuButton();
     bool mouseOnBottomMiddleMenuButton();
     bool mouseOnBottomMenuButton();
+    bool mouseOnBackButton();
+    bool mouseOnOptionsButton();
 
     void menuClicks();
 

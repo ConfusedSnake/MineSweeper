@@ -2,197 +2,173 @@
 #include "menu.h"
 
 void GameWindow::drawMainMenu(AnimationWindow& win){
-    // Menu Background and Text
+    // Menu Background
     win.draw_image(TDT4102::Point {0,0}, *pictures.at("menuBackground"));
     win.draw_image(TDT4102::Point {720 - 225, 450 - 275},
     *pictures.at("optionsBackground"));
     
     //SKAL VÆRE NAVNET PÅ SPILLET
-    win.draw_image(TDT4102::Point {720 - 150, 450 - 250},
+    win.draw_image(TDT4102::Point {720 - optionButtonWidth/2, 450 - 250},
     *pictures.at("paused"));
 
     // Start Button
     if (mouseOnTopMenuButton() && leftClick(*this)){
-        win.draw_image(TDT4102::Point {720 - 150, 450 - 2*optionButtonHeight - optionButtonPad/2 -optionButtonPad}, 
+        win.draw_image(TDT4102::Point {720 - optionButtonWidth/2, 450 - 2*optionButtonHeight - optionButtonPad/2 -optionButtonPad}, 
         *pictures.at("newGameDark")); 
     } else{
-        win.draw_image(TDT4102::Point {720 - 150, 450 - 2*optionButtonHeight - optionButtonPad/2 -optionButtonPad}, 
+        win.draw_image(TDT4102::Point {720 - optionButtonWidth/2, 450 - 2*optionButtonHeight - optionButtonPad/2 -optionButtonPad}, 
         *pictures.at("newGame")); }
     
     // Load Button
     if (mouseOnTopMiddleMenuButton() && leftClick(*this)){
-        win.draw_image(TDT4102::Point {720 - 150, 450 - optionButtonHeight - optionButtonPad/2}, 
+        win.draw_image(TDT4102::Point {720 - optionButtonWidth/2, 450 - optionButtonHeight - optionButtonPad/2}, 
         *pictures.at("loadGameDark"));
     } else{ 
-        win.draw_image(TDT4102::Point {720 - 150, 450 - optionButtonHeight - optionButtonPad/2},
+        win.draw_image(TDT4102::Point {720 - optionButtonWidth/2, 450 - optionButtonHeight - optionButtonPad/2},
         *pictures.at("loadGame")); }
     
     // Controls Button
     if (mouseOnBottomMiddleMenuButton() && leftClick(*this)){
-        win.draw_image(TDT4102::Point {720 - 150, 450 + optionButtonPad/2}, 
+        win.draw_image(TDT4102::Point {720 - optionButtonWidth/2, 450 + optionButtonPad/2}, 
         *pictures.at("controlsDark"));
     } else {
-        win.draw_image(TDT4102::Point {720 - 150, 450 + optionButtonPad/2}, 
+        win.draw_image(TDT4102::Point {720 - optionButtonWidth/2, 450 + optionButtonPad/2}, 
         *pictures.at("controls")); }
 
-    // Exit Button
+    // Quit Button
     if (mouseOnBottomMenuButton() && leftClick(*this)){
-        win.draw_image(TDT4102::Point {720 - 150, 450 + optionButtonPad/2 + optionButtonPad + optionButtonHeight}, 
+        win.draw_image(TDT4102::Point {720 - optionButtonWidth/2, 450 + optionButtonPad/2 + optionButtonPad + optionButtonHeight}, 
         *pictures.at("quitDark"));
     } else {
-        win.draw_image(TDT4102::Point {720 - 150, 450 + optionButtonPad/2 + optionButtonPad + optionButtonHeight}, 
+        win.draw_image(TDT4102::Point {720 - optionButtonWidth/2, 450 + optionButtonPad/2 + optionButtonPad + optionButtonHeight}, 
         *pictures.at("quit")); }
 }
 
 void GameWindow::drawPauseMenu(AnimationWindow& win){
-    // Menu background and Text
+    // Menu Background
     win.draw_image(TDT4102::Point {0,0}, *pictures.at("menuBackground"));
-    win.draw_image(TDT4102::Point {720 - optionButtonWidth/2 - 50, 450 - optionButtonHeight/2 - optionButtonPad - optionButtonHeight - 150},
+    win.draw_image(TDT4102::Point {720 - 225, 450 - 275},
     *pictures.at("optionsBackground"));
+    
+    // Paused
+    win.draw_image(TDT4102::Point {720 - optionButtonWidth/2, 450 - 250},
+    *pictures.at("paused"));
 
     // Resume Button
     if (mouseOnTopMenuButton() && leftClick(*this)){
-        topOptionColor = color;
+        win.draw_image(TDT4102::Point {720 - optionButtonWidth/2, 450 - 2*optionButtonHeight - optionButtonPad/2 -optionButtonPad}, *pictures.at("resumeDark"));
     }
     else{
-        topOptionColor = menuButtonColor;
+        win.draw_image(TDT4102::Point {720 - optionButtonWidth/2, 450 - 2*optionButtonHeight - optionButtonPad/2 -optionButtonPad}, *pictures.at("resume"));
     }
-    win.draw_image(TDT4102::Point {720 - optionButtonWidth/2, 450 - 2*optionButtonHeight - optionButtonPad/2 -optionButtonPad}, *pictures.at("resume"));
 
     // Save Button
     if (mouseOnTopMiddleMenuButton() && leftClick(*this)){
-        topMiddleOptionColor = color;
+        win.draw_image(TDT4102::Point {720 - optionButtonWidth/2, 450 - optionButtonHeight - optionButtonPad/2}, *pictures.at("saveGameDark"));
     }
     else{
-        topMiddleOptionColor = menuButtonColor;
+        win.draw_image(TDT4102::Point {720 - optionButtonWidth/2, 450 - optionButtonHeight - optionButtonPad/2}, *pictures.at("saveGame"));
     }
-    win.draw_image(TDT4102::Point {720 - optionButtonWidth/2, 450 - optionButtonHeight - optionButtonPad/2}, *pictures.at("saveGame"));
-    
     // Controls Button
     if (mouseOnBottomMiddleMenuButton() && leftClick(*this)){
-        bottomMiddleOptionColor = color;
+        win.draw_image(TDT4102::Point {720 - optionButtonWidth/2, 450 + optionButtonPad/2}, *pictures.at("controlsDark"));
     }
     else {
-        bottomMiddleOptionColor = menuButtonColor;
+        win.draw_image(TDT4102::Point {720 - optionButtonWidth/2, 450 + optionButtonPad/2}, *pictures.at("controls"));
     }
-    win.draw_image(TDT4102::Point {720 - optionButtonWidth/2, 450 + optionButtonPad/2}, *pictures.at("controls"));
 
-    // Quit Button
+    // Exit Button
     if (mouseOnBottomMenuButton() && leftClick(*this)){
-        bottomOptionColor = color;
+        win.draw_image(TDT4102::Point {720 - optionButtonWidth/2, 450 + optionButtonPad/2 + optionButtonPad + optionButtonHeight}, *pictures.at("exitDark"));
     }
     else {
-        bottomOptionColor = menuButtonColor;
+        win.draw_image(TDT4102::Point {720 - optionButtonWidth/2, 450 + optionButtonPad/2 + optionButtonPad + optionButtonHeight}, *pictures.at("exit"));
     }
-    win.draw_image(TDT4102::Point {720 - optionButtonWidth/2, 450 + optionButtonPad/2 + optionButtonPad + optionButtonHeight}, *pictures.at("exit"));
-
 }
 
 void GameWindow::drawPauseMenuButton(AnimationWindow& win){
-
+    draw_image(TDT4102::Point {10, 10}, *pictures.at("options"), 60, 60);
 }
 
 void GameWindow::drawYouWin(AnimationWindow& win){
-    // Menu background and Text
-    win.draw_rectangle(TDT4102::Point {720 - optionButtonWidth/2 - 50, 450 - optionButtonHeight/2 - optionButtonPad - optionButtonHeight - 150}, 100 + optionButtonWidth, 200 + 3*optionButtonHeight + 2*optionButtonPad);
-    win.draw_text(TDT4102::Point {720 - 117, 450 - optionButtonHeight/2 - optionButtonPad - optionButtonHeight - 100}, "YOU WIN!", TDT4102::Color::red, 60, Font::courier_bold);
-    win.draw_text(TDT4102::Point {720 - 115, 450 - optionButtonHeight/2 - optionButtonPad - optionButtonHeight - 25}, "Time spent: " + to_string(static_cast<int>(frozenTimer + savedTimer)) + "s", TDT4102::Color::red, 30, Font::courier_bold);
+    // Menu background
+    win.draw_image(TDT4102::Point {0,0}, *pictures.at("menuBackground"));
+    win.draw_image(TDT4102::Point {720 - 225, 450 - 275},
+    *pictures.at("optionsBackground"));
 
-    // Points right side
-    TDT4102::Point rightUpper = {720 - optionButtonWidth/2 + optionButtonWidth, 450 - 2*optionButtonHeight - optionButtonPad/2 -optionButtonPad};
-    TDT4102::Point rightLower = {720 - optionButtonWidth/2 + optionButtonWidth, 450 - optionButtonHeight - optionButtonPad/2 -optionButtonPad};
-    TDT4102::Point rightOuter = {720 - optionButtonWidth/2 + optionButtonWidth + optionTriangleHeight, 450 - static_cast<int>(1.5*optionButtonHeight) - optionButtonPad/2 -optionButtonPad};
+    // You Win!
 
-    // Points left side
-    TDT4102::Point leftUpper = {720 - optionButtonWidth/2, 450 - 2*optionButtonHeight - optionButtonPad/2 -optionButtonPad};
-    TDT4102::Point leftLower = {720 - optionButtonWidth/2, 450 - optionButtonHeight - optionButtonPad/2 -optionButtonPad};
-    TDT4102::Point leftOuter = {720 - optionButtonWidth/2 - optionTriangleHeight, 450 - static_cast<int>(1.5*optionButtonHeight) - optionButtonPad/2 -optionButtonPad};
+    win.draw_image(TDT4102::Point {720 - optionButtonWidth/2, 450 - 250}, *pictures.at("youWin"));
+
+    // Time spent
+
+    win.draw_image(TDT4102::Point {720 - 150, 450 - 170}, *pictures.at("timeSpent"), 200, 47);
+    win.draw_text(TDT4102::Point {720 + 40, 450 - 165}, to_string(static_cast<int>(frozenTimer + savedTimer)) + "s", TDT4102::Color::red, 30, Font::courier_bold);
 
    // New Game Button
     if (mouseOnTopMiddleMenuButton() && leftClick(*this)){
-        topMiddleOptionColor = color;
+        win.draw_image(TDT4102::Point {720 - optionButtonWidth/2, 450 - optionButtonHeight - optionButtonPad/2}, *pictures.at("newGameDark"));
     }
     else{
-        topMiddleOptionColor = menuButtonColor;
+        win.draw_image(TDT4102::Point {720 - optionButtonWidth/2, 450 - optionButtonHeight - optionButtonPad/2}, *pictures.at("newGame"));
     }
-    win.draw_rectangle(TDT4102::Point {720 - optionButtonWidth/2, 450 - optionButtonHeight - optionButtonPad/2}, optionButtonWidth, optionButtonHeight, topMiddleOptionColor);
-    win.draw_triangle(TDT4102::Point {rightUpper.x, rightUpper.y + optionButtonHeight + optionButtonPad}, 
-    TDT4102::Point {rightOuter.x, rightOuter.y + optionButtonHeight + optionButtonPad}, TDT4102::Point {rightLower.x,
-    rightLower.y + optionButtonHeight + optionButtonPad}, topMiddleOptionColor);
-    win.draw_triangle(TDT4102::Point {leftUpper.x, leftUpper.y + optionButtonHeight + optionButtonPad}, 
-    TDT4102::Point {leftLower.x, leftLower.y + optionButtonHeight + optionButtonPad}, TDT4102::Point {leftOuter.x,
-    leftOuter.y + optionButtonHeight + optionButtonPad}, topMiddleOptionColor);
-    win.draw_text(TDT4102::Point {720 - 88, 450 - optionButtonHeight - optionButtonPad/2 + 9}, "New Game", TDT4102::Color::red, 45, Font::courier_bold);
 
-    // Main Menu Button
+    // Exit Button
+
     if (mouseOnBottomMiddleMenuButton() && leftClick(*this)){
-        bottomMiddleOptionColor = color;
+        win.draw_image(TDT4102::Point {720 - optionButtonWidth/2, 450 + optionButtonPad/2}, *pictures.at("exitDark"));
     }
     else {
-        bottomMiddleOptionColor = menuButtonColor;
+        win.draw_image(TDT4102::Point {720 - optionButtonWidth/2, 450 + optionButtonPad/2}, *pictures.at("exit"));
     }
-    win.draw_rectangle(TDT4102::Point {720 - optionButtonWidth/2, 450 + optionButtonPad/2}, optionButtonWidth, optionButtonHeight, bottomMiddleOptionColor);
-    win.draw_triangle(TDT4102::Point {rightUpper.x, rightUpper.y + 2*(optionButtonHeight + optionButtonPad),}, 
-    TDT4102::Point {rightOuter.x, rightOuter.y + 2*(optionButtonHeight + optionButtonPad)}, TDT4102::Point {rightLower.x,
-    rightLower.y + 2*(optionButtonHeight + optionButtonPad)}, bottomMiddleOptionColor);
-    win.draw_triangle(TDT4102::Point {leftUpper.x, leftUpper.y + 2*(optionButtonHeight + optionButtonPad)}, 
-    TDT4102::Point {leftLower.x, leftLower.y + 2*(optionButtonHeight + optionButtonPad)}, TDT4102::Point {leftOuter.x,
-    leftOuter.y + 2*(optionButtonHeight + optionButtonPad)}, bottomMiddleOptionColor);
-    win.draw_text(TDT4102::Point {720 - 110, 450 + optionButtonPad/2 + 9}, "Main Menu", TDT4102::Color::red, 45, Font::courier_bold);
 }
 
 void GameWindow::drawYouDied(AnimationWindow& win){
-    // Menu background and Text
-    win.draw_rectangle(TDT4102::Point {720 - optionButtonWidth/2 - 50, 450 - optionButtonHeight/2 - optionButtonPad - optionButtonHeight - 150}, 100 + optionButtonWidth, 200 + 3*optionButtonHeight + 2*optionButtonPad);
-    win.draw_text(TDT4102::Point {720 - 135, 450 - optionButtonHeight/2 - optionButtonPad - optionButtonHeight - 100}, "You died.", TDT4102::Color::red, 60, Font::courier_bold);
-    win.draw_text(TDT4102::Point {720 - 115, 450 - optionButtonHeight/2 - optionButtonPad - optionButtonHeight - 25}, "Time spent: " + to_string(static_cast<int>(frozenTimer + savedTimer)) + "s", TDT4102::Color::red, 30, Font::courier_bold);
-    // Points right side
-    TDT4102::Point rightUpper = {720 - optionButtonWidth/2 + optionButtonWidth, 450 - 2*optionButtonHeight - optionButtonPad/2 -optionButtonPad};
-    TDT4102::Point rightLower = {720 - optionButtonWidth/2 + optionButtonWidth, 450 - optionButtonHeight - optionButtonPad/2 -optionButtonPad};
-    TDT4102::Point rightOuter = {720 - optionButtonWidth/2 + optionButtonWidth + optionTriangleHeight, 450 - static_cast<int>(1.5*optionButtonHeight) - optionButtonPad/2 -optionButtonPad};
+    // Menu background
+    win.draw_image(TDT4102::Point {0,0}, *pictures.at("menuBackground"));
+    win.draw_image(TDT4102::Point {720 - 225, 450 - 275},
+    *pictures.at("optionsBackground"));
 
-    // Points left side
-    TDT4102::Point leftUpper = {720 - optionButtonWidth/2, 450 - 2*optionButtonHeight - optionButtonPad/2 -optionButtonPad};
-    TDT4102::Point leftLower = {720 - optionButtonWidth/2, 450 - optionButtonHeight - optionButtonPad/2 -optionButtonPad};
-    TDT4102::Point leftOuter = {720 - optionButtonWidth/2 - optionTriangleHeight, 450 - static_cast<int>(1.5*optionButtonHeight) - optionButtonPad/2 -optionButtonPad};
+    // You Died
+
+    win.draw_image(TDT4102::Point {720 - optionButtonWidth/2, 450 - 250}, *pictures.at("youDied"));
+
+    // Time spent
+
+    win.draw_image(TDT4102::Point {720 - 150, 450 - 170}, *pictures.at("timeSpent"), 200, 47);
+    win.draw_text(TDT4102::Point {720 + 40, 450 - 165}, to_string(static_cast<int>(frozenTimer + savedTimer)) + "s", TDT4102::Color::red, 30, Font::courier_bold);
 
    // New Game Button
     if (mouseOnTopMiddleMenuButton() && leftClick(*this)){
-        topMiddleOptionColor = color;
+        win.draw_image(TDT4102::Point {720 - optionButtonWidth/2, 450 - optionButtonHeight - optionButtonPad/2}, *pictures.at("newGameDark"));
     }
     else{
-        topMiddleOptionColor = menuButtonColor;
+        win.draw_image(TDT4102::Point {720 - optionButtonWidth/2, 450 - optionButtonHeight - optionButtonPad/2}, *pictures.at("newGame"));
     }
-    win.draw_rectangle(TDT4102::Point {720 - optionButtonWidth/2, 450 - optionButtonHeight - optionButtonPad/2}, optionButtonWidth, optionButtonHeight, topMiddleOptionColor);
-    win.draw_triangle(TDT4102::Point {rightUpper.x, rightUpper.y + optionButtonHeight + optionButtonPad}, 
-    TDT4102::Point {rightOuter.x, rightOuter.y + optionButtonHeight + optionButtonPad}, TDT4102::Point {rightLower.x,
-    rightLower.y + optionButtonHeight + optionButtonPad}, topMiddleOptionColor);
-    win.draw_triangle(TDT4102::Point {leftUpper.x, leftUpper.y + optionButtonHeight + optionButtonPad}, 
-    TDT4102::Point {leftLower.x, leftLower.y + optionButtonHeight + optionButtonPad}, TDT4102::Point {leftOuter.x,
-    leftOuter.y + optionButtonHeight + optionButtonPad}, topMiddleOptionColor);
-    win.draw_text(TDT4102::Point {720 - 88, 450 - optionButtonHeight - optionButtonPad/2 + 9}, "New Game", TDT4102::Color::red, 45, Font::courier_bold);
 
-    // Main Menu Button
+    // Exit Button
+
     if (mouseOnBottomMiddleMenuButton() && leftClick(*this)){
-        bottomMiddleOptionColor = color;
+        win.draw_image(TDT4102::Point {720 - optionButtonWidth/2, 450 + optionButtonPad/2}, *pictures.at("exitDark"));
     }
     else {
-        bottomMiddleOptionColor = menuButtonColor;
+        win.draw_image(TDT4102::Point {720 - optionButtonWidth/2, 450 + optionButtonPad/2}, *pictures.at("exit"));
     }
-    win.draw_rectangle(TDT4102::Point {720 - optionButtonWidth/2, 450 + optionButtonPad/2}, optionButtonWidth, optionButtonHeight, bottomMiddleOptionColor);
-    win.draw_triangle(TDT4102::Point {rightUpper.x, rightUpper.y + 2*(optionButtonHeight + optionButtonPad),}, 
-    TDT4102::Point {rightOuter.x, rightOuter.y + 2*(optionButtonHeight + optionButtonPad)}, TDT4102::Point {rightLower.x,
-    rightLower.y + 2*(optionButtonHeight + optionButtonPad)}, bottomMiddleOptionColor);
-    win.draw_triangle(TDT4102::Point {leftUpper.x, leftUpper.y + 2*(optionButtonHeight + optionButtonPad)}, 
-    TDT4102::Point {leftLower.x, leftLower.y + 2*(optionButtonHeight + optionButtonPad)}, TDT4102::Point {leftOuter.x,
-    leftOuter.y + 2*(optionButtonHeight + optionButtonPad)}, bottomMiddleOptionColor);
-    win.draw_text(TDT4102::Point {720 - 110, 450 + optionButtonPad/2 + 9}, "Main Menu", TDT4102::Color::red, 45, Font::courier_bold);
 }
 
 void GameWindow::drawControls(AnimationWindow& win){
-    win.draw_rectangle({0,0}, 1440, 900, TDT4102::Color::navy);
-    win.draw_rectangle({20,20}, 90, 45, TDT4102::Color::dark_gray);
-    win.draw_text({20,20}, "Back", TDT4102::Color::red, 35, Font::courier_bold);
+    // Background
+    win.draw_image(TDT4102::Point {0,0}, *pictures.at("menuBackground"));
+    win.draw_image(TDT4102::Point {720 - 225, 450 - 275},
+    *pictures.at("controlsMenu"));
+    
+    // Button
+    if (mouseOnBackButton() && leftClick(*this)){
+        win.draw_image(TDT4102::Point {10,10}, *pictures.at("backDark"));
+    }
+    else{
+        win.draw_image(TDT4102::Point {10,10}, *pictures.at("back"));
+    }
 }
 
 bool GameWindow::mouseOnTopMenuButton(){
@@ -231,6 +207,24 @@ bool GameWindow::mouseOnBottomMenuButton(){
     return false;
 }
 
+bool GameWindow::mouseOnBackButton(){
+    if ((coordinates().x >= 10) && (coordinates().x <= 200 + 10) &&
+    (coordinates().y >= 10) &&
+    (coordinates().y <= 200 + 10)){
+        return true;
+    }
+    return false;
+}
+
+bool GameWindow::mouseOnOptionsButton(){
+    if ((coordinates().x >= 17) && (coordinates().x <= 63) &&
+    (coordinates().y >= 17) &&
+    (coordinates().y <= 63)){
+        return true;
+    }
+    return false;
+}
+
 void GameWindow::menuClicks(){
     // Top button
     if (mouseOnTopMenuButton() && mouseClickedLeft(*this)){
@@ -245,7 +239,14 @@ void GameWindow::menuClicks(){
     // Top-Middle button
     if (mouseOnTopMiddleMenuButton() && mouseClickedLeft(*this)){
         if (mainMenuOpen){
-            loadGame();
+            try
+            {
+                loadGame();
+            }
+            catch(const std::exception& e)
+            {
+                std::cerr << e.what() << '\n';
+            }
         }
         else if (pauseMenuOpen){
             saveGame();
@@ -275,5 +276,50 @@ void GameWindow::menuClicks(){
             pauseMenuOpen = false;
             mainMenuOpen = true;
         }
+    }
+
+    // Back Button
+
+    if (mouseOnBackButton() && mouseClickedLeft(*this) && controls && !mainMenuOpen && !pauseMenuOpen){
+        controls = false;
+        pauseMenuOpen = true;
+    }
+
+    // Options Button
+
+    if (mouseOnOptionsButton() && mouseClickedLeft(*this) && !controls && !mainMenuOpen){
+        pauseMenuOpen = true;
+    }
+
+
+}
+
+void GameWindow::drawMenus(AnimationWindow& win){
+    if (mainMenuOpen){
+        drawMainMenu(*this);
+    }
+
+    else if (pauseMenuOpen){
+        drawPauseMenu(*this);
+    }
+
+    else if (controls){
+        drawControls(*this);
+    }
+    
+    else if (youDied){
+        drawYouDied(*this);
+    }
+    
+    else if (youWin){
+        drawYouWin(*this);
+    }
+
+    if (!mainMenuOpen && !pauseMenuOpen && !controls && !youWin && !youDied){
+        drawPauseMenuButton(*this);
+        resetButton.setVisible(true);
+    }
+    else{
+        resetButton.setVisible(false);
     }
 }
