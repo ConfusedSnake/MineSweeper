@@ -1,0 +1,599 @@
+commit 7a7b3f29085ae66afeed6c6166576d6f6c2a90e3
+Author: Emma <Emma.viktoria.marthinussen@gmail.com>
+Date:   Fri Apr 11 23:57:28 2025 +0200
+
+    zip
+
+commit 980e02093fec8ee34fe6665586ce7607950f15b3
+Author: Emma <Emma.viktoria.marthinussen@gmail.com>
+Date:   Fri Apr 11 23:53:05 2025 +0200
+
+    legge til try
+
+commit 14aebea3ff2693ad0ec45ad6a66763df36f9d48f
+Merge: 19dab74 61e9c6f
+Author: ConfusedSnake <113995794+ConfusedSnake@users.noreply.github.com>
+Date:   Fri Apr 11 23:36:08 2025 +0200
+
+    Merge pull request #10 from ConfusedSnake/zoom
+    
+    Zoom
+
+commit 61e9c6f793ffc1cc0519a9fe3ba67064c09c5226
+Merge: c90e8db ebb4fdb
+Author: Emma <Emma.viktoria.marthinussen@gmail.com>
+Date:   Fri Apr 11 23:35:15 2025 +0200
+
+    merge
+
+commit c90e8dbece4716cfea2223a498c89647b3da7771
+Author: Emma <Emma.viktoria.marthinussen@gmail.com>
+Date:   Fri Apr 11 23:33:35 2025 +0200
+
+    fiske bugs
+
+commit ebb4fdbd9d3ef57949d154f1fe1a1964862f2caa
+Author: PhilipRoswall <philip137722@gmail.com>
+Date:   Fri Apr 11 23:32:17 2025 +0200
+
+    nesten ferdig
+
+commit 3f8ee4e75dc31ed3898945d6ad00abc94521042e
+Author: PhilipRoswall <philip137722@gmail.com>
+Date:   Fri Apr 11 22:09:20 2025 +0200
+
+    Fikset timer, ferdig menyer, bugs
+
+commit c8c9c1301064f3886f5f79089203a2dc4a453f86
+Author: Emma <Emma.viktoria.marthinussen@gmail.com>
+Date:   Fri Apr 11 20:59:52 2025 +0200
+
+    fisket alt
+
+commit 62dc70dca385c4a5dc33fa7ceaead352ccc88233
+Merge: b6ba559 464920c
+Author: Emma <Emma.viktoria.marthinussen@gmail.com>
+Date:   Fri Apr 11 17:50:24 2025 +0200
+
+    merge
+
+commit b6ba559520decfc56dab896da589582c4732547b
+Author: Emma <Emma.viktoria.marthinussen@gmail.com>
+Date:   Fri Apr 11 17:49:11 2025 +0200
+
+    endre dirt
+
+commit 464920c4ea1a5f38d81d9d6dfd631874bb133ade
+Author: PhilipRoswall <philip137722@gmail.com>
+Date:   Fri Apr 11 17:02:36 2025 +0200
+
+    Menus complete
+
+commit 6cb8612faa990af8dad2f50ea751281081f01b84
+Author: PhilipRoswall <philip137722@gmail.com>
+Date:   Fri Apr 11 16:49:40 2025 +0200
+
+    Endret på logikk
+
+commit de6a691c56f8df46cfcdd7e4622e2a421be174d1
+Merge: e96777e 9eeff17
+Author: PhilipRoswall <philip137722@gmail.com>
+Date:   Fri Apr 11 16:22:34 2025 +0200
+
+    Fikset nesten alle meny layout
+
+commit e96777ec6a5e3d42a7f0508becb2af4bac0ca732
+Author: PhilipRoswall <philip137722@gmail.com>
+Date:   Fri Apr 11 14:17:50 2025 +0200
+
+    fikse menu
+
+commit 9eeff17f2b27d2046570c338b9568ef5002256ea
+Author: Emma <Emma.viktoria.marthinussen@gmail.com>
+Date:   Fri Apr 11 14:14:17 2025 +0200
+
+    bilder
+
+commit 815d65000c77842498f72901c17da27cd6fe22a0
+Merge: 3accba2 6457ef8
+Author: Emma <Emma.viktoria.marthinussen@gmail.com>
+Date:   Fri Apr 11 13:42:40 2025 +0200
+
+    fikset menuart
+
+commit 3accba24c7a7a5f00fe57ccdc2903d8f3d0f81e5
+Merge: ef6f6bb 071fd96
+Author: Emma <Emma.viktoria.marthinussen@gmail.com>
+Date:   Fri Apr 11 11:45:25 2025 +0200
+
+    fix something?
+
+commit 6457ef82b815d335bde96aeb63317cf39c8b2642
+Author: PhilipRoswall <philip137722@gmail.com>
+Date:   Fri Apr 11 03:04:33 2025 +0200
+
+    MANGE MENYER
+
+commit ef6f6bbd634a30711580617f2e6e44ee11b78b4e
+Author: Emma <Emma.viktoria.marthinussen@gmail.com>
+Date:   Thu Apr 10 23:56:29 2025 +0200
+
+    idk
+
+commit 071fd9684199b8b0d09341a0613ec5f51bc60c53
+Author: PhilipRoswall <philip137722@gmail.com>
+Date:   Thu Apr 10 23:16:45 2025 +0200
+
+    Meny layout laget
+
+commit b79703aeecaf91bbb5a365ab71195544cc6e2a7f
+Merge: cb782f5 c5d9ebd
+Author: Emma <Emma.viktoria.marthinussen@gmail.com>
+Date:   Thu Apr 10 17:44:11 2025 +0200
+
+    merga med menu
+
+commit cb782f56521d6d94d55134cefc15319c1a5fa54c
+Merge: 429c1c5 bd63bc2
+Author: Emma <Emma.viktoria.marthinussen@gmail.com>
+Date:   Thu Apr 10 17:41:07 2025 +0200
+
+    top beveger seg
+
+commit c5d9ebd16194218c885d0e235b6deeac0e15a77d
+Author: PhilipRoswall <philip137722@gmail.com>
+Date:   Thu Apr 10 17:37:24 2025 +0200
+
+    menu still in the making
+
+commit 88fc3c00e836152110509f7057d7dc3445c2a7e7
+Author: PhilipRoswall <philip137722@gmail.com>
+Date:   Wed Apr 9 14:13:27 2025 +0200
+
+    Menu system in progress
+
+commit 429c1c55ca5f0974bd2c4accc1a36fbd8dca7c93
+Author: Emma <Emma.viktoria.marthinussen@gmail.com>
+Date:   Wed Apr 9 13:33:59 2025 +0200
+
+    fiksa bevegelse
+
+commit bd63bc2e89738bf39f8691cae8822c356ba709c2
+Author: PhilipRoswall <philip137722@gmail.com>
+Date:   Wed Apr 9 12:09:48 2025 +0200
+
+    Timer og arrowKey
+
+commit 2d7e9ccdac2ba0eec90d94a111e4511f9c78336d
+Author: PhilipRoswall <philip137722@gmail.com>
+Date:   Wed Apr 9 11:29:04 2025 +0200
+
+    implementerte timer
+
+commit 3f2fa43d09dfcd27a636daba53269c242beba344
+Author: Emma <Emma.viktoria.marthinussen@gmail.com>
+Date:   Mon Apr 7 15:54:28 2025 +0200
+
+    kan bevege seg rundt
+
+commit a13dcd1d569e108b988e4c3e10be474359ded323
+Author: Emma <Emma.viktoria.marthinussen@gmail.com>
+Date:   Wed Apr 2 01:44:32 2025 +0200
+
+    zoomet brett, bevegelig bakgrunn
+
+commit adf27965ad2798ad9901b5e9649722cf6d6e9081
+Author: Emma <Emma.viktoria.marthinussen@gmail.com>
+Date:   Sun Mar 30 04:27:55 2025 +0200
+
+    Fisket load og save game til fil, tid blir ikke lagret
+
+commit 67708e2cbe7203e7e38f5e91a40b999ca54046ff
+Author: PhilipRoswall <philip137722@gmail.com>
+Date:   Sat Mar 29 23:46:22 2025 +0100
+
+    loadGame in the making
+
+commit 19dab7491a45b285b314d4a9d4ce4be7713ec450
+Merge: b3e77b4 0af791a
+Author: PhilipRoswall <philip137722@gmail.com>
+Date:   Fri Mar 28 23:39:20 2025 +0100
+
+    Merge pull request #9 from ConfusedSnake/Layout
+    
+    Layout
+
+commit 0af791a5a3b35f10e487acbf16a70fa30ac379c1
+Author: PhilipRoswall <philip137722@gmail.com>
+Date:   Fri Mar 28 23:38:04 2025 +0100
+
+    Timer, layout, art, saveGame
+
+commit b65867344c9118b617915ba5f54bfb46f3186749
+Author: Emma <Emma.viktoria.marthinussen@gmail.com>
+Date:   Fri Mar 28 01:41:34 2025 +0100
+
+    fiksing av movement og plassring av flagg med space
+
+commit 4e9130d4f78f77e8d1bb554a11ff7ab8cacdb1a0
+Author: Emma <Emma.viktoria.marthinussen@gmail.com>
+Date:   Fri Mar 28 00:18:33 2025 +0100
+
+    prøver å fikse problem med bevegelse
+
+commit a1f865a9ad14c91ad5ab585701a5862ebb956cb7
+Author: Emma <Emma.viktoria.marthinussen@gmail.com>
+Date:   Thu Mar 27 23:55:14 2025 +0100
+
+    hm
+
+commit 6ff11eb9476a34cb7cf4ea71b809bf821dc04eb6
+Author: Emma <Emma.viktoria.marthinussen@gmail.com>
+Date:   Thu Mar 27 23:25:11 2025 +0100
+
+    Pfikser utsetting av flagg
+
+commit 48c729b86b16b9f9ca8c5b917bfe542e5ac6ca68
+Author: Emma <Emma.viktoria.marthinussen@gmail.com>
+Date:   Thu Mar 27 18:50:11 2025 +0100
+
+    yey et funker
+
+commit f3dc248e4096abd68dc7e360e9ba15b99184e32d
+Author: Emma <Emma.viktoria.marthinussen@gmail.com>
+Date:   Thu Mar 27 18:05:44 2025 +0100
+
+    fiksest movement
+
+commit 8b4c3666857e34e4f77638542e0ae318c1bc33c6
+Author: Emma <Emma.viktoria.marthinussen@gmail.com>
+Date:   Thu Mar 27 15:50:34 2025 +0100
+
+    hei
+
+commit 2bea6d34e6ff0a172cd498b6e4021b7c0310dc2f
+Author: PhilipRoswall <philip137722@gmail.com>
+Date:   Thu Mar 27 12:15:13 2025 +0100
+
+    La til elementer i Player
+
+commit fcd212dda2f5363b4112059ae9e1c5568b7fee7a
+Author: PhilipRoswall <philip137722@gmail.com>
+Date:   Wed Mar 26 00:11:50 2025 +0100
+
+    Fikset frozenTimer, posisjon BETA
+
+commit 2594365b87cfb5c7f1129fe13a0fd0264fa1e471
+Author: PhilipRoswall <philip137722@gmail.com>
+Date:   Tue Mar 25 15:13:59 2025 +0100
+
+    Alt inne i funksjon, piler
+
+commit f2eb2fb3b652d91068fbe1d278454ce4b13aa26f
+Author: PhilipRoswall <philip137722@gmail.com>
+Date:   Mon Mar 24 18:49:05 2025 +0100
+
+    Visuelle piltaster, klikking av tast, Timer i class
+
+commit 4a40e705731096e687f329a6a2716371c9114ec9
+Author: PhilipRoswall <philip137722@gmail.com>
+Date:   Mon Mar 24 01:51:31 2025 +0100
+
+    Lagde en <fungerende> timer
+
+commit 5de7b7808ee45cfeeb0ea120ea249b49e3867542
+Author: Emma <Emma.viktoria.marthinussen@gmail.com>
+Date:   Sun Mar 23 20:59:09 2025 +0100
+
+    fikset farge, og tall
+
+commit 7c04af750f25c9a7270ee4aa2effcae7818d06f6
+Author: Emma <Emma.viktoria.marthinussen@gmail.com>
+Date:   Sun Mar 23 20:46:18 2025 +0100
+
+    fikset problem med knapp
+
+commit cfd720e4752fb82f8e3e18106f72216532f79b7e
+Author: Emma <Emma.viktoria.marthinussen@gmail.com>
+Date:   Sun Mar 23 20:18:05 2025 +0100
+
+    ifikset ingen bomber på første
+
+commit afb000f649a4e6a9f1c33c83afb848eafc83b06d
+Merge: 65c5c09 615d990
+Author: Emma <Emma.viktoria.marthinussen@gmail.com>
+Date:   Sun Mar 23 16:59:29 2025 +0100
+
+    merge med philFixAnim
+
+commit 65c5c09c3c8a711ef07ec4cf48d5cf2d5542e726
+Author: Emma <Emma.viktoria.marthinussen@gmail.com>
+Date:   Sun Mar 23 16:51:25 2025 +0100
+
+    ?
+
+commit 615d99052e9aaf49f8fcacbd9a88a786379fa481
+Author: PhilipRoswall <philip137722@gmail.com>
+Date:   Sat Mar 22 19:53:16 2025 +0100
+
+    Fikset reset button
+
+commit 1d2b8bae7d8b0f27128f18151dcb37bce882183c
+Merge: a2752f2 c52de0f
+Author: Emma <Emma.viktoria.marthinussen@gmail.com>
+Date:   Sat Mar 22 17:49:10 2025 +0100
+
+    fikset alt av problemer
+
+commit c52de0f32bdd571cce9a7ee1e0b29f76a7f711ab
+Author: PhilipRoswall <philip137722@gmail.com>
+Date:   Sat Mar 22 17:03:59 2025 +0100
+
+    BombCount, knapp, Reset
+
+commit a2752f2c0d1a5a8d658be6b2e7714ca6f3255c8e
+Author: Emma <Emma.viktoria.marthinussen@gmail.com>
+Date:   Sat Mar 22 17:00:49 2025 +0100
+
+    OMG FIKSA KRAESJING
+
+commit e901f99584c89f456b164097c2fb408268b8aeaf
+Author: Emma <Emma.viktoria.marthinussen@gmail.com>
+Date:   Sat Mar 22 15:14:13 2025 +0100
+
+    prøver å fikse ting igjen
+
+commit 7eac58ab9e9a903b637bfb8901cbd2905beea6db
+Author: Emma <Emma.viktoria.marthinussen@gmail.com>
+Date:   Sat Mar 22 13:59:40 2025 +0100
+
+    lagt til flagg
+
+commit 26d4e53a8aed55d8cce64cfc7b0040b0b777d09a
+Merge: a237378 bc523cc
+Author: Emma <Emma.viktoria.marthinussen@gmail.com>
+Date:   Sat Mar 22 13:47:05 2025 +0100
+
+    merge phil and Em
+
+commit bc523ccf8002288b64a96c10180bcb661e00fd88
+Author: PhilipRoswall <philip137722@gmail.com>
+Date:   Sat Mar 22 13:43:55 2025 +0100
+
+    flagg
+
+commit a2373786266e3d3b9dc72d95d8ee7528a2a43156
+Author: Emma <Emma.viktoria.marthinussen@gmail.com>
+Date:   Sat Mar 22 13:38:50 2025 +0100
+
+    fikse museklikking
+
+commit 5828f5afca8ac14677a946e603e4995dd6c2c084
+Author: Emma <Emma.viktoria.marthinussen@gmail.com>
+Date:   Sat Mar 22 12:55:43 2025 +0100
+
+    fikset at den ikke laster ned bilder hele tiden
+
+commit 5768c0f8a728ec0af217c68b831fd792dc3ddfad
+Author: Emma <Emma.viktoria.marthinussen@gmail.com>
+Date:   Fri Mar 21 15:25:19 2025 +0100
+
+    yey
+
+commit 7a54b1c132353146774073820756b6a4435744c8
+Author: Emma <Emma.viktoria.marthinussen@gmail.com>
+Date:   Fri Mar 21 11:35:01 2025 +0100
+
+    Sommerfugl funker
+
+commit 55f427c2b86fb23000787a6430b5f5c72f410661
+Author: Emma <Emma.viktoria.marthinussen@gmail.com>
+Date:   Fri Mar 21 01:20:23 2025 +0100
+
+    v2
+
+commit 1de113c0b59ab8ab1f30b3327fc4ef29ca7065ab
+Author: Emma <Emma.viktoria.marthinussen@gmail.com>
+Date:   Thu Mar 20 20:31:47 2025 +0100
+
+    jkajk
+
+commit b3e77b43d15b9b4d6f08e5bc6f1189974d89e679
+Merge: 0416ff0 9ab9b48
+Author: ConfusedSnake <113995794+ConfusedSnake@users.noreply.github.com>
+Date:   Thu Mar 20 18:53:58 2025 +0100
+
+    Merge pull request #8 from ConfusedSnake/em-anim
+    
+    ferdig med tegning av underbrett
+
+commit 9ab9b48530ea6fe10ad06fb90cbdd8b2949f31f1
+Merge: d28b4f3 0416ff0
+Author: ConfusedSnake <113995794+ConfusedSnake@users.noreply.github.com>
+Date:   Thu Mar 20 18:53:49 2025 +0100
+
+    Merge branch 'main' into em-anim
+
+commit 0416ff021df64597429866a5c6b1bd715c88a981
+Merge: 0381567 07ec96a
+Author: ConfusedSnake <113995794+ConfusedSnake@users.noreply.github.com>
+Date:   Thu Mar 20 18:38:32 2025 +0100
+
+    Merge pull request #7 from ConfusedSnake/phi-anime
+    
+    fikse player brett
+
+commit 07ec96a7dfb6d788989b74fdf6375e37c03cb75f
+Author: PhilipRoswall <philip137722@gmail.com>
+Date:   Thu Mar 20 18:21:46 2025 +0100
+
+    fikse player brett
+
+commit d28b4f3e65a4b181a236e94ca13996df6766d06c
+Author: Emma <Emma.viktoria.marthinussen@gmail.com>
+Date:   Thu Mar 20 16:16:37 2025 +0100
+
+    ferdig med tegning av underbrett
+
+commit 0381567ee3c35ba77e183421154d65aa0ad4f869
+Merge: 1e6ea2f 40d0c72
+Author: ConfusedSnake <113995794+ConfusedSnake@users.noreply.github.com>
+Date:   Thu Mar 20 14:07:07 2025 +0100
+
+    Merge pull request #6 from ConfusedSnake/em-anim
+    
+    tegne brett v2
+
+commit 40d0c72bf1b309c3444ef30010aa746ec92f3883
+Author: Emma <Emma.viktoria.marthinussen@gmail.com>
+Date:   Thu Mar 20 14:06:09 2025 +0100
+
+    tegne brett v2
+
+commit 1e6ea2f6ae079e31b32df3246e6b368bc7fed550
+Author: PhilipRoswall <philip137722@gmail.com>
+Date:   Thu Mar 20 12:52:38 2025 +0100
+
+    Lagt til mange knapper
+
+commit c7638aee8ab450fcd861e92467dcc54f15e30338
+Merge: eba4457 6c7fd87
+Author: ConfusedSnake <113995794+ConfusedSnake@users.noreply.github.com>
+Date:   Thu Mar 20 11:54:31 2025 +0100
+
+    Merge pull request #5 from ConfusedSnake/animationBranch
+    
+    Forsøk på vindu og knapp
+
+commit 6c7fd87574cb243e75e2f4892e477bb80d3f7128
+Merge: b00cae4 eba4457
+Author: ConfusedSnake <113995794+ConfusedSnake@users.noreply.github.com>
+Date:   Thu Mar 20 11:54:24 2025 +0100
+
+    Merge branch 'main' into animationBranch
+
+commit eba44578c9c480efd8f76cdf2913e854a2b4aa64
+Merge: e48a52c d42500a
+Author: ConfusedSnake <113995794+ConfusedSnake@users.noreply.github.com>
+Date:   Thu Mar 20 11:37:11 2025 +0100
+
+    Merge pull request #4 from ConfusedSnake/fieldBranch
+    
+    Field branch
+
+commit d42500aaa55ece0777abb7b0c33c2952e9dfe3e7
+Author: Emma <Emma.viktoria.marthinussen@gmail.com>
+Date:   Thu Mar 20 11:36:29 2025 +0100
+
+    updated minefield creator class
+
+commit bea535246b64cec92dffaeb02f2a80bf225d2de2
+Author: Emma <Emma.viktoria.marthinussen@gmail.com>
+Date:   Wed Mar 19 18:33:09 2025 +0100
+
+    Opprettet class om lager field brett med bomber
+
+commit b00cae4960c8445a1bc12cc05de1a4d23ae0ddd3
+Author: PhilipRoswall <philip137722@gmail.com>
+Date:   Wed Mar 19 18:28:39 2025 +0100
+
+    Forsøk på vindu og knapp
+
+commit e48a52cef5a195c263d3b2175e290b7d92644b46
+Author: Emma <Emma.viktoria.marthinussen@gmail.com>
+Date:   Wed Mar 19 16:55:31 2025 +0100
+
+    adding minefield.cpp/h, starting on class
+
+commit d1d3c361685328faf79c54c770ea7f78826d7f92
+Author: PhilipRoswall <philip137722@gmail.com>
+Date:   Wed Mar 19 16:34:12 2025 +0100
+
+    Fikset builddir lokalt
+
+commit 20883a086b0dad4cf7787c06fc001729f95b3dec
+Merge: 1003f22 ce2c808
+Author: ConfusedSnake <113995794+ConfusedSnake@users.noreply.github.com>
+Date:   Wed Mar 19 16:20:19 2025 +0100
+
+    Merge pull request #3 from ConfusedSnake/testb
+    
+    yomama
+
+commit ce2c80841be8a135a917b6cbbb5c508a2e6e2dd7
+Author: Emma <Emma.viktoria.marthinussen@gmail.com>
+Date:   Wed Mar 19 16:17:34 2025 +0100
+
+    yomama
+
+commit 1003f220fbd647acec014621e58d1ef1112de703
+Author: Emma <Emma.viktoria.marthinussen@gmail.com>
+Date:   Wed Mar 19 16:13:48 2025 +0100
+
+    jfdlakj
+
+commit d313e5522e3939238fcc2c80ef8c2b7c70d167fc
+Author: Emma <Emma.viktoria.marthinussen@gmail.com>
+Date:   Wed Mar 19 16:12:24 2025 +0100
+
+    legger til kommentar i main
+
+commit fdfcfcb7b4860237dc8a4aab80b2fb5b2a10ba8c
+Merge: ab3eb39 ffc1893
+Author: ConfusedSnake <113995794+ConfusedSnake@users.noreply.github.com>
+Date:   Wed Mar 19 16:06:31 2025 +0100
+
+    Merge pull request #2 from ConfusedSnake/new-b
+    
+    endre m
+
+commit ffc1893c37470fa3c9930c214a835f4839a25888
+Author: Emma <Emma.viktoria.marthinussen@gmail.com>
+Date:   Wed Mar 19 16:05:05 2025 +0100
+
+    endre m
+
+commit ab3eb3990cbb47671c584272429a52778a65cd75
+Merge: 2f27edb b28a6b3
+Author: ConfusedSnake <113995794+ConfusedSnake@users.noreply.github.com>
+Date:   Wed Mar 19 15:59:57 2025 +0100
+
+    Merge pull request #1 from ConfusedSnake/test-branch
+    
+    endrer readme
+
+commit b28a6b32064b69d906581d5ac645b1005c5bd7b2
+Author: Emma <Emma.viktoria.marthinussen@gmail.com>
+Date:   Wed Mar 19 15:56:26 2025 +0100
+
+    endrer readme
+
+commit 2f27edb81b1cc73cd1bbf567df0b854ad3c37051
+Author: Emma <Emma.viktoria.marthinussen@gmail.com>
+Date:   Wed Mar 19 15:35:31 2025 +0100
+
+    Endret readme filen'
+
+commit 49a5afb9ddf08c66748d08fbaa62fea2e1d331a1
+Author: Emma <Emma.viktoria.marthinussen@gmail.com>
+Date:   Wed Mar 19 15:34:02 2025 +0100
+
+    pls endre
+
+commit 58ba037cfb8d5839ad6b0f73a056ea3363e900f2
+Author: Emma <Emma.viktoria.marthinussen@gmail.com>
+Date:   Wed Mar 19 15:17:04 2025 +0100
+
+    python file
+
+commit 6084416abd5a178e3338ddd444ecc1833407e1c8
+Author: Emma <Emma.viktoria.marthinussen@gmail.com>
+Date:   Wed Mar 19 15:08:03 2025 +0100
+
+    blank project
+
+commit 8388d1077a0da830a7cb118b3aab6125e5810313
+Author: Emma <Emma.viktoria.marthinussen@gmail.com>
+Date:   Wed Mar 19 15:00:38 2025 +0100
+
+    first commit
