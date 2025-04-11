@@ -1,14 +1,16 @@
 #include "mineField.h"
 #include <iostream>
 
-Field::Field(const int fieldW, const int fieldH, int x, int y) : fieldW(fieldW), fieldH(fieldH), x(x), y(y) {
+Field::Field(const int fieldW, const int fieldH, int x, int y, bool load) : fieldW(fieldW), fieldH(fieldH), x(x), y(y) {
     fieldVec.reserve(fieldH);
 
     for (int i = 0; i < fieldH; i++) {
         fieldVec.push_back(std::make_unique<std::vector<int>>(fieldW, 0));
     }
-    plantBombs();
 
+    if (!load){
+        plantBombs();
+    }
 
     dx = (x > 0 && x < fieldW - 1) ? 1 : 0;
     dy = (y > 0 && y < fieldH - 1) ? 1 : 0;
@@ -67,16 +69,9 @@ void Field::plantBombs(){
     }
 }
 
-void Field::resetVec(){
-    fieldVec.clear();
-    fieldVec.reserve(fieldH);
-
-    for (int i = 0; i < fieldH; i++) {
-        fieldVec.push_back(std::make_unique<std::vector<int>>(fieldW, 0));
-    }
-    plantBombs();
+void Field::changeFieldVec(int y, int x, int value){
+    fieldVec.at(y)->at(x) = value;
 }
-
 
 std::ostream& operator<<(std::ostream& os, const Field& field) {
     for (const auto& row : field.getField()) {

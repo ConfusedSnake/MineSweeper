@@ -12,7 +12,7 @@ private:
     int y;
     int dx = 1;
     int dy = 1;
-    const int amountBombs = 70;
+    const int amountBombs = 99;
 
     std::vector<std::unique_ptr<std::vector<int>>> fieldVec;
 
@@ -35,9 +35,9 @@ public:
 
     void plantBombs();
 
-    Field(const int fieldW, const int fieldH, int x, int y);
+    Field(const int fieldW, const int fieldH, int x, int y, bool load);
 
-    void resetVec();
+    void changeFieldVec(int y, int x, int value);
 };
 
 std::ostream& operator<<(std::ostream& os, const Field& field);

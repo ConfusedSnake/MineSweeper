@@ -4,10 +4,8 @@
 
 class Player{
     private:
-    int W = 30;
-    int H = 16;
-    int playerX = 0;
-    int playerY = 0;
+    int playerX;
+    int playerY;
     char playerDirection = 'R';
 
     std::chrono::steady_clock::time_point lastMoveTime;
@@ -15,7 +13,6 @@ class Player{
 
     public:
     
-
     Player();
 
     bool canMove();
@@ -31,6 +28,14 @@ class Player{
         return playerX;
     }
 
+    void changePlayerY(int positionY){
+        playerY = positionY;
+    }
+
+    void changePlayerX(int positionX){
+        playerX = positionX;
+    }
+
     void changeDirection(char direc){
         playerDirection = direc;
     }
@@ -39,5 +44,4 @@ class Player{
     void moveRight(AnimationWindow& win);
     void moveUp(AnimationWindow& win);
     void moveDown(AnimationWindow& win);
-
 };
