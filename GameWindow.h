@@ -42,6 +42,7 @@ class GameWindow : public TDT4102::AnimationWindow
     int bombCount = 99;
     double frozenTimer;
     int savedTimer = 0;
+
     bool mainMenuOpen = true;
     bool pauseMenuOpen = false;
     bool youWin = false;
@@ -57,13 +58,17 @@ class GameWindow : public TDT4102::AnimationWindow
     std::map<std::string, std::unique_ptr<TDT4102::Image>> pictures;
 
     GameWindow(TDT4102::Point position, int width, int height, const std::string& title);
-    void drawMainMenu(AnimationWindow& win);
-    void drawPauseMenu(AnimationWindow& win);
-    void drawPauseMenuButton(AnimationWindow& win);
-    void drawYouWin(AnimationWindow& win);
-    void drawYouDied(AnimationWindow& win);
-    void drawControls(AnimationWindow& win);
-    void drawMenus(AnimationWindow& win);
+
+    void clearSave();
+    
+    void drawMainMenu();
+    void drawPauseMenu();
+    void drawPauseMenuButton();
+    void drawYouWin();
+    void drawYouDied();
+    void drawControls();
+    void drawMenus();
+
 
     bool mouseOnTopMenuButton();
     bool mouseOnTopMiddleMenuButton();
@@ -77,21 +82,22 @@ class GameWindow : public TDT4102::AnimationWindow
     void run();
     void runSaved();
 
-    void drawGrid(AnimationWindow& win);
-    void drawPlayerGrid(AnimationWindow& win, const std::vector<std::unique_ptr<std::vector<int>>>& playerFieldVec);
-    void drawPlayer(AnimationWindow& win);
-    void drawArrows(AnimationWindow& win);
-    void drawGame(bool dField, bool dPlayerField, bool dPlayer, bool dBackground, AnimationWindow& win);
+    void drawEmptyGame();
+    void drawGrid();
+    void drawPlayerGrid();
+    void drawPlayer();
+    void drawArrows();
+    void drawGame(bool dPlayerField);
 
     TDT4102::Point coordinates();
     int clickY();
     int clickX();
     
-    void tileClick(const Field& field, std::vector<std::unique_ptr<std::vector<int>>>& playerFieldVec, bool& dead);
-    void openUp(const Field& field, std::vector<std::unique_ptr<std::vector<int>>>& playerFieldVec, int x, int y);
+    void tileClick();
+    void openUp(int x, int y);
 
-    void flagRightClick(const Field& field, std::vector<std::unique_ptr<std::vector<int>>>& playerFieldVec);
-    void flagSpace(const Field& field, std::vector<std::unique_ptr<std::vector<int>>>& playerFieldVec);
+    void flagRightClick();
+    void flagSpace();
 
     void callbackButton();
     void resetCallback(int& resetCount);

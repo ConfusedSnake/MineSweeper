@@ -4,8 +4,8 @@
 
 class Player{
     private:
-    int playerX = 0;
-    int playerY = 0;
+    int playerX;
+    int playerY;
     char playerDirection = 'R';
 
     std::chrono::steady_clock::time_point lastMoveTime;

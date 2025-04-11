@@ -1,6 +1,8 @@
 #include "Player.h"
 
 Player::Player(){
+    playerX = 0;
+    playerY = 0;
     lastMoveTime = std::chrono::steady_clock::now();
 }
 

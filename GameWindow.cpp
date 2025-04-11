@@ -97,73 +97,52 @@ GameWindow::GameWindow(TDT4102::Point position, int width, int height, const std
 void GameWindow::run() {
     std::filesystem::path fileName{"myFile.txt"};
     std::ifstream inputStream{fileName};
-    // if (player->getPlayerY() > 6){
-    //     resetButton.setVisible(false);
-    // }
-
+    bool started = false;
+ 
     while (!should_close()) {
-        // ==================== Before first click ==================== //
-        if(!field || !player){
-            draw_image(TDT4102::Point{0,0}, *pictures.at("backgroundTop"), 1440, cellSize*2);
-            draw_text(TDT4102::Point {697, xOffset-22}, to_string(0) , TDT4102::Color::red, 45, Font::courier_bold);
-            if ((mouseClickedLeft(*this) && clickX() != -1 && clickY() != -1)||(up(*this) || down(*this) || left(*this) || right(*this))) {
-                
-                // Creating game, either load og new game
-                try{ 
-                    loadGame();
-                } catch(const exception& e) {
-                    std::cout << e.what() << std::endl;
-                    field = std::make_unique<Field>(W, H, 0, 0, false);
-                    player = std::make_unique<Player>();
-                    tileClick(*field, playerFieldVec, dead);
-                } 
-                
-                drawGame(true, true, true, true, *this);
-                t.start();
-            }
         
-        // ==================== After first click ==================== //
-        } else {
-
-            // Drawing top background, moving when player moves
-
-
-            // =======================================================
-
-
-            if (!dead){
-                drawGame(true, true, true, true, *this);
+        menuClicks();
+        resetButton.setVisible(false);
+        if(controls){
+            drawControls();
+        } else if(mainMenuOpen){
+            drawMainMenu();
+        } else if(pauseMenuOpen){
+            drawPauseMenu();
+        } else{
+            if(player->getPlayerX() == (W-1)){
+                youWin = true;
+                drawGame(false);
+                drawYouWin();
+            }
+            else if (!dead){
                 frozenTimer = t.stop();
-                draw_text(TDT4102::Point {697, xOffset-22 + yMove}, to_string(static_cast<int>(frozenTimer + savedTimer)) , TDT4102::Color::red, 45, Font::courier_bold);
-                menuClicks();
+                drawGame(true);
                 if(!spaceBar(*this)){
                     move();
                 }
-
                 if(spaceBar(*this)){
                     flagSpaceMode();
                 }
-            }
-            else {
+            } else {
                 yMove = 0;
-                drawGame(true, false, true, true, *this);
-                draw_text(TDT4102::Point {697, xOffset-22}, to_string(static_cast<int>(frozenTimer + savedTimer)) , TDT4102::Color::red, 45, Font::courier_bold);
+                drawGame(false);
+                youDied = true;
+                drawYouDied();
+                
                 if (!std::filesystem::is_empty("myFile.txt")){
                     std::ofstream file("myFile.txt", std::ios::trunc);
                 }
             }
 
             if (keyRClicked(*this)){
-                    reset();
-                }
+                reset();
+            }
+
+            //draw_text(TDT4102::Point {200, 650 + yMove}, to_string(bombCount) , TDT4102::Color::red, 45);
         }
         
-        // drawControls(*this);
-        //drawMainMenu(*this);
-        drawControls(*this);
-        drawArrows(*this);
-        draw_text(TDT4102::Point {200, 650 + yMove}, to_string(bombCount) , TDT4102::Color::red, 45);
-        next_frame();
+    next_frame();
     }
 }
 
@@ -171,25 +150,25 @@ void GameWindow::move(){
     if (up(*this)){
         if(player->getPlayerY() != 0 && (*playerFieldVec[player->getPlayerY()-1])[player->getPlayerX()] != -1){
             player->moveUp(*this);
-            tileClick(*field, playerFieldVec, dead);
+            tileClick();
         }
         
     } else if (down(*this)){
         if(player->getPlayerY() != (H-1) && (*playerFieldVec[player->getPlayerY()+1])[player->getPlayerX()] != -1){
             player->moveDown(*this);
-            tileClick(*field, playerFieldVec, dead);
+            tileClick();
         }
         
     } else if (left(*this)){
         if(player->getPlayerX() != 0 &&(*playerFieldVec[player->getPlayerY()])[player->getPlayerX()-1] != -1){
             player->moveLeft(*this);
-            tileClick(*field, playerFieldVec, dead);
+            tileClick();
         }
         
     } else if (right(*this)){
         if(player->getPlayerX() != (W-1) && (*playerFieldVec[player->getPlayerY()])[player->getPlayerX()+1] != -1){
             player->moveRight(*this);
-            tileClick(*field, playerFieldVec, dead);
+            tileClick();
         }
         
     }
@@ -216,27 +195,27 @@ int GameWindow::clickX(){
 }
 
 
-void GameWindow::tileClick(const Field& field, std::vector<std::unique_ptr<std::vector<int>>>& playerFieldVec, bool& dead){
+void GameWindow::tileClick(){
     int x = player->getPlayerX();
     int y = player->getPlayerY();
 
-    if((*field.getField()[y])[x] == -1){
+    if((*field->getField()[y])[x] == -1){
         dead = true;
     }
 
     if (x != -1 && y != -1 && (*playerFieldVec[y])[x] == 0) {
-        openUp(field, playerFieldVec, x, y);
+        openUp(x, y);
     }
 }
 
-void GameWindow::openUp(const Field& field, std::vector<std::unique_ptr<std::vector<int>>>& playerFieldVec, int x, int y){
+void GameWindow::openUp(int x, int y){
     if ((*playerFieldVec[y])[x] == 1) {
         return; 
     }
 
     (*playerFieldVec[y])[x] = 1;
 
-    if ((*field.getField()[y])[x] == 0){
+    if ((*field->getField()[y])[x] == 0){
         for (int dy = -1; dy <= 1; ++dy) { 
             for (int dx = -1; dx <= 1; ++dx) { 
                 if (dy == 0 && dx== 0){
@@ -246,9 +225,9 @@ void GameWindow::openUp(const Field& field, std::vector<std::unique_ptr<std::vec
                 int newY = y + dy;
                 int newX = x + dx;
 
-                if (newY >= 0 && newY < (field.getH()) && newX >= 0 && newX < (field.getW())) {
-                    if (((*field.getField()[newY])[newX] == 0) && ((*playerFieldVec[newY])[newX] == 0)) {
-                        openUp(field, playerFieldVec, newX, newY);
+                if (newY >= 0 && newY < (field->getH()) && newX >= 0 && newX < (field->getW())) {
+                    if (((*field->getField()[newY])[newX] == 0) && ((*playerFieldVec[newY])[newX] == 0)) {
+                        openUp(newX, newY);
                     }
                     (*playerFieldVec[newY])[newX] = 1; 
 
@@ -329,7 +308,7 @@ void GameWindow::flagSpaceMode(){
     }
 }
 
-void GameWindow::flagSpace(const Field& field, std::vector<std::unique_ptr<std::vector<int>>>& playerFieldVec){
+void GameWindow::flagSpace(){
     int x = player->getPlayerX();
     int y = player->getPlayerY();
     char direction = player->getDirection();
@@ -369,7 +348,7 @@ void GameWindow::flagSpace(const Field& field, std::vector<std::unique_ptr<std::
     }     
 }
 
-void GameWindow::flagRightClick(const Field& field, std::vector<std::unique_ptr<std::vector<int>>>& playerFieldVec){
+void GameWindow::flagRightClick(){
     int x = clickX();
     int y = clickY();
 
@@ -388,7 +367,7 @@ void GameWindow::callbackButton(){
     this->reset();
 }
 
-void GameWindow::reset(){
+void GameWindow::clearSave(){
     std::ofstream file("myFile.txt", std::ios::trunc);
     if (file.is_open()) {
         std::cout << "Filen ble clearet!\n";
@@ -396,13 +375,19 @@ void GameWindow::reset(){
     } else {
         std::cerr << "Kunne ikke åpne filen.\n";
     }
+}
 
+void GameWindow::reset(){
     playerFieldVec.clear();
     playerFieldVec.reserve(H);
     for (int i = 0; i < H; i++) {
         playerFieldVec.push_back(std::make_unique<std::vector<int>>(W, 0));
     }
-    field.reset();
+    //field.reset();
+    //player.reset();
+    field = std::make_unique<Field>(W, H, 0, 0, false);
+    player = std::make_unique<Player>();
+    tileClick();
 
     dead = false;
     bombCount = 70;
@@ -410,6 +395,7 @@ void GameWindow::reset(){
 }
 
 void GameWindow::saveGame(){
+    clearSave();
     std::filesystem::path fileName{"myFile.txt"};
     std::ofstream outputStream{fileName};
     std::string line;
@@ -452,7 +438,6 @@ void GameWindow::loadGame(){
         std::cout << "Could not open file" << std::endl;
     }
     else {
-        
         player = std::make_unique<Player>();
         inputStream >> nextWord;
         player->changePlayerX(std::stoi(nextWord));

@@ -9,7 +9,4 @@ int main() {
     GameWindow game = GameWindow(p, 1440, 900, "WINDOW");
     game.run();
     game.wait_for_close();
-    if(!game.dead){
-        game.saveGame();
-    }
 }
