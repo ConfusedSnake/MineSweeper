@@ -116,8 +116,8 @@ void GameWindow::run() {
             drawMainMenu();
             t.start();
         } else if(pauseMenuOpen){
-            drawPauseMenu();
             t.start();
+            drawPauseMenu();
         } else{
             if(player->getPlayerX() == (W-1)){
                 yMove = 0;
