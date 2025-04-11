@@ -48,7 +48,12 @@ void GameWindow::drawGrid(AnimationWindow& win) {
                 color = TDT4102::Color::grey;
             }
 
-            win.draw_rectangle(TDT4102::Point{(x-botx) * cellSize, (y-boty) * cellSize + yOffset + yMove}, cellSize-2, cellSize-2, color);
+            if(y != (H-2) && (*playerFieldVec[y])[x] == 1 && (*playerFieldVec[y+1])[x] == 0){
+                win.draw_image(TDT4102::Point{(x-botx) * cellSize, (y-boty) * cellSize + yOffset + yMove}, *pictures.at("dirtGrass"));
+            } else {
+                win.draw_image(TDT4102::Point{(x-botx) * cellSize, (y-boty) * cellSize + yOffset + yMove}, *pictures.at("dirt"));
+            }
+            //win.draw_rectangle(TDT4102::Point{(x-botx) * cellSize, (y-boty) * cellSize + yOffset + yMove}, cellSize-2, cellSize-2, color);
             win.draw_image(TDT4102::Point{(x-botx) * cellSize, (y-boty) * cellSize + yOffset + yMove}, *imagePtr);
         }
     }
@@ -118,16 +123,16 @@ void GameWindow::drawPlayer(AnimationWindow& win){
     }
 
     if(player->getDirection() == 'D'){
-        win.draw_image(TDT4102::Point{xpos * cellSize, ypos * cellSize + yOffset + yMove},  *pictures.at("playerDown"), 
+        win.draw_image(TDT4102::Point{xpos * cellSize, ypos * cellSize - cellSize/2 + yOffset + yMove},  *pictures.at("playerDown"), 
         cellSize, cellSize);
     } else if(player->getDirection() == 'U'){
-        win.draw_image(TDT4102::Point{xpos * cellSize, ypos * cellSize+ yOffset + yMove},  *pictures.at("playerUp"), 
+        win.draw_image(TDT4102::Point{xpos * cellSize, ypos * cellSize - cellSize/2 + yOffset + yMove},  *pictures.at("playerUp"), 
         cellSize, cellSize);
     } else if(player->getDirection() == 'R'){
-        win.draw_image(TDT4102::Point{xpos * cellSize, ypos * cellSize+ yOffset + yMove},  *pictures.at("playerRight"), 
+        win.draw_image(TDT4102::Point{xpos * cellSize, ypos * cellSize - cellSize/2 + yOffset + yMove},  *pictures.at("playerRight"), 
         cellSize, cellSize);
     } else{
-        win.draw_image(TDT4102::Point{xpos * cellSize, ypos * cellSize+ yOffset + yMove},  *pictures.at("playerLeft"), 
+        win.draw_image(TDT4102::Point{xpos * cellSize, ypos * cellSize - cellSize/2 + yOffset + yMove},  *pictures.at("playerLeft"), 
         cellSize, cellSize);
     } 
     //win.draw_circle(TDT4102::Point{xpos * cellSize + cellSize/2, ypos * cellSize + cellSize/2 + yOffset + yMove}, 10, TDT4102::Color::black);

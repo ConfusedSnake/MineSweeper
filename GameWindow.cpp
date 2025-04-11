@@ -40,6 +40,8 @@ GameWindow::GameWindow(TDT4102::Point position, int width, int height, const std
 
         {"groundLight","Art/Tall/groundLight.png"},
         {"groundDark","Art/Tall/groundDark.png"},
+        {"dirt","Art/Tall/dirt.png"},
+        {"dirtGrass","Art/Tall/dirtGrass.png"},
 
         {"playerDown", "Art/Character/PlayerDown.png"},
         {"playerRight", "Art/Character/PlayerRight.png"},
@@ -150,7 +152,7 @@ void GameWindow::run() {
         }
         
         // drawControls(*this);
-        drawMainMenu(*this);
+        //drawMainMenu(*this);
         drawArrows(*this);
         draw_text(TDT4102::Point {200, 650 + yMove}, to_string(bombCount) , TDT4102::Color::red, 45);
         next_frame();
@@ -158,6 +160,18 @@ void GameWindow::run() {
 }
 
 void GameWindow::drawGame(bool dField, bool dPlayerField, bool dPlayer, bool dBackground, AnimationWindow& win){
+    if(dBackground){
+        if(player->getPlayerX() < 9){
+            draw_image(TDT4102::Point{0,yMove}, *pictures.at("backgroundTop"), 1440, cellSize*2);
+        } else if(player->getPlayerX() > (W-8)){
+            draw_image(TDT4102::Point{-((W-8)-8)*cellSize/6,yMove}, *pictures.at("backgroundTop"), 1440, cellSize*2);
+            draw_image(TDT4102::Point{1440-((W-8)-8)*cellSize/6,yMove}, *pictures.at("backgroundTop"), 1440, cellSize*2);
+        }else {
+            draw_image(TDT4102::Point{-(player->getPlayerX()-8)*cellSize/6,yMove}, *pictures.at("backgroundTop"), 1440, cellSize*2);
+            draw_image(TDT4102::Point{1440-(player->getPlayerX()-8)*cellSize/6,yMove}, *pictures.at("backgroundTop"), 1440, cellSize*2);
+        }
+    }
+
     if(player->getPlayerY() == (viewYdirec-1)){
         yMove = -cellSize;
     } else if(player->getPlayerY() >= viewYdirec){
@@ -174,18 +188,6 @@ void GameWindow::drawGame(bool dField, bool dPlayerField, bool dPlayer, bool dBa
     }
     if(dPlayer){
         drawPlayer(win);
-    }
-
-    if(dBackground){
-        if(player->getPlayerX() < 9){
-            draw_image(TDT4102::Point{0,yMove}, *pictures.at("backgroundTop"), 1440, cellSize*2);
-        } else if(player->getPlayerX() > (W-8)){
-            draw_image(TDT4102::Point{-((W-8)-8)*cellSize/6,yMove}, *pictures.at("backgroundTop"), 1440, cellSize*2);
-            draw_image(TDT4102::Point{1440-((W-8)-8)*cellSize/6,yMove}, *pictures.at("backgroundTop"), 1440, cellSize*2);
-        }else {
-            draw_image(TDT4102::Point{-(player->getPlayerX()-8)*cellSize/6,yMove}, *pictures.at("backgroundTop"), 1440, cellSize*2);
-            draw_image(TDT4102::Point{1440-(player->getPlayerX()-8)*cellSize/6,yMove}, *pictures.at("backgroundTop"), 1440, cellSize*2);
-        }
     }
 }
 
