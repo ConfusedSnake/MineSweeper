@@ -160,7 +160,7 @@ void GameWindow::drawControls(AnimationWindow& win){
     // Background
     win.draw_image(TDT4102::Point {0,0}, *pictures.at("menuBackground"));
     win.draw_image(TDT4102::Point {720 - 225, 450 - 275},
-    *pictures.at("optionsBackground"));
+    *pictures.at("controlsMenu"));
     
     // Button
     if (mouseOnBackButton() && leftClick(*this)){

@@ -69,7 +69,7 @@ GameWindow::GameWindow(TDT4102::Point position, int width, int height, const std
         {"timeSpent", "Art/MenuArt/TimeSpent.png"},
         {"optionsBackground", "Art/MenuArt/OptionsBackground.png"},
         {"menuBackground", "Art/MenuArt/MenuBackground.png"},
-
+        {"controlsMenu", "Art/MenuArt/ControlsMenu.png"},
         {"options", "Art/MenuArt/Options.png"}
 
 
@@ -156,7 +156,7 @@ void GameWindow::run() {
                 }
         }
         
-        drawPauseMenuButton(*this);
+        drawControls(*this);
         drawArrows(*this);
         draw_text(TDT4102::Point {200, 650 + yMove}, to_string(bombCount) , TDT4102::Color::red, 45);
         next_frame();
