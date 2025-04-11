@@ -13,34 +13,34 @@ void GameWindow::drawMainMenu(AnimationWindow& win){
 
     // Start Button
     if (mouseOnTopMenuButton() && leftClick(*this)){
-        win.draw_image(TDT4102::Point {720 - 150, 450 - 2*optionButtonHeight - optionButtonPad/2 -optionButtonPad}, 
+        win.draw_image(TDT4102::Point {720 - optionButtonWidth/2, 450 - 2*optionButtonHeight - optionButtonPad/2 -optionButtonPad}, 
         *pictures.at("newGameDark")); 
     } else{
-        win.draw_image(TDT4102::Point {720 - 150, 450 - 2*optionButtonHeight - optionButtonPad/2 -optionButtonPad}, 
+        win.draw_image(TDT4102::Point {720 - optionButtonWidth/2, 450 - 2*optionButtonHeight - optionButtonPad/2 -optionButtonPad}, 
         *pictures.at("newGame")); }
     
     // Load Button
     if (mouseOnTopMiddleMenuButton() && leftClick(*this)){
-        win.draw_image(TDT4102::Point {720 - 150, 450 - optionButtonHeight - optionButtonPad/2}, 
+        win.draw_image(TDT4102::Point {720 - optionButtonWidth/2, 450 - optionButtonHeight - optionButtonPad/2}, 
         *pictures.at("loadGameDark"));
     } else{ 
-        win.draw_image(TDT4102::Point {720 - 150, 450 - optionButtonHeight - optionButtonPad/2},
+        win.draw_image(TDT4102::Point {720 - optionButtonWidth/2, 450 - optionButtonHeight - optionButtonPad/2},
         *pictures.at("loadGame")); }
     
     // Controls Button
     if (mouseOnBottomMiddleMenuButton() && leftClick(*this)){
-        win.draw_image(TDT4102::Point {720 - 150, 450 + optionButtonPad/2}, 
+        win.draw_image(TDT4102::Point {720 - optionButtonWidth/2, 450 + optionButtonPad/2}, 
         *pictures.at("controlsDark"));
     } else {
-        win.draw_image(TDT4102::Point {720 - 150, 450 + optionButtonPad/2}, 
+        win.draw_image(TDT4102::Point {720 - optionButtonWidth/2, 450 + optionButtonPad/2}, 
         *pictures.at("controls")); }
 
     // Exit Button
     if (mouseOnBottomMenuButton() && leftClick(*this)){
-        win.draw_image(TDT4102::Point {720 - 150, 450 + optionButtonPad/2 + optionButtonPad + optionButtonHeight}, 
+        win.draw_image(TDT4102::Point {720 - optionButtonWidth/2, 450 + optionButtonPad/2 + optionButtonPad + optionButtonHeight}, 
         *pictures.at("quitDark"));
     } else {
-        win.draw_image(TDT4102::Point {720 - 150, 450 + optionButtonPad/2 + optionButtonPad + optionButtonHeight}, 
+        win.draw_image(TDT4102::Point {720 - optionButtonWidth/2, 450 + optionButtonPad/2 + optionButtonPad + optionButtonHeight}, 
         *pictures.at("quit")); }
 }
 
@@ -50,32 +50,32 @@ void GameWindow::drawPauseMenu(AnimationWindow& win){
     win.draw_image(TDT4102::Point {720 - optionButtonWidth/2 - 50, 450 - optionButtonHeight/2 - optionButtonPad - optionButtonHeight - 150},
     *pictures.at("optionsBackground"));
 
+    // Paused
+    win.draw_image(TDT4102::Point {720 - 150, 450 - 250},
+    *pictures.at("paused"));
+
     // Resume Button
     if (mouseOnTopMenuButton() && leftClick(*this)){
-        topOptionColor = color;
+        win.draw_image(TDT4102::Point {720 - optionButtonWidth/2, 450 - 2*optionButtonHeight - optionButtonPad/2 -optionButtonPad}, *pictures.at("resumeDark"));
     }
     else{
-        topOptionColor = menuButtonColor;
+        win.draw_image(TDT4102::Point {720 - optionButtonWidth/2, 450 - 2*optionButtonHeight - optionButtonPad/2 -optionButtonPad}, *pictures.at("resume"));
     }
-    win.draw_image(TDT4102::Point {720 - optionButtonWidth/2, 450 - 2*optionButtonHeight - optionButtonPad/2 -optionButtonPad}, *pictures.at("resume"));
 
     // Save Button
     if (mouseOnTopMiddleMenuButton() && leftClick(*this)){
-        topMiddleOptionColor = color;
+        win.draw_image(TDT4102::Point {720 - optionButtonWidth/2, 450 - optionButtonHeight - optionButtonPad/2}, *pictures.at("saveGameDark"));
     }
     else{
-        topMiddleOptionColor = menuButtonColor;
+        win.draw_image(TDT4102::Point {720 - optionButtonWidth/2, 450 - optionButtonHeight - optionButtonPad/2}, *pictures.at("saveGame"));
     }
-    win.draw_image(TDT4102::Point {720 - optionButtonWidth/2, 450 - optionButtonHeight - optionButtonPad/2}, *pictures.at("saveGame"));
-    
     // Controls Button
     if (mouseOnBottomMiddleMenuButton() && leftClick(*this)){
-        bottomMiddleOptionColor = color;
+        win.draw_image(TDT4102::Point {720 - optionButtonWidth/2, 450 + optionButtonPad/2}, *pictures.at("controlsDark"));
     }
     else {
-        bottomMiddleOptionColor = menuButtonColor;
+        win.draw_image(TDT4102::Point {720 - optionButtonWidth/2, 450 + optionButtonPad/2}, *pictures.at("controls"));
     }
-    win.draw_image(TDT4102::Point {720 - optionButtonWidth/2, 450 + optionButtonPad/2}, *pictures.at("controls"));
 
     // Quit Button
     if (mouseOnBottomMenuButton() && leftClick(*this)){

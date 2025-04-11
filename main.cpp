@@ -6,7 +6,7 @@
 
 int main() {
     TDT4102::Point p = {0,0};
-    GameWindow game = GameWindow(p, 1440, 1080, "WINDOW");
+    GameWindow game = GameWindow(p, 1440, 900, "WINDOW");
     game.run();
     game.wait_for_close();
     if(!game.dead){
