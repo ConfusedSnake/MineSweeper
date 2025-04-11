@@ -2,7 +2,7 @@
 
 GameWindow::GameWindow(TDT4102::Point position, int width, int height, const std::string& title): 
     AnimationWindow{position.x, position.y, width, height, title},
-    resetButton{TDT4102::Point {xOffset, yOffset - cellSize - yMove}, 100, 30, "Reset"}
+    resetButton{TDT4102::Point {xOffset, 20}, 100, 30, "Reset"}
 {
 
     // ==================== Pictures on field ==================== //
@@ -72,7 +72,9 @@ GameWindow::GameWindow(TDT4102::Point position, int width, int height, const std
         {"optionsBackground", "Art/MenuArt/OptionsBackground.png"},
         {"menuBackground", "Art/MenuArt/MenuBackground.png"},
         {"controlsMenu", "Art/MenuArt/ControlsMenu.png"},
-        {"options", "Art/MenuArt/Options.png"}
+        {"options", "Art/MenuArt/Options.png"},
+        {"mainMenu", "Art/MenuArt/mainMenu.png"},
+        {"noMansLand", "Art/MenuArt/NoMansLand.png"}
 
 
     };
@@ -98,6 +100,7 @@ void GameWindow::run() {
     std::filesystem::path fileName{"myFile.txt"};
     std::ifstream inputStream{fileName};
     bool started = false;
+    reset();
  
     while (!should_close()) {
         
@@ -107,8 +110,10 @@ void GameWindow::run() {
             drawControls();
         } else if(mainMenuOpen){
             drawMainMenu();
+            t.start();
         } else if(pauseMenuOpen){
             drawPauseMenu();
+            t.start();
         } else{
             if(player->getPlayerX() == (W-1)){
                 youWin = true;
@@ -392,6 +397,7 @@ void GameWindow::reset(){
     dead = false;
     bombCount = 70;
     savedTimer = 0;
+    t.start();
 }
 
 void GameWindow::saveGame(){
@@ -401,7 +407,7 @@ void GameWindow::saveGame(){
     std::string line;
 
     outputStream << to_string(player->getPlayerX()) << " " << to_string(player->getPlayerY()) << std::endl;
-    outputStream << to_string(static_cast<int>(frozenTimer) + savedTimer) << std::endl;
+    outputStream << to_string(savedTimer) << std::endl;
     outputStream << to_string(bombCount) << std::endl;
 
     outputStream << to_string(W) << std::endl;

@@ -67,7 +67,6 @@ class GameWindow : public TDT4102::AnimationWindow
     void drawYouWin();
     void drawYouDied();
     void drawControls();
-    void drawMenus();
 
 
     bool mouseOnTopMenuButton();
@@ -76,6 +75,7 @@ class GameWindow : public TDT4102::AnimationWindow
     bool mouseOnBottomMenuButton();
     bool mouseOnBackButton();
     bool mouseOnOptionsButton();
+    bool OpenMenuEsc();
 
     void menuClicks();
 

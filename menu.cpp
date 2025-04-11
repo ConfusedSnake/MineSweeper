@@ -7,9 +7,14 @@ void GameWindow::drawMainMenu(){
     draw_image(TDT4102::Point {720 - 225, 450 - 275},
     *pictures.at("optionsBackground"));
     
-    //SKAL VÆRE NAVNET PÅ SPILLET
+    // No Mans Land
+    draw_image(TDT4102::Point {720 - 450, 10},
+    *pictures.at("noMansLand"));
+
+
+    // Main Menu
     draw_image(TDT4102::Point {720 - optionButtonWidth/2, 450 - 250},
-    *pictures.at("paused"));
+    *pictures.at("mainMenu"));
 
     // Start Button
     if (mouseOnTopMenuButton() && leftClick(*this)){
@@ -290,9 +295,18 @@ void GameWindow::menuClicks(){
     }
 
     // Options Button
-    if (mouseOnOptionsButton() && mouseClickedLeft(*this) && !controls && !mainMenuOpen && !pauseMenuOpen){
+    if ((mouseOnOptionsButton() && mouseClickedLeft(*this) && !controls && !mainMenuOpen && !pauseMenuOpen) ||
+    (OpenMenuEsc() && !controls && !mainMenuOpen && !pauseMenuOpen)){
         pauseMenuOpen = true;
+        savedTimer += frozenTimer;
     }
+}
 
-
+bool GameWindow::OpenMenuEsc(){
+    if (ESCclicked(*this) && !pauseMenuOpen){
+        return true;
+    }
+    else{
+        return false;
+    }
 }
