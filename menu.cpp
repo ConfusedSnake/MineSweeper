@@ -239,7 +239,14 @@ void GameWindow::menuClicks(){
     // Top-Middle button
     if (mouseOnTopMiddleMenuButton() && mouseClickedLeft(*this)){
         if (mainMenuOpen){
-            loadGame();
+            try
+            {
+                loadGame();
+            }
+            catch(const std::exception& e)
+            {
+                std::cerr << e.what() << '\n';
+            }
         }
         else if (pauseMenuOpen){
             saveGame();
@@ -287,3 +294,32 @@ void GameWindow::menuClicks(){
 
 }
 
+void GameWindow::drawMenus(AnimationWindow& win){
+    if (mainMenuOpen){
+        drawMainMenu(*this);
+    }
+
+    else if (pauseMenuOpen){
+        drawPauseMenu(*this);
+    }
+
+    else if (controls){
+        drawControls(*this);
+    }
+    
+    else if (youDied){
+        drawYouDied(*this);
+    }
+    
+    else if (youWin){
+        drawYouWin(*this);
+    }
+
+    if (!mainMenuOpen && !pauseMenuOpen && !controls && !youWin && !youDied){
+        drawPauseMenuButton(*this);
+        resetButton.setVisible(true);
+    }
+    else{
+        resetButton.setVisible(false);
+    }
+}
