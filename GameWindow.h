@@ -48,9 +48,11 @@ class GameWindow : public TDT4102::AnimationWindow
     bool youWin = false;
     bool youDied = false;
     bool controls = false;
+
+    bool dead = false;
     
     public:
-    bool dead = false;
+   
 
     
     TDT4102::Color color = TDT4102::Color::grey;

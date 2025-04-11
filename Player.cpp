@@ -15,25 +15,25 @@ bool Player::canMove() {
     return false;
 }
 
-void Player::moveLeft(AnimationWindow& win){
+void Player::moveLeft(){
     if (!canMove()) return;
     playerDirection = 'L';
     playerX--;
 }
 
-void Player::moveRight(AnimationWindow& win){ 
+void Player::moveRight(){ 
     if (!canMove()) return;
     playerDirection = 'R';
     playerX++;
 }
 
-void Player::moveUp(AnimationWindow& win){
+void Player::moveUp(){
     if (!canMove()) return;
     playerDirection = 'U';
     playerY--;
 }
 
-void Player::moveDown(AnimationWindow& win){
+void Player::moveDown(){
     if (!canMove()) return;
     playerDirection = 'D';
     playerY++;

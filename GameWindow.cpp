@@ -158,25 +158,25 @@ void GameWindow::run() {
 void GameWindow::move(){
     if (up(*this)){
         if(player->getPlayerY() != 0 && (*playerFieldVec[player->getPlayerY()-1])[player->getPlayerX()] != -1){
-            player->moveUp(*this);
+            player->moveUp();
             tileClick();
         }
         
     } else if (down(*this)){
         if(player->getPlayerY() != (H-1) && (*playerFieldVec[player->getPlayerY()+1])[player->getPlayerX()] != -1){
-            player->moveDown(*this);
+            player->moveDown();
             tileClick();
         }
         
     } else if (left(*this)){
         if(player->getPlayerX() != 0 &&(*playerFieldVec[player->getPlayerY()])[player->getPlayerX()-1] != -1){
-            player->moveLeft(*this);
+            player->moveLeft();
             tileClick();
         }
         
     } else if (right(*this)){
         if(player->getPlayerX() != (W-1) && (*playerFieldVec[player->getPlayerY()])[player->getPlayerX()+1] != -1){
-            player->moveRight(*this);
+            player->moveRight();
             tileClick();
         }
         

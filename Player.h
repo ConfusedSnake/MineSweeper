@@ -40,8 +40,8 @@ class Player{
         playerDirection = direc;
     }
 
-    void moveLeft(AnimationWindow& win);
-    void moveRight(AnimationWindow& win);
-    void moveUp(AnimationWindow& win);
-    void moveDown(AnimationWindow& win);
+    void moveLeft();
+    void moveRight();
+    void moveUp();
+    void moveDown();
 };
