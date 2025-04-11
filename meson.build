@@ -33,6 +33,7 @@ exe = executable(
 'Input.cpp',
 'Player.cpp',
 'Timer.cpp',
+'drawGame.cpp',
 'main.cpp',
 'menu.cpp',
 'mineField.cpp',

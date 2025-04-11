@@ -25,15 +25,12 @@ class GameWindow : public TDT4102::AnimationWindow
     static constexpr int arrowSize = 45;
 
     TDT4102::Button resetButton;
-    static constexpr int menuButtonHeight = 70;
-    static constexpr int menuButtonWidth = 300;
-    static constexpr int menuButtonPad = 20;
-    static constexpr int menuTriangleHeight = 25;
 
-    TDT4102::Color TopMenuColor;
-    TDT4102::Color TopMiddleMenuColor;
-    TDT4102::Color BottomMiddleMenuColor;
-    TDT4102::Color BottomMenuColor;
+
+    TDT4102::Color topOptionColor;
+    TDT4102::Color topMiddleOptionColor;
+    TDT4102::Color bottomMiddleOptionColor;
+    TDT4102::Color bottomOptionColor;
 
     TDT4102::Color menuButtonColor = TDT4102::Color::dark_gray;
 
@@ -47,6 +44,9 @@ class GameWindow : public TDT4102::AnimationWindow
     int savedTimer = 0;
     bool mainMenuOpen = true;
     bool pauseMenuOpen = false;
+    bool youWin = false;
+    bool youDied = false;
+    bool controls = false;
     
     public:
     bool dead = false;
@@ -59,13 +59,15 @@ class GameWindow : public TDT4102::AnimationWindow
     GameWindow(TDT4102::Point position, int width, int height, const std::string& title);
     void drawMainMenu(AnimationWindow& win);
     void drawPauseMenu(AnimationWindow& win);
+    void drawPauseMenuButton(AnimationWindow& win);
+    void drawYouWin(AnimationWindow& win);
+    void drawYouDied(AnimationWindow& win);
+    void drawControls(AnimationWindow& win);
 
     bool mouseOnTopMenuButton();
     bool mouseOnTopMiddleMenuButton();
     bool mouseOnBottomMiddleMenuButton();
     bool mouseOnBottomMenuButton();
-
-    void youWin();
 
     void menuClicks();
 

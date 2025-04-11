@@ -1,25 +1,23 @@
 #include "GameWindow.h"
 
-
-
 GameWindow::GameWindow(TDT4102::Point position, int width, int height, const std::string& title): 
     AnimationWindow{position.x, position.y, width, height, title},
-    resetButton{TDT4102::Point {xOffset, yOffset - cellSize}, 100, 30, "Reset"}
+    resetButton{TDT4102::Point {xOffset, yOffset - cellSize - yMove}, 100, 30, "Reset"}
 {
 
     // ==================== Pictures on field ==================== //
     std::map<int, std::string> numPic{
-        {-1, "Tall/bomb.png"},
-        {0, "Tall/nothing.png"},
-        {1, "Tall/one.png"}, 
-        {2, "Tall/two.png"}, 
-        {3, "Tall/three.png"}, 
-        {4, "Tall/four.png"}, 
-        {5, "Tall/five.png"}, 
-        {6, "Tall/six.png"}, 
-        {7, "Tall/seven.png"},
-        {8, "Tall/eight.png"},
-        {9, "Tall/flag.png"}
+        {-1, "Art/Tall/bomb.png"},
+        {0, "Art/Tall/nothing.png"},
+        {1, "Art/Tall/one.png"}, 
+        {2, "Art/Tall/two.png"}, 
+        {3, "Art/Tall/three.png"}, 
+        {4, "Art/Tall/four.png"}, 
+        {5, "Art/Tall/five.png"}, 
+        {6, "Art/Tall/six.png"}, 
+        {7, "Art/Tall/seven.png"},
+        {8, "Art/Tall/eight.png"},
+        {9, "Art/Tall/flag.png"}
     };
 
     for (const auto& [key, filename] : numPic) {
@@ -28,23 +26,46 @@ GameWindow::GameWindow(TDT4102::Point position, int width, int height, const std
 
     // ==================== Pictures not on field ==================== //
     std::map<std::string, std::string> imageMap {
-        {"backgroundTop", "background3.png"},
-        {"upDark", "arrowKeys/upDark.png"},
-        {"upLight", "arrowKeys/upLight.png"},
-        {"downDark", "arrowKeys/downDark.png"},
-        {"downLight", "arrowKeys/downLight.png"},
-        {"leftDark", "arrowKeys/leftDark.png"},
-        {"leftLight", "arrowKeys/leftLight.png"},
-        {"rightDark", "arrowKeys/rightDark.png"},
-        {"rightLight", "arrowKeys/rightLight.png"},
-        {"spaceLight", "arrowKeys/spaceLight.png"},
-        {"spaceDark", "arrowKeys/spaceDark.png"},
-        {"groundLight","Tall/groundLight.png"},
-        {"groundDark","Tall/groundDark.png"},
-        {"playerDown", "Character/PlayerDown.png"},
-        {"playerRight", "Character/PlayerRight.png"},
-        {"playerUp", "Character/PlayerUp.png"},
-        {"playerLeft", "Character/PlayerLeft.png"}
+        {"backgroundTop", "Art/Background/background3.png"},
+        {"upDark", "Art/arrowKeys/upDark.png"},
+        {"upLight", "Art/arrowKeys/upLight.png"},
+        {"downDark", "Art/arrowKeys/downDark.png"},
+        {"downLight", "Art/arrowKeys/downLight.png"},
+        {"leftDark", "Art/arrowKeys/leftDark.png"},
+        {"leftLight", "Art/arrowKeys/leftLight.png"},
+        {"rightDark", "Art/arrowKeys/rightDark.png"},
+        {"rightLight", "Art/arrowKeys/rightLight.png"},
+        {"spaceLight", "Art/arrowKeys/spaceLight.png"},
+        {"spaceDark", "Art/arrowKeys/spaceDark.png"},
+
+        {"groundLight","Art/Tall/groundLight.png"},
+        {"groundDark","Art/Tall/groundDark.png"},
+
+        {"playerDown", "Art/Character/PlayerDown.png"},
+        {"playerRight", "Art/Character/PlayerRight.png"},
+        {"playerUp", "Art/Character/PlayerUp.png"},
+        {"playerLeft", "Art/Character/PlayerLeft.png"},
+
+        {"controls", "Art/MenuArt/Controls.png"},
+        {"quit", "Art/MenuArt/Quit.png"},
+        {"resume", "Art/MenuArt/Resume.png"},
+        {"saveGame", "Art/MenuArt/SaveGame.png"},
+        {"loadGame", "Art/MenuArt/LoadGame.png"},
+        {"newGame", "Art/MenuArt/newGame.png"},
+        {"exit", "Art/MenuArt/Exit.png"},
+        {"controlsDark", "Art/MenuArt/ControlsDark.png"},
+        {"quitDark", "Art/MenuArt/QuitDark.png"},
+        {"resumeDark", "Art/MenuArt/ResumeDark.png"},
+        {"saveGameDark", "Art/MenuArt/SaveGameDark.png"},
+        {"loadGameDark", "Art/MenuArt/LoadGameDark.png"},
+        {"newGameDark", "Art/MenuArt/newGameDark.png"},
+        {"exitDark", "Art/MenuArt/ExitDark.png"},
+
+        {"paused", "Art/MenuArt/Paused.png"},
+        {"optionsBackground", "Art/MenuArt/OptionsBackground.png"},
+        {"menuBackground", "Art/MenuArt/MenuBackground.png"}
+
+
     };
 
     for (const auto& [key, filename] : imageMap) {
@@ -62,16 +83,20 @@ GameWindow::GameWindow(TDT4102::Point position, int width, int height, const std
     add(resetButton);
 }
 
+
 // ==================== Functions that runs the game ==================== //
 void GameWindow::run() {
     std::filesystem::path fileName{"myFile.txt"};
     std::ifstream inputStream{fileName};
+    // if (player->getPlayerY() > 6){
+    //     resetButton.setVisible(false);
+    // }
 
     while (!should_close()) {
         // ==================== Before first click ==================== //
         if(!field || !player){
             draw_image(TDT4102::Point{0,0}, *pictures.at("backgroundTop"), 1440, cellSize*2);
-            draw_text(TDT4102::Point {676, xOffset-22}, to_string(0) , TDT4102::Color::red, 45, Font::courier_bold);
+            draw_text(TDT4102::Point {697, xOffset-22}, to_string(0) , TDT4102::Color::red, 45, Font::courier_bold);
             if ((mouseClickedLeft(*this) && clickX() != -1 && clickY() != -1)||(up(*this) || down(*this) || left(*this) || right(*this))) {
                 
                 // Creating game, either load og new game
@@ -100,7 +125,7 @@ void GameWindow::run() {
             if (!dead){
                 drawGame(true, true, true, true, *this);
                 frozenTimer = t.stop();
-                draw_text(TDT4102::Point {676, xOffset-22 + yMove}, to_string(static_cast<int>(frozenTimer + savedTimer)) , TDT4102::Color::red, 45, Font::courier_bold);
+                draw_text(TDT4102::Point {697, xOffset-22 + yMove}, to_string(static_cast<int>(frozenTimer + savedTimer)) , TDT4102::Color::red, 45, Font::courier_bold);
                 menuClicks();
                 if(!spaceBar(*this)){
                     move();
@@ -113,14 +138,10 @@ void GameWindow::run() {
             else {
                 yMove = 0;
                 drawGame(true, false, true, true, *this);
-                draw_text(TDT4102::Point {676, xOffset-22}, to_string(static_cast<int>(frozenTimer + savedTimer)) , TDT4102::Color::red, 45, Font::courier_bold);
+                draw_text(TDT4102::Point {697, xOffset-22}, to_string(static_cast<int>(frozenTimer + savedTimer)) , TDT4102::Color::red, 45, Font::courier_bold);
                 if (!std::filesystem::is_empty("myFile.txt")){
                     std::ofstream file("myFile.txt", std::ios::trunc);
                 }
-            }
-
-            if(player->getPlayerX() == (W-1)){
-                youWin();
             }
 
             if (keyRClicked(*this)){
@@ -128,7 +149,8 @@ void GameWindow::run() {
                 }
         }
         
-        drawPauseMenu(*this);
+        // drawControls(*this);
+        drawMainMenu(*this);
         drawArrows(*this);
         draw_text(TDT4102::Point {200, 650 + yMove}, to_string(bombCount) , TDT4102::Color::red, 45);
         next_frame();
@@ -167,137 +189,6 @@ void GameWindow::drawGame(bool dField, bool dPlayerField, bool dPlayer, bool dBa
     }
 }
 
-void GameWindow::drawGrid(AnimationWindow& win) {
-    if (!field) return;
-    int topy;
-    int topx;
-    int boty;
-    int botx;
-
-    boty = player->getPlayerY()-viewYdirec;
-    topy = player->getPlayerY()+viewYdirec;
-    botx = player->getPlayerX()-viewXdirec;
-    topx = player->getPlayerX()+viewXdirec;
-
-    if(player->getPlayerX() < viewXdirec ){
-        botx = 0;
-        topx = viewXdirec*2;
-    }
-    if(player->getPlayerY() < viewYdirec){
-        boty = 0;
-        topy = viewYdirec*2;
-    }
-    if(player->getPlayerX() > (W-viewXdirec-1)){
-        botx = W-(viewXdirec*2);
-        topx = W;
-    }
-    if(player->getPlayerY() > (H-viewYdirec-1)){
-        boty = H-(viewYdirec*2);
-        topy = H;
-    } 
-    
-    TDT4102::Color color = TDT4102::Color::grey;
-
-
-    for (int y = boty; y < topy; y++) {
-        for (int x = botx; x < topx; x++) {
-            auto& imagePtr = images.count((*field->getField()[y])[x]) 
-                ? images.at((*field->getField()[y])[x]) 
-                : images.at(0);
-
-            if ((*field->getField()[y])[x] == -1) {
-                color = TDT4102::Color::red;
-            } else if((*playerFieldVec[y])[x] == 1){
-                color = TDT4102::Color::silver;
-            } else {
-                color = TDT4102::Color::grey;
-            }
-
-            win.draw_rectangle(TDT4102::Point{(x-botx) * cellSize, (y-boty) * cellSize + yOffset + yMove}, cellSize-2, cellSize-2, color);
-            win.draw_image(TDT4102::Point{(x-botx) * cellSize, (y-boty) * cellSize + yOffset + yMove}, *imagePtr);
-        }
-    }
-}
-
-void GameWindow::drawPlayerGrid(AnimationWindow& win, const std::vector<std::unique_ptr<std::vector<int>>>& playerFieldVec) {
-    int topy;
-    int topx;
-    int boty;
-    int botx;
-
-    boty = player->getPlayerY()-viewYdirec;
-    topy = player->getPlayerY()+viewYdirec;
-    botx = player->getPlayerX()-viewXdirec;
-    topx = player->getPlayerX()+viewXdirec;
-
-    if(player->getPlayerX() < viewXdirec ){
-        botx = 0;
-        topx = viewXdirec*2;
-    }
-    if(player->getPlayerY() < viewYdirec ){
-        boty = 0;
-        topy = viewYdirec*2;
-    }
-    if(player->getPlayerX() > (W-viewXdirec-1)){
-        botx = W-(viewXdirec*2);
-        topx = W;
-    }
-    if(player->getPlayerY() > (H-viewYdirec-1)){
-        boty = H-(viewYdirec*2);
-        topy = H;
-    } 
-
-    for (int y = boty; y < topy; y++) {
-        for (int x = botx; x < topx; x++) {
-            if ((*playerFieldVec[y])[x] != 1){
-                if(y%2==0){
-                    win.draw_image(TDT4102::Point{(x-botx) * cellSize, (y-boty) * cellSize + yOffset + yMove}, *pictures.at("groundLight"));
-                } else{
-                    win.draw_image(TDT4102::Point{(x-botx) * cellSize, (y-boty) * cellSize + yOffset + yMove}, *pictures.at("groundDark"));
-                }
-                if ((*playerFieldVec[y])[x] == -1){
-                    win.draw_image(TDT4102::Point{(x-botx) * cellSize, (y-boty) * cellSize + yOffset + yMove}, *images.at(9), cellSize, cellSize);
-                }
-            }
-        }
-    }
-}
-
-void GameWindow::drawPlayer(AnimationWindow& win){
-    int x = player->getPlayerX();
-    int y = player->getPlayerY();
-
-    int xpos = viewXdirec;
-    int ypos = viewYdirec;
-    if(x < viewXdirec){
-        xpos = x;
-    }
-    if(y < viewYdirec){
-        ypos = y;
-    }
-    if(x > (W-viewXdirec)){
-        xpos = ((viewXdirec*2)-(W-x));    
-    } 
-    if (y > (H-viewYdirec)){
-        ypos = ((viewYdirec*2)-(H-y));
-    }
-
-    if(player->getDirection() == 'D'){
-        win.draw_image(TDT4102::Point{xpos * cellSize, ypos * cellSize + yOffset + yMove},  *pictures.at("playerDown"), 
-        cellSize, cellSize);
-    } else if(player->getDirection() == 'U'){
-        win.draw_image(TDT4102::Point{xpos * cellSize, ypos * cellSize+ yOffset + yMove},  *pictures.at("playerUp"), 
-        cellSize, cellSize);
-    } else if(player->getDirection() == 'R'){
-        win.draw_image(TDT4102::Point{xpos * cellSize, ypos * cellSize+ yOffset + yMove},  *pictures.at("playerRight"), 
-        cellSize, cellSize);
-    } else{
-        win.draw_image(TDT4102::Point{xpos * cellSize, ypos * cellSize+ yOffset + yMove},  *pictures.at("playerLeft"), 
-        cellSize, cellSize);
-    } 
-    //win.draw_circle(TDT4102::Point{xpos * cellSize + cellSize/2, ypos * cellSize + cellSize/2 + yOffset + yMove}, 10, TDT4102::Color::black);
-    
-}
 
 void GameWindow::move(){
     if (up(*this)){
@@ -326,40 +217,6 @@ void GameWindow::move(){
         
     }
 }
-
-void GameWindow::drawArrows(AnimationWindow& win){
-    if (!up(*this)){
-        win.draw_image(TDT4102::Point{1440 - xOffset - 2* arrowSize - 2, 40 + yMove}, *pictures.at("upLight"));
-    }
-    else if (up(*this)){
-        win.draw_image(TDT4102::Point{1440 - xOffset - 2* arrowSize - 2, 40 + yMove}, *pictures.at("upDark"));
-    }
-    if (!down(*this)){
-        win.draw_image(TDT4102::Point{1440 - xOffset - 2* arrowSize - 2, 42 + arrowSize + yMove}, *pictures.at("downLight"));
-    }
-    else if (down(*this)){
-        win.draw_image(TDT4102::Point{1440 - xOffset - 2* arrowSize - 2, 42 + arrowSize + yMove}, *pictures.at("downDark"));
-    }
-    if (!left(*this)){
-        win.draw_image(TDT4102::Point{1440 - xOffset - 3* arrowSize - 4, 42 + arrowSize + yMove}, *pictures.at("leftLight"));
-    }
-    else if (left(*this)){
-        win.draw_image(TDT4102::Point{1440 - xOffset - 3* arrowSize - 4, 42 + arrowSize + yMove}, *pictures.at("leftDark")); 
-    }
-    if (!right(*this)){
-        win.draw_image(TDT4102::Point{1440 - xOffset - arrowSize, 42 + arrowSize + yMove}, *pictures.at("rightLight"));
-    }
-    else if (right(*this)){
-        win.draw_image(TDT4102::Point{1440 - xOffset - arrowSize, 42 + arrowSize + yMove}, *pictures.at("rightDark"));
-    }
-    if (!spaceBar(*this)){
-        win.draw_image(TDT4102::Point{1440 - xOffset - 6*arrowSize - 6, 42 + arrowSize + yMove}, *pictures.at("spaceLight"));
-    }
-    else if (spaceBar(*this)){
-        win.draw_image(TDT4102::Point{1440 - xOffset - 6*arrowSize - 6, 42 + arrowSize + yMove}, *pictures.at("spaceDark"));
-    }
-}
-
 
 
 TDT4102::Point GameWindow::coordinates(){
@@ -425,6 +282,7 @@ void GameWindow::openUp(const Field& field, std::vector<std::unique_ptr<std::vec
     }
     
 }
+
 void GameWindow::flagSpaceMode(){
 
     int x = player->getPlayerX();
@@ -495,7 +353,6 @@ void GameWindow::flagSpaceMode(){
     }
 }
 
-
 void GameWindow::flagSpace(const Field& field, std::vector<std::unique_ptr<std::vector<int>>>& playerFieldVec){
     int x = player->getPlayerX();
     int y = player->getPlayerY();
@@ -549,7 +406,6 @@ void GameWindow::flagRightClick(const Field& field, std::vector<std::unique_ptr<
         bombCount++;
     }
 }
-
 
 void GameWindow::callbackButton(){
     std::cout << "Reset button pressed\n";
@@ -680,232 +536,3 @@ void GameWindow::loadGame(){
     }
 }
 
-
-void GameWindow::drawMainMenu(AnimationWindow& win){
-    // Menu Background and Text
-    win.draw_rectangle(TDT4102::Point {720 - menuButtonWidth/2 - 50, 450 - menuButtonHeight/2 - menuButtonPad - menuButtonHeight - 150}, 100 + menuButtonWidth, 200 + 3*menuButtonHeight + 2*menuButtonPad);
-    win.draw_text(TDT4102::Point {720 - 110, 450 - menuButtonHeight/2 - menuButtonPad - menuButtonHeight - 100}, "Main Menu", TDT4102::Color::red, 45, Font::courier_bold);
-
-    // Points right side
-    TDT4102::Point rightUpper = {720 - menuButtonWidth/2 + menuButtonWidth, 450 - 2*menuButtonHeight - menuButtonPad/2 -menuButtonPad};
-    TDT4102::Point rightLower = {720 - menuButtonWidth/2 + menuButtonWidth, 450 - menuButtonHeight - menuButtonPad/2 -menuButtonPad};
-    TDT4102::Point rightOuter = {720 - menuButtonWidth/2 + menuButtonWidth + menuTriangleHeight, 450 - static_cast<int>(1.5*menuButtonHeight) - menuButtonPad/2 -menuButtonPad};
-
-    // Points left side
-    TDT4102::Point leftUpper = {720 - menuButtonWidth/2, 450 - 2*menuButtonHeight - menuButtonPad/2 -menuButtonPad};
-    TDT4102::Point leftLower = {720 - menuButtonWidth/2, 450 - menuButtonHeight - menuButtonPad/2 -menuButtonPad};
-    TDT4102::Point leftOuter = {720 - menuButtonWidth/2 - menuTriangleHeight, 450 - static_cast<int>(1.5*menuButtonHeight) - menuButtonPad/2 -menuButtonPad};
-
-    // Start Button
-    if (mouseOnTopMenuButton() && leftClick(*this)){
-        TopMenuColor = color;
-    }
-    else{
-        TopMenuColor = menuButtonColor;
-    }
-    win.draw_rectangle(TDT4102::Point {720 - menuButtonWidth/2, 450 - 2*menuButtonHeight - menuButtonPad/2 -menuButtonPad}, menuButtonWidth, menuButtonHeight, TopMenuColor);
-    win.draw_triangle(rightUpper, rightOuter, rightLower, TopMenuColor);
-    win.draw_triangle(leftUpper, leftLower, leftOuter, TopMenuColor);
-    win.draw_text(TDT4102::Point {720 - 88, 450 - 2*menuButtonHeight - menuButtonPad/2 -menuButtonPad + 9}, "New Game", TDT4102::Color::red, 45, Font::courier_bold);
-
-    // Load Button
-    if (mouseOnTopMiddleMenuButton() && leftClick(*this)){
-        TopMiddleMenuColor = color;
-    }
-    else{
-        TopMiddleMenuColor = menuButtonColor;
-    }
-    win.draw_rectangle(TDT4102::Point {720 - menuButtonWidth/2, 450 - menuButtonHeight - menuButtonPad/2}, menuButtonWidth, menuButtonHeight, TopMiddleMenuColor);
-    win.draw_triangle(TDT4102::Point {rightUpper.x, rightUpper.y + menuButtonHeight + menuButtonPad}, 
-    TDT4102::Point {rightOuter.x, rightOuter.y + menuButtonHeight + menuButtonPad}, TDT4102::Point {rightLower.x,
-    rightLower.y + menuButtonHeight + menuButtonPad}, TopMiddleMenuColor);
-    win.draw_triangle(TDT4102::Point {leftUpper.x, leftUpper.y + menuButtonHeight + menuButtonPad}, 
-    TDT4102::Point {leftLower.x, leftLower.y + menuButtonHeight + menuButtonPad}, TDT4102::Point {leftOuter.x,
-    leftOuter.y + menuButtonHeight + menuButtonPad}, TopMiddleMenuColor);
-    win.draw_text(TDT4102::Point {720 - 110, 450 - menuButtonHeight - menuButtonPad/2 + 9}, "Load Game", TDT4102::Color::red, 45, Font::courier_bold);
-
-
-    // Controls Button
-    if (mouseOnBottomMiddleMenuButton() && leftClick(*this)){
-        BottomMiddleMenuColor = color;
-    }
-    else {
-        BottomMiddleMenuColor = menuButtonColor;
-    }
-    win.draw_rectangle(TDT4102::Point {720 - menuButtonWidth/2, 450 + menuButtonPad/2}, menuButtonWidth, menuButtonHeight, BottomMiddleMenuColor);
-    win.draw_triangle(TDT4102::Point {rightUpper.x, rightUpper.y + 2*(menuButtonHeight + menuButtonPad),}, 
-    TDT4102::Point {rightOuter.x, rightOuter.y + 2*(menuButtonHeight + menuButtonPad)}, TDT4102::Point {rightLower.x,
-    rightLower.y + 2*(menuButtonHeight + menuButtonPad)}, BottomMiddleMenuColor);
-    win.draw_triangle(TDT4102::Point {leftUpper.x, leftUpper.y + 2*(menuButtonHeight + menuButtonPad)}, 
-    TDT4102::Point {leftLower.x, leftLower.y + 2*(menuButtonHeight + menuButtonPad)}, TDT4102::Point {leftOuter.x,
-    leftOuter.y + 2*(menuButtonHeight + menuButtonPad)}, BottomMiddleMenuColor);
-    win.draw_text(TDT4102::Point {720 - 98, 450 + menuButtonPad/2 + 9}, "Controls", TDT4102::Color::red, 45, Font::courier_bold);
-
-    // Exit Button
-    if (mouseOnBottomMenuButton() && leftClick(*this)){
-        BottomMenuColor = color;
-    }
-    else {
-        BottomMenuColor = menuButtonColor;
-    }
-    win.draw_rectangle(TDT4102::Point {720 - menuButtonWidth/2, 450 + menuButtonPad/2 + menuButtonPad + menuButtonHeight}, menuButtonWidth, menuButtonHeight, BottomMenuColor);
-    win.draw_triangle(TDT4102::Point {rightUpper.x, rightUpper.y + 3*(menuButtonHeight + menuButtonPad),}, 
-    TDT4102::Point {rightOuter.x, rightOuter.y + 3*(menuButtonHeight + menuButtonPad)}, TDT4102::Point {rightLower.x,
-    rightLower.y + 3*(menuButtonHeight + menuButtonPad)}, BottomMenuColor);
-    win.draw_triangle(TDT4102::Point {leftUpper.x, leftUpper.y + 3*(menuButtonHeight + menuButtonPad)}, 
-    TDT4102::Point {leftLower.x, leftLower.y + 3*(menuButtonHeight + menuButtonPad)}, TDT4102::Point {leftOuter.x,
-    leftOuter.y + 3*(menuButtonHeight + menuButtonPad)}, BottomMenuColor);
-    win.draw_text(TDT4102::Point {720 - 50, 450 + menuButtonPad/2 + menuButtonPad + menuButtonHeight + 9}, "Exit", TDT4102::Color::red, 45, Font::courier_bold);
-}
-
-void GameWindow::drawPauseMenu(AnimationWindow& win){
-    // Menu background and Text
-    win.draw_rectangle(TDT4102::Point {720 - menuButtonWidth/2 - 50, 450 - menuButtonHeight/2 - menuButtonPad - menuButtonHeight - 150}, 100 + menuButtonWidth, 200 + 3*menuButtonHeight + 2*menuButtonPad);
-    win.draw_text(TDT4102::Point {720 - 80, 450 - menuButtonHeight/2 - menuButtonPad - menuButtonHeight - 100}, "Paused", TDT4102::Color::red, 45, Font::courier_bold);
-
-    // Points right side
-    TDT4102::Point rightUpper = {720 - menuButtonWidth/2 + menuButtonWidth, 450 - 2*menuButtonHeight - menuButtonPad/2 -menuButtonPad};
-    TDT4102::Point rightLower = {720 - menuButtonWidth/2 + menuButtonWidth, 450 - menuButtonHeight - menuButtonPad/2 -menuButtonPad};
-    TDT4102::Point rightOuter = {720 - menuButtonWidth/2 + menuButtonWidth + menuTriangleHeight, 450 - static_cast<int>(1.5*menuButtonHeight) - menuButtonPad/2 -menuButtonPad};
-
-    // Points left side
-    TDT4102::Point leftUpper = {720 - menuButtonWidth/2, 450 - 2*menuButtonHeight - menuButtonPad/2 -menuButtonPad};
-    TDT4102::Point leftLower = {720 - menuButtonWidth/2, 450 - menuButtonHeight - menuButtonPad/2 -menuButtonPad};
-    TDT4102::Point leftOuter = {720 - menuButtonWidth/2 - menuTriangleHeight, 450 - static_cast<int>(1.5*menuButtonHeight) - menuButtonPad/2 -menuButtonPad};
-
-    // Resume Button
-    if (mouseOnTopMenuButton() && leftClick(*this)){
-        TopMenuColor = color;
-    }
-    else{
-        TopMenuColor = menuButtonColor;
-    }
-    win.draw_rectangle(TDT4102::Point {720 - menuButtonWidth/2, 450 - 2*menuButtonHeight - menuButtonPad/2 -menuButtonPad}, menuButtonWidth, menuButtonHeight, TopMenuColor);
-    win.draw_triangle(rightUpper, rightOuter, rightLower, TopMenuColor);
-    win.draw_triangle(leftUpper, leftLower, leftOuter, TopMenuColor);
-    win.draw_text(TDT4102::Point {720 - 80, 450 - 2*menuButtonHeight - menuButtonPad/2 -menuButtonPad + 9}, "Resume", TDT4102::Color::red, 45, Font::courier_bold);
-
-    // Save Button
-    if (mouseOnTopMiddleMenuButton() && leftClick(*this)){
-        TopMiddleMenuColor = color;
-    }
-    else{
-        TopMiddleMenuColor = menuButtonColor;
-    }
-    win.draw_rectangle(TDT4102::Point {720 - menuButtonWidth/2, 450 - menuButtonHeight - menuButtonPad/2}, menuButtonWidth, menuButtonHeight, TopMiddleMenuColor);
-    win.draw_triangle(TDT4102::Point {rightUpper.x, rightUpper.y + menuButtonHeight + menuButtonPad}, 
-    TDT4102::Point {rightOuter.x, rightOuter.y + menuButtonHeight + menuButtonPad}, TDT4102::Point {rightLower.x,
-    rightLower.y + menuButtonHeight + menuButtonPad}, TopMiddleMenuColor);
-    win.draw_triangle(TDT4102::Point {leftUpper.x, leftUpper.y + menuButtonHeight + menuButtonPad}, 
-    TDT4102::Point {leftLower.x, leftLower.y + menuButtonHeight + menuButtonPad}, TDT4102::Point {leftOuter.x,
-    leftOuter.y + menuButtonHeight + menuButtonPad}, TopMiddleMenuColor);
-    win.draw_text(TDT4102::Point {720 - 110, 450 - menuButtonHeight - menuButtonPad/2 + 9}, "Save Game", TDT4102::Color::red, 45, Font::courier_bold);
-
-    // Controls Button
-    if (mouseOnBottomMiddleMenuButton() && leftClick(*this)){
-        BottomMiddleMenuColor = color;
-    }
-    else {
-        BottomMiddleMenuColor = menuButtonColor;
-    }
-    win.draw_rectangle(TDT4102::Point {720 - menuButtonWidth/2, 450 + menuButtonPad/2}, menuButtonWidth, menuButtonHeight, BottomMiddleMenuColor);
-    win.draw_triangle(TDT4102::Point {rightUpper.x, rightUpper.y + 2*(menuButtonHeight + menuButtonPad),}, 
-    TDT4102::Point {rightOuter.x, rightOuter.y + 2*(menuButtonHeight + menuButtonPad)}, TDT4102::Point {rightLower.x,
-    rightLower.y + 2*(menuButtonHeight + menuButtonPad)}, BottomMiddleMenuColor);
-    win.draw_triangle(TDT4102::Point {leftUpper.x, leftUpper.y + 2*(menuButtonHeight + menuButtonPad)}, 
-    TDT4102::Point {leftLower.x, leftLower.y + 2*(menuButtonHeight + menuButtonPad)}, TDT4102::Point {leftOuter.x,
-    leftOuter.y + 2*(menuButtonHeight + menuButtonPad)}, BottomMiddleMenuColor);
-    win.draw_text(TDT4102::Point {720 - 98, 450 + menuButtonPad/2 + 9}, "Controls", TDT4102::Color::red, 45, Font::courier_bold);
-
-    // Quit Button
-    if (mouseOnBottomMenuButton() && leftClick(*this)){
-        BottomMenuColor = color;
-    }
-    else {
-        BottomMenuColor = menuButtonColor;
-    }
-    win.draw_rectangle(TDT4102::Point {720 - menuButtonWidth/2, 450 + menuButtonPad/2 + menuButtonPad + menuButtonHeight}, menuButtonWidth, menuButtonHeight, BottomMenuColor);
-    win.draw_triangle(TDT4102::Point {rightUpper.x, rightUpper.y + 3*(menuButtonHeight + menuButtonPad),}, 
-    TDT4102::Point {rightOuter.x, rightOuter.y + 3*(menuButtonHeight + menuButtonPad)}, TDT4102::Point {rightLower.x,
-    rightLower.y + 3*(menuButtonHeight + menuButtonPad)}, BottomMenuColor);
-    win.draw_triangle(TDT4102::Point {leftUpper.x, leftUpper.y + 3*(menuButtonHeight + menuButtonPad)}, 
-    TDT4102::Point {leftLower.x, leftLower.y + 3*(menuButtonHeight + menuButtonPad)}, TDT4102::Point {leftOuter.x,
-    leftOuter.y + 3*(menuButtonHeight + menuButtonPad)}, BottomMenuColor);
-    win.draw_text(TDT4102::Point {720 - 50, 450 + menuButtonPad/2 + menuButtonPad + menuButtonHeight + 9}, "Quit", TDT4102::Color::red, 45, Font::courier_bold);
-}
-
-bool GameWindow::mouseOnTopMenuButton(){
-    if ((coordinates().x >= 720 - menuButtonWidth/2) && (coordinates().x <= 720 + menuButtonWidth/2) &&
-    (coordinates().y >= 450 - 2*menuButtonHeight - menuButtonPad/2 -menuButtonPad)
-    && (coordinates().y <= 450 - menuButtonHeight - menuButtonPad/2 -menuButtonPad)){
-        return true;
-    }
-    return false;
-}
-    
-bool GameWindow::mouseOnTopMiddleMenuButton(){
-    if ((coordinates().x >= 720 - menuButtonWidth/2) && (coordinates().x <= 720 + menuButtonWidth/2) &&
-    (coordinates().y >= 450 - menuButtonHeight - menuButtonPad/2) &&
-    (coordinates().y <= 450 - menuButtonPad)){
-        return true;
-    }
-    return false;
-}
-
-bool GameWindow::mouseOnBottomMiddleMenuButton(){
-    if ((coordinates().x >= 720 - menuButtonWidth/2) && (coordinates().x <= 720 + menuButtonWidth/2) &&
-    (coordinates().y >= 450 + menuButtonPad/2) &&
-    (coordinates().y <= 450 + menuButtonPad/2 + menuButtonHeight)){
-        return true;
-    }
-    return false;
-}
-    
-bool GameWindow::mouseOnBottomMenuButton(){
-    if ((coordinates().x >= 720 - menuButtonWidth/2) && (coordinates().x <= 720 + menuButtonWidth/2) &&
-    (coordinates().y >= 450 + menuButtonPad/2 + menuButtonPad + menuButtonHeight) &&
-    (coordinates().y <= 450 + menuButtonPad/2 + menuButtonPad + 2*menuButtonHeight)){
-        return true;
-    }
-    return false;
-}
-
-void GameWindow::menuClicks(){
-    // Top button
-    if (mouseOnTopMenuButton() && mouseClickedLeft(*this)){
-        if (mainMenuOpen){
-            mainMenuOpen = false;
-        }
-        else if (pauseMenuOpen){
-            pauseMenuOpen = false;
-        }
-    }
-
-    // Top-Middle button
-    if (mouseOnTopMiddleMenuButton() && mouseClickedLeft(*this)){
-        if (mainMenuOpen){
-            loadGame();
-        }
-        else if (pauseMenuOpen){
-            saveGame();
-        }
-    }
-
-    // Bottom-Middle button
-    if (mouseOnBottomMiddleMenuButton() && mouseClickedLeft(*this)){
-    }
-
-    // // Bottom button
-    if (mouseOnBottomMenuButton() && mouseClickedLeft(*this)){
-        if (mainMenuOpen){
-            loadGame();
-        }
-        else if (pauseMenuOpen){
-            saveGame();
-        }
-    }
-}
-
-void GameWindow::youWin(){
-    
-}
