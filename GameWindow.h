@@ -68,6 +68,8 @@ class GameWindow : public TDT4102::AnimationWindow
     bool mouseOnTopMiddleMenuButton();
     bool mouseOnBottomMiddleMenuButton();
     bool mouseOnBottomMenuButton();
+    bool mouseOnBackButton();
+    bool mouseOnOptionsButton();
 
     void menuClicks();
 

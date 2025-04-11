@@ -53,6 +53,7 @@ GameWindow::GameWindow(TDT4102::Point position, int width, int height, const std
         {"loadGame", "Art/MenuArt/LoadGame.png"},
         {"newGame", "Art/MenuArt/newGame.png"},
         {"exit", "Art/MenuArt/Exit.png"},
+        {"back", "Art/MenuArt/Back.png"},
         {"controlsDark", "Art/MenuArt/ControlsDark.png"},
         {"quitDark", "Art/MenuArt/QuitDark.png"},
         {"resumeDark", "Art/MenuArt/ResumeDark.png"},
@@ -60,10 +61,16 @@ GameWindow::GameWindow(TDT4102::Point position, int width, int height, const std
         {"loadGameDark", "Art/MenuArt/LoadGameDark.png"},
         {"newGameDark", "Art/MenuArt/newGameDark.png"},
         {"exitDark", "Art/MenuArt/ExitDark.png"},
+        {"backDark", "Art/MenuArt/BackDark.png"},
 
         {"paused", "Art/MenuArt/Paused.png"},
+        {"youDied", "Art/MenuArt/YouDied.png"},
+        {"youWin", "Art/MenuArt/YouWin.png"},
+        {"timeSpent", "Art/MenuArt/TimeSpent.png"},
         {"optionsBackground", "Art/MenuArt/OptionsBackground.png"},
-        {"menuBackground", "Art/MenuArt/MenuBackground.png"}
+        {"menuBackground", "Art/MenuArt/MenuBackground.png"},
+
+        {"options", "Art/MenuArt/Options.png"}
 
 
     };
@@ -149,8 +156,7 @@ void GameWindow::run() {
                 }
         }
         
-        // drawControls(*this);
-        drawMainMenu(*this);
+        drawPauseMenuButton(*this);
         drawArrows(*this);
         draw_text(TDT4102::Point {200, 650 + yMove}, to_string(bombCount) , TDT4102::Color::red, 45);
         next_frame();
