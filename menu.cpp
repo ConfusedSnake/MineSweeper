@@ -97,7 +97,7 @@ void GameWindow::drawPauseMenuButton(){
 
 void GameWindow::drawYouWin(){
     // Menu background
-    draw_image(TDT4102::Point {0,0}, *pictures.at("menuBackground"));
+    //draw_image(TDT4102::Point {0,0}, *pictures.at("menuBackground"));
     draw_image(TDT4102::Point {720 - 225, 450 - 275},
     *pictures.at("optionsBackground"));
 
@@ -233,7 +233,7 @@ bool GameWindow::mouseOnOptionsButton(){
 void GameWindow::menuClicks(){
     // Top button : New Game / Resume
     if (mouseOnTopMenuButton() && mouseClickedLeft(*this) && !controls){
-        if (mainMenuOpen || youWin || youDied){
+        if (mainMenuOpen){
             reset();
             mainMenuOpen = false;
         }
@@ -265,7 +265,7 @@ void GameWindow::menuClicks(){
         }
     }
 
-    // Bottom-Middle button : Controls
+    // Bottom-Middle button : Controls / Exit
     if (mouseOnBottomMiddleMenuButton() && mouseClickedLeft(*this) && !controls){
         // insert controls pic
         if (mainMenuOpen || pauseMenuOpen){

@@ -37,11 +37,15 @@ GameWindow::GameWindow(TDT4102::Point position, int width, int height, const std
         {"rightLight", "Art/arrowKeys/rightLight.png"},
         {"spaceLight", "Art/arrowKeys/spaceLight.png"},
         {"spaceDark", "Art/arrowKeys/spaceDark.png"},
+        {"bombCount", "Art/arrowKeys/bombCount.png"},
 
         {"groundLight","Art/Tall/groundLight.png"},
         {"groundDark","Art/Tall/groundDark.png"},
         {"dirt","Art/Tall/dirt.png"},
-        {"dirtGrass","Art/Tall/dirtGrass.png"},
+        {"grassBot","Art/Tall/grassBot.png"},
+        {"grassRight","Art/Tall/grassRight.png"},
+        {"grassLeft","Art/Tall/grassLeft.png"},
+        {"grassTop","Art/Tall/grassTop.png"},
 
         {"playerDown", "Art/Character/PlayerDown.png"},
         {"playerRight", "Art/Character/PlayerRight.png"},
@@ -116,20 +120,12 @@ void GameWindow::run() {
             t.start();
         } else{
             if(player->getPlayerX() == (W-1)){
+                yMove = 0;
                 youWin = true;
                 drawGame(false);
                 drawYouWin();
             }
-            else if (!dead){
-                frozenTimer = t.stop();
-                drawGame(true);
-                if(!spaceBar(*this)){
-                    move();
-                }
-                if(spaceBar(*this)){
-                    flagSpaceMode();
-                }
-            } else {
+            else if (dead){
                 yMove = 0;
                 drawGame(false);
                 youDied = true;
@@ -138,13 +134,21 @@ void GameWindow::run() {
                 if (!std::filesystem::is_empty("myFile.txt")){
                     std::ofstream file("myFile.txt", std::ios::trunc);
                 }
+
+            } else {
+                frozenTimer = t.stop();
+                drawGame(true);
+                if(!spaceBar(*this)){
+                    move();
+                }
+                if(spaceBar(*this)){
+                    flagSpaceMode();
+                }
             }
 
             if (keyRClicked(*this)){
                 reset();
             }
-
-            //draw_text(TDT4102::Point {200, 650 + yMove}, to_string(bombCount) , TDT4102::Color::red, 45);
         }
         
     next_frame();
@@ -395,7 +399,7 @@ void GameWindow::reset(){
     tileClick();
 
     dead = false;
-    bombCount = 70;
+    bombCount = 99;
     savedTimer = 0;
     t.start();
 }

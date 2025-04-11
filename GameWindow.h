@@ -60,7 +60,7 @@ class GameWindow : public TDT4102::AnimationWindow
     GameWindow(TDT4102::Point position, int width, int height, const std::string& title);
 
     void clearSave();
-    
+
     void drawMainMenu();
     void drawPauseMenu();
     void drawPauseMenuButton();
@@ -80,14 +80,13 @@ class GameWindow : public TDT4102::AnimationWindow
     void menuClicks();
 
     void run();
-    void runSaved();
 
-    void drawEmptyGame();
     void drawGrid();
     void drawPlayerGrid();
     void drawPlayer();
     void drawArrows();
     void drawGame(bool dPlayerField);
+    void drawBombCount();
 
     TDT4102::Point coordinates();
     int clickY();
