@@ -231,6 +231,15 @@ bool GameWindow::mouseOnOptionsButton(){
 }
 
 void GameWindow::menuClicks(){
+    // Toggle Pause Menu med ESC
+    if (ESCclicked(*this) && !controls && !mainMenuOpen){
+        pauseMenuOpen = !pauseMenuOpen;
+        if (pauseMenuOpen) {
+            savedTimer += frozenTimer;
+        }
+    }
+
+
     // Top button : New Game / Resume
     if (mouseOnTopMenuButton() && mouseClickedLeft(*this) && !controls){
         if (mainMenuOpen || youWin || youDied){
@@ -295,18 +304,8 @@ void GameWindow::menuClicks(){
     }
 
     // Options Button
-    if ((mouseOnOptionsButton() && mouseClickedLeft(*this) && !controls && !mainMenuOpen && !pauseMenuOpen) ||
-    (OpenMenuEsc() && !controls && !mainMenuOpen && !pauseMenuOpen)){
+    if (mouseOnOptionsButton() && mouseClickedLeft(*this) && !controls && !mainMenuOpen && !pauseMenuOpen){
         pauseMenuOpen = true;
         savedTimer += frozenTimer;
-    }
-}
-
-bool GameWindow::OpenMenuEsc(){
-    if (ESCclicked(*this) && !pauseMenuOpen){
-        return true;
-    }
-    else{
-        return false;
     }
 }

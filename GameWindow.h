@@ -75,7 +75,6 @@ class GameWindow : public TDT4102::AnimationWindow
     bool mouseOnBottomMenuButton();
     bool mouseOnBackButton();
     bool mouseOnOptionsButton();
-    bool OpenMenuEsc();
 
     void menuClicks();
 
