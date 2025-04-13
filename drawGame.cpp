@@ -86,7 +86,7 @@ void GameWindow::drawGrid() {
                         }
                     }
 
-                    if (y != (H - 2) && (*playerFieldVec[y])[x] == 1 && (*playerFieldVec[y + 1])[x] != 1) {
+                    if (y != (H-1) && (*playerFieldVec[y])[x] == 1 && (*playerFieldVec[y + 1])[x] != 1) {
                         draw_image(TDT4102::Point{(x - botx) * cellSize, (y - boty) * cellSize + yOffset + yMove}, *pictures.at("grassBot"));
                     }
                     if (y != (0) && (*playerFieldVec[y])[x] == 1 && (*playerFieldVec[y - 1])[x] != 1) {
