@@ -33,13 +33,13 @@ void GameWindow::drawMainMenu(){
             draw_image(TDT4102::Point {720 - optionButtonWidth/2, 450 - optionButtonHeight - optionButtonPad/2},
             *pictures.at("loadGame")); }
         
-        // Controls Button
+        // guide Button
         if (mouseOnBottomMiddleMenuButton() && leftClick(*this)){
             draw_image(TDT4102::Point {720 - optionButtonWidth/2, 450 + optionButtonPad/2}, 
-            *pictures.at("controlsDark"));
+            *pictures.at("guideDark"));
         } else {
             draw_image(TDT4102::Point {720 - optionButtonWidth/2, 450 + optionButtonPad/2}, 
-            *pictures.at("controls")); }
+            *pictures.at("guide")); }
 
         // Quit Button
         if (mouseOnBottomMenuButton() && leftClick(*this)){
@@ -80,13 +80,13 @@ void GameWindow::drawPauseMenu(){
                         *pictures.at("saveGame"));
         }
 
-        // Controls Button
+        // guide Button
         if (mouseOnBottomMiddleMenuButton() && leftClick(*this)){
             draw_image(TDT4102::Point {720 - optionButtonWidth/2, 450 + optionButtonPad/2},
-                        *pictures.at("controlsDark"));
+                        *pictures.at("guideDark"));
         } else {
             draw_image(TDT4102::Point {720 - optionButtonWidth/2, 450 + optionButtonPad/2},
-                        *pictures.at("controls"));
+                        *pictures.at("guide"));
         }
 
         // Exit Button
@@ -172,11 +172,11 @@ void GameWindow::drawYouDied(){
     }
 }
 
-void GameWindow::drawControls(){
+void GameWindow::drawGuide(){
     // Background
     draw_image(TDT4102::Point {0,0}, *pictures.at("menuBackground"));
     draw_image(TDT4102::Point {720 - 225, 450 - 275},
-    *pictures.at("controlsMenu"));
+    *pictures.at("guideMenu"));
     
     // Button
     if (mouseOnBackButton() && leftClick(*this)){
@@ -243,7 +243,7 @@ bool GameWindow::mouseOnOptionsButton(){
 void GameWindow::menuClicks(){
     try {
         // Toggle Pause Menu med ESC
-        if (ESCclicked(*this) && !controls && !mainMenuOpen){
+        if (ESCclicked(*this) && !guide && !mainMenuOpen){
             pauseMenuOpen = !pauseMenuOpen;
             if (pauseMenuOpen) {
                 savedTimer += frozenTimer;
@@ -251,7 +251,7 @@ void GameWindow::menuClicks(){
         }
 
         // Top button : New Game / Resume
-        if (mouseOnTopMenuButton() && mouseClickedLeft(*this) && !controls){
+        if (mouseOnTopMenuButton() && mouseClickedLeft(*this) && !guide){
             if (mainMenuOpen){
                 reset();
                 mainMenuOpen = false;
@@ -261,7 +261,7 @@ void GameWindow::menuClicks(){
         }
 
         // Top-Middle button : LoadGame / SaveGame
-        if (mouseOnTopMiddleMenuButton() && mouseClickedLeft(*this) && !controls){
+        if (mouseOnTopMiddleMenuButton() && mouseClickedLeft(*this) && !guide){
             if (mainMenuOpen){
                 try {
                     loadGame();
@@ -278,10 +278,10 @@ void GameWindow::menuClicks(){
             }
         }
 
-        // Bottom-Middle button : Controls / Exit
-        if (mouseOnBottomMiddleMenuButton() && mouseClickedLeft(*this) && !controls){
+        // Bottom-Middle button : guide / Exit
+        if (mouseOnBottomMiddleMenuButton() && mouseClickedLeft(*this) && !guide){
             if (mainMenuOpen || pauseMenuOpen){
-                controls = true;
+                guide = true;
             } else if(youDied || youWin){
                 mainMenuOpen = true;
                 youDied = false;
@@ -290,7 +290,7 @@ void GameWindow::menuClicks(){
         }
 
         // Bottom button : Exit / Quit
-        if (mouseOnBottomMenuButton() && mouseClickedLeft(*this) && !controls){
+        if (mouseOnBottomMenuButton() && mouseClickedLeft(*this) && !guide){
             if (mainMenuOpen){
                 close();
             } else if (pauseMenuOpen){
@@ -300,12 +300,12 @@ void GameWindow::menuClicks(){
         }
 
         // Back Button
-        if (controls && mouseOnBackButton() && mouseClickedLeft(*this) && (mainMenuOpen || pauseMenuOpen)){
-            controls = false;
+        if (guide && mouseOnBackButton() && mouseClickedLeft(*this) && (mainMenuOpen || pauseMenuOpen)){
+            guide = false;
         }
 
         // Options Button
-        if (mouseOnOptionsButton() && mouseClickedLeft(*this) && !controls && !mainMenuOpen && !pauseMenuOpen){
+        if (mouseOnOptionsButton() && mouseClickedLeft(*this) && !guide && !mainMenuOpen && !pauseMenuOpen){
             pauseMenuOpen = true;
             savedTimer += frozenTimer;
         }

@@ -47,7 +47,7 @@ class GameWindow : public TDT4102::AnimationWindow
     bool pauseMenuOpen = false;
     bool youWin = false;
     bool youDied = false;
-    bool controls = false;
+    bool guide = false;
 
     bool dead = false;
     
@@ -68,7 +68,7 @@ class GameWindow : public TDT4102::AnimationWindow
     void drawPauseMenuButton();
     void drawYouWin();
     void drawYouDied();
-    void drawControls();
+    void drawGuide();
 
 
     bool mouseOnTopMenuButton();

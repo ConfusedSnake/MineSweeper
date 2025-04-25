@@ -52,7 +52,7 @@ GameWindow::GameWindow(TDT4102::Point position, int width, int height, const std
         {"playerUp", "Art/Character/PlayerUp.png"},
         {"playerLeft", "Art/Character/PlayerLeft.png"},
 
-        {"controls", "Art/MenuArt/Controls.png"},
+        {"guide", "Art/MenuArt/Guide.png"},
         {"quit", "Art/MenuArt/Quit.png"},
         {"resume", "Art/MenuArt/Resume.png"},
         {"saveGame", "Art/MenuArt/SaveGame.png"},
@@ -60,7 +60,7 @@ GameWindow::GameWindow(TDT4102::Point position, int width, int height, const std
         {"newGame", "Art/MenuArt/newGame.png"},
         {"exit", "Art/MenuArt/Exit.png"},
         {"back", "Art/MenuArt/Back.png"},
-        {"controlsDark", "Art/MenuArt/ControlsDark.png"},
+        {"guideDark", "Art/MenuArt/GuideDark.png"},
         {"quitDark", "Art/MenuArt/QuitDark.png"},
         {"resumeDark", "Art/MenuArt/ResumeDark.png"},
         {"saveGameDark", "Art/MenuArt/SaveGameDark.png"},
@@ -75,7 +75,7 @@ GameWindow::GameWindow(TDT4102::Point position, int width, int height, const std
         {"timeSpent", "Art/MenuArt/TimeSpent.png"},
         {"optionsBackground", "Art/MenuArt/OptionsBackground.png"},
         {"menuBackground", "Art/MenuArt/MenuBackground.png"},
-        {"controlsMenu", "Art/MenuArt/ControlsMenu.png"},
+        {"guideMenu", "Art/MenuArt/GuideMenu.png"},
         {"options", "Art/MenuArt/Options.png"},
         {"mainMenu", "Art/MenuArt/mainMenu.png"},
         {"noMansLand", "Art/MenuArt/NoMansLand.png"}
@@ -110,8 +110,8 @@ void GameWindow::run() {
         
         menuClicks();
         resetButton.setVisible(false);
-        if(controls){
-            drawControls();
+        if(guide){
+            drawGuide();
         } else if(mainMenuOpen){
             drawMainMenu();
             t.start();
